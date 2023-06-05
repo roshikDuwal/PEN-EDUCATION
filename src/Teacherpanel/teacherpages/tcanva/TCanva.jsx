@@ -55,24 +55,12 @@ const App = () => {
     context.lineWidth = value;
   }, [value, color]);
 
-  // useEffect(() => {
-  //   const canvas = canvasRef.current;
-  
-  // }, [height]);
-
-  // //add image size 
-  // const addPage = () => {
-  //   setHeight(height + 500)
-  // }
-
-
-
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    canvas.width =600;
-    canvas.height =600;
-  
+    canvas.width = 750;
+    canvas.height = height;
+
     // canvas.style.width = `${window.innerWidth}px`;
     // canvas.style.height = `${window.innerHeight}px`;
     canvas.style.backgroundColor = "rgb(224, 224, 224)";
@@ -83,33 +71,29 @@ const App = () => {
     // context.scale(2, 2);
     context.LineCap = "round";
     contextRef.current = context;
+  }, [height]);
 
-      
-  const addPage=()=>{
-    const addheight=500;
-    const newCanvas=document.createElement('canvas');
-    newCanvas.width=canvas.width;
-    newCanvas.height=canvas.height + addheight;
 
-    const newContext=newCanvas.getContext('2d')
+  const addPage = () => {
+    const canvas = canvasRef.current;
+    const context = canvas.getContext("2d");
+    const addheight = 500;
+    const newCanvas = document.createElement('canvas');
+    newCanvas.width = canvas.width;
+    newCanvas.height = canvas.height + addheight;
+
+    const newContext = newCanvas.getContext('2d')
 
     newContext.drawImage(canvas, 0, 0);
 
     canvas.height = newCanvas.height;
 
     context.drawImage(newCanvas, 0, 0);
-
-    document.body.removeChild(newCanvas);
   }
 
-const ADDPAGE=()=>{
-  setTimeout(addPage,5000)
-}
-
-
-
-
-  }, []);
+  const handleButtonClick = () => {
+    addPage()
+  }
 
 
 
@@ -175,7 +159,7 @@ const ADDPAGE=()=>{
 
           {/* ----------ADD Page---------------   */}
           <div>
-            <button onClick={ADDPAGE}>Add Page</button>
+            <button onClick={handleButtonClick}>Add Page</button>
           </div>
 
           <a id="download " href="download_link" onClick={saveImage}>
