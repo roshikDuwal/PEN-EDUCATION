@@ -35,13 +35,10 @@ const App = () => {
   };
 
 
-
   //saveimage
   const saveImage = (event) => {
     let link = event.currentTarget;
-
     link.setAttribute("download", "canvas.png");
-
     let image = canvasRef.current.toDataURL("image/png");
     console.log(image);
     link.setAttribute("href", image);
@@ -56,13 +53,13 @@ const App = () => {
   }, [value, color]);
 
 
+
+//Create CANVAS
   useEffect(() => {
     const canvas = canvasRef.current;
     canvas.width = 750;
     canvas.height = height;
 
-    // canvas.style.width = `${window.innerWidth}px`;
-    // canvas.style.height = `${window.innerHeight}px`;
     canvas.style.backgroundColor = "rgb(224, 224, 224)";
     canvas.style.borderRadius = "20px";
     canvas.style.cursor = "crosshair";
@@ -74,6 +71,8 @@ const App = () => {
   }, [height]);
 
 
+
+  //ADD PAGE
   const addPage = () => {
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
@@ -84,6 +83,7 @@ const App = () => {
 
     const newContext = newCanvas.getContext('2d')
 
+    //copy
     newContext.drawImage(canvas, 0, 0);
 
     canvas.height = newCanvas.height;

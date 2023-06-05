@@ -9,6 +9,8 @@ const App = () => {
   const [value, setValue] = useState(5);
   const [color, setColor] = useState("black");
 
+  const [height, setHeight] = useState(500);
+
   //change font size
   const handleChange = (e) => {
     e.preventDefault();
@@ -33,13 +35,10 @@ const App = () => {
   };
 
 
-
   //saveimage
   const saveImage = (event) => {
     let link = event.currentTarget;
-
     link.setAttribute("download", "canvas.png");
-
     let image = canvasRef.current.toDataURL("image/png");
     console.log(image);
     link.setAttribute("href", image);
@@ -53,25 +52,14 @@ const App = () => {
     context.lineWidth = value;
   }, [value, color]);
 
-  //addPage and num
-  const [val, setVal] = useState([]);
-  const [pageNum, setPageNum] = useState([]);
-  const addPage = (e) => {
-    e.preventDefault()
-    const add = [...val, []];
-    const addPageNum = [...pageNum, []];
-    setVal(add);
-    setPageNum(addPageNum);
-  };
 
 
-
+//Create CANVAS
   useEffect(() => {
     const canvas = canvasRef.current;
-    canvas.width = 600;
-    canvas.height = 500;
-    // canvas.style.width = `${window.innerWidth}px`;
-    // canvas.style.height = `${window.innerHeight}px`;
+    canvas.width = 750;
+    canvas.height = height;
+
     canvas.style.backgroundColor = "rgb(224, 224, 224)";
     canvas.style.borderRadius = "20px";
     canvas.style.cursor = "crosshair";
@@ -80,7 +68,34 @@ const App = () => {
     // context.scale(2, 2);
     context.LineCap = "round";
     contextRef.current = context;
-  }, [val]);
+  }, [height]);
+
+
+
+  //ADD PAGE
+  const addPage = () => {
+    const canvas = canvasRef.current;
+    const context = canvas.getContext("2d");
+    const addheight = 500;
+    const newCanvas = document.createElement('canvas');
+    newCanvas.width = canvas.width;
+    newCanvas.height = canvas.height + addheight;
+
+    const newContext = newCanvas.getContext('2d')
+
+    //copy
+    newContext.drawImage(canvas, 0, 0);
+
+    canvas.height = newCanvas.height;
+
+    context.drawImage(newCanvas, 0, 0);
+  }
+
+  const handleButtonClick = () => {
+    addPage()
+  }
+
+
 
   //start Drawing
   const startDrawing = ({ nativeEvent }) => {
@@ -144,7 +159,7 @@ const App = () => {
 
           {/* ----------ADD Page---------------   */}
           <div>
-            <button onClick={addPage}>Add Page</button>
+            <button onClick={handleButtonClick}>Add Page</button>
           </div>
 
           <a id="download " href="download_link" onClick={saveImage}>
@@ -161,18 +176,6 @@ const App = () => {
             ref={canvasRef}
           />
 
-          {val.map((data, index) => {
-            return (
-              <canvas
-                key={index}
-                id={index + 1}
-                onMouseDown={startDrawing}
-                onMouseUp={finishDrawing}
-                onMouseMove={draw}
-                ref={canvasRef}
-              />
-            );
-          })}
         </div>
       </div>
     </>
