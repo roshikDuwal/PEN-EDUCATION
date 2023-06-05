@@ -1,0 +1,24 @@
+.acordianbox{
+    display: flex;
+    flex-direction: column;
+    margin: 2rem;
+    width: 50rem;
+    .main-heading{
+        display: flex;
+        justify-content: space-between;
+        padding: 0 5rem;
+        border: 2px solid black;
+        border-radius: 20px;
+        >p{
+            font-size: 1.3rem;
+            font-weight:600;
+            cursor: pointer;
+        }
+    }
+    .textool{
+        border: 2px solid black;
+        border-radius: 10px;
+        padding: 1rem;
+    }
+
+}

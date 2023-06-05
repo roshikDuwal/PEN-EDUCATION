@@ -1,0 +1,17 @@
+.mainbox{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid black;
+    gap: 2rem;
+    padding: 2rem;
+    >a{
+        text-decoration: none;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: black;
+        &:hover{
+            color: rgb(59, 59, 59);
+        }
+    }
+}

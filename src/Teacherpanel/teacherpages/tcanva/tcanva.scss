@@ -1,0 +1,14 @@
+
+.grid{
+    display: flex;
+    flex-direction: column;
+    >.tool{
+        display: flex;
+        gap: 2rem;
+    }
+}
+
+
+
+
+
