@@ -1,6 +1,7 @@
-import React from 'react'
-import { BrowserRouter as Router,Routes,Route, BrowserRouter } from 'react-router-dom'
+import { BrowserRouter as Router,Routes,Route } from 'react-router-dom'
 import Home from './home/Home'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 import Teacherpanel from './Teacherpanel/Teacherpanel'
@@ -11,16 +12,17 @@ import THomework1 from "./Teacherpanel/teacherpages/tcourse/thomework/THomework1
 import Studentpanel from './Studentpanel/Studentpanel'
 import SCourseone from "./Studentpanel/studentpages/scourse/SCourseone"
 import SHomework1 from "./Studentpanel/studentpages/scourse/shomework/SHomework1"
-import Login from './Login/Login'
+// import Login from './Login/Login'
 import { AnswerResult } from './Teacherpanel/answerresult/AnswerResult'
 
 
 const App = () => {
   return (
+   <>
    <Router>
       <Routes>
         <Route path='/' element={<Home/>}/>
-        <Route path='/login' element={<Login/>}/>
+        {/* <Route path='/login' element={<Login/>}/> */}
         <Route  path='/teacherpanel'>
           <Route index element={ <Teacherpanel/>}/>
           <Route path='answerresult' element={<AnswerResult/>}/>
@@ -39,6 +41,8 @@ const App = () => {
         </Route>
       </Routes>
    </Router>
+   <ToastContainer/>
+   </>
   )
 }
 
