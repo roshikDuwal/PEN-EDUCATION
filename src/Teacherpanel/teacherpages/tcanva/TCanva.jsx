@@ -1,5 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./tcanva.scss";
+import { saveQuestion } from "../../../services/questions";
+import { error, success } from "../../../utils/toast";
 
 const App = () => {
   const canvasRef = useRef(null);
@@ -45,6 +47,23 @@ const App = () => {
     let image = canvasRef.current.toDataURL("image/png");
     console.log(image);
     link.setAttribute("href", image);
+  };
+
+  //submit question
+  const submitQuestion = (event) => {
+    event.preventDefault();
+    const image = canvasRef.current.toDataURL("image/png");
+
+    saveQuestion({
+      question: "Question 1",
+      image,
+    })
+      .then(() => {
+        success("Question submitted successfully");
+      })
+      .catch((err) => {
+        error(err.message);
+      });
   };
 
   ///increase decrease size and color
@@ -163,8 +182,11 @@ const App = () => {
           </div>
 
           <a id="download " href="download_link" onClick={saveImage}>
-            Submit Answer
+            Save Image
           </a>
+          <button onClick={submitQuestion}>
+            Submit Question
+          </button>
         </div>
 
         <div className="canvasbox">

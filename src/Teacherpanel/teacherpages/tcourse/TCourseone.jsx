@@ -1,7 +1,7 @@
 import React from 'react'
 import TSidebar from "../tsidebar/TSidebar"
 import TNavbar from "../tnavbar/TNavbar"
-import "./tcourse.scss"
+import "./Tcourse.scss"
 import { NavLink } from 'react-router-dom'
 
 const Courseone = () => {
