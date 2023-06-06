@@ -7,15 +7,16 @@ import Accordian from "./Accordian"
 import { questions } from '../../../../dataapi/questiondata'
 
 
-
 const Homework1 = () => {
 
   const [data, setData] = useState(questions);
   const [show, setShow] = useState(false)
   const [addques, setAddQues] = useState("")
 
+
   //show button
   const handleshow = () => setShow(!show);
+
 
   //submit ques
   const submitques = () => {
@@ -26,6 +27,7 @@ const Homework1 = () => {
     setShow(false)
     setAddQues("")
   }
+
 
   return (
     <>

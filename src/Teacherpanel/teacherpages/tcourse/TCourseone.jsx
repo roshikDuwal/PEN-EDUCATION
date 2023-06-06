@@ -9,7 +9,7 @@ const Courseone = () => {
     {
       id: 1,
       name: "Homework 1",
-      link: "homework1",
+      link: "thomework1",
     },
   ];
   return (

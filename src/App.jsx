@@ -28,7 +28,7 @@ const App = () => {
           <Route path='answerresult' element={<AnswerResult/>}/>
           <Route  path='tcourse1'>
             <Route index  element={<TCourseone/>}/>
-            <Route path='homework1' element={<THomework1/>}/>
+            <Route path='thomework1' element={<THomework1/>}/>
           </Route>
         </Route>
 
