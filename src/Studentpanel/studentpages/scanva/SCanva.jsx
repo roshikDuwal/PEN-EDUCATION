@@ -1,15 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./scanva.scss";
+import { saveQuestion } from "../../../services/questions";
+import { error, success } from "../../../utils/toast";
+import jsPDF from 'jspdf';
+
+
 
 const App = () => {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
-
   const [value, setValue] = useState(5);
   const [color, setColor] = useState("black");
-
-  const [height, setHeight] = useState(500);
+  const [sizeName, setSizeName] = useState("Font Size")
+  const [height, setHeight] = useState(1122);
 
   //change font size
   const handleChange = (e) => {
@@ -25,23 +29,78 @@ const App = () => {
   //settoDraw
   const setToDraw = (e) => {
     e.preventDefault()
+    setSizeName("Font Size")
     contextRef.current.globalCompositeOperation = "source-over";
   };
 
   //settoErase
   const setToErase = (e) => {
     e.preventDefault()
+    setSizeName("Erase Size")
     contextRef.current.globalCompositeOperation = "destination-out";
   };
 
 
-  //saveimage
-  const saveImage = (event) => {
-    let link = event.currentTarget;
-    link.setAttribute("download", "canvas.png");
-    let image = canvasRef.current.toDataURL("image/png");
-    console.log(image);
-    link.setAttribute("href", image);
+
+
+
+  //save image into pdf
+  const saveImage = () => {
+    const canvas = canvasRef.current;
+    const canvasWidth = canvas.width;
+    const canvasHeight = canvas.height;
+    const partHeight = 1122; // Define the height of each part (adjust as needed)
+
+    // Calculate the total number of parts required
+    const totalParts = Math.ceil(canvasHeight / partHeight);
+
+    // Create a new jsPDF instance
+    const pdf = new jsPDF({
+      orientation: 'p', // set orientation to landscape if needed
+      unit: 'px', // set unit to pixels
+      format: [canvasWidth, partHeight] // set PDF page size to match canvas dimensions
+    });
+
+    // Loop through each part and add it to the PDF document
+    for (let part = 0; part < totalParts; part++) {
+      const startY = part * partHeight;
+      const canvasPart = document.createElement('canvas');
+      canvasPart.width = canvasWidth;
+      canvasPart.height = partHeight;
+
+      const contextPart = canvasPart.getContext('2d');
+      contextPart.drawImage(canvas, 0, startY, canvasWidth, partHeight, 0, 0, canvasWidth, partHeight);
+
+      const imgData = canvasPart.toDataURL('image/png');
+      pdf.addImage(imgData, 'PNG', 0, 0, canvasWidth, partHeight);
+
+      // Add a new page if there are more parts remaining
+      if (part < totalParts - 1) {
+        pdf.addPage();
+      }
+    }
+
+    // Save the PDF file
+    pdf.save('image.pdf');
+  };
+
+
+
+  //submit question
+  const submitQuestion = (event) => {
+    event.preventDefault();
+    const image = canvasRef.current.toDataURL("image/png");
+
+    saveQuestion({
+      question: "Question 1",
+      image,
+    })
+      .then(() => {
+        success("Question submitted successfully");
+      })
+      .catch((err) => {
+        error(err.message);
+      });
   };
 
   ///increase decrease size and color
@@ -53,19 +112,19 @@ const App = () => {
   }, [value, color]);
 
 
-
-//Create CANVAS
+  //Create CANVAS
   useEffect(() => {
     const canvas = canvasRef.current;
-    canvas.width = 750;
+    canvas.width = 795;
     canvas.height = height;
-
     canvas.style.backgroundColor = "rgb(224, 224, 224)";
     canvas.style.borderRadius = "20px";
     canvas.style.cursor = "crosshair";
     //Draw
     const context = canvas.getContext("2d");
     // context.scale(2, 2);
+    context.moveTo(0,0);
+    context.lineTo(100,0);
     context.LineCap = "round";
     contextRef.current = context;
   }, [height]);
@@ -75,18 +134,17 @@ const App = () => {
   //ADD PAGE
   const addPage = () => {
     const canvas = canvasRef.current;
-    const context = canvas.getContext("2d");
-    const addheight = 500;
+    const addheight = 1122;
     const newCanvas = document.createElement('canvas');
     newCanvas.width = canvas.width;
     newCanvas.height = canvas.height + addheight;
 
     const newContext = newCanvas.getContext('2d')
-
     //copy
     newContext.drawImage(canvas, 0, 0);
 
     canvas.height = newCanvas.height;
+    const context = canvas.getContext("2d");
 
     context.drawImage(newCanvas, 0, 0);
   }
@@ -127,7 +185,7 @@ const App = () => {
 
         <div className="tool">
           <div>
-            <label htmlFor="">Font Size</label>
+            <label htmlFor="">{sizeName}</label>
             <select value={value} onChange={handleChange}>
               <option value="5">5</option>
               <option value="10">10</option>
@@ -144,16 +202,16 @@ const App = () => {
           </div>
 
           <div>
-            <label htmlFor="">Color</label>
-            <select value={color} onChange={colorChange}>
-              <option value="black">black</option>
-              <option value="blue">blue</option>
-              <option value="red">red</option>
-            </select>
+            <button onClick={setToDraw}>Draw</button>
           </div>
 
           <div>
-            <button onClick={setToDraw}>Draw</button>
+            <label htmlFor="">Color</label>
+            <input type="color" value={color} onChange={colorChange} name="" id="" />
+          </div>
+
+
+          <div>
             <button onClick={setToErase}>Erase</button>
           </div>
 
@@ -162,9 +220,12 @@ const App = () => {
             <button onClick={handleButtonClick}>Add Page</button>
           </div>
 
-          <a id="download " href="download_link" onClick={saveImage}>
-            Submit Answer
-          </a>
+          <button onClick={saveImage}>
+            Save Image
+          </button>
+          <button onClick={submitQuestion}>
+            Submit Question
+          </button>
         </div>
 
         <div className="canvasbox">
@@ -174,6 +235,7 @@ const App = () => {
             onMouseUp={finishDrawing}
             onMouseMove={draw}
             ref={canvasRef}
+            style={{ backgroundColor: "white" }}
           />
 
         </div>

@@ -4,8 +4,7 @@ import { saveQuestion } from "../../../services/questions";
 import { error, success } from "../../../utils/toast";
 import * as htmlToImage from 'html-to-image'
 import { saveAs } from 'file-saver';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+
 
 
 const App = () => {
@@ -55,45 +54,6 @@ const App = () => {
   };
 
 
-  // //save image into pdf
-  // const saveImage = () => {
-  //   const canvas = canvasRef.current;
-  //   const canvasWidth = canvas.width;
-  //   const canvasHeight = canvas.height;
-  //   const partHeight = 1122; // Define the height of each part (adjust as needed)
-
-  //   // Calculate the total number of parts required
-  //   const totalParts = Math.ceil(canvasHeight / partHeight);
-
-  //   // Create a new jsPDF instance
-  //   const pdf = new jsPDF({
-  //     orientation: 'p', // set orientation to landscape if needed
-  //     unit: 'px', // set unit to pixels
-  //     format: [canvasWidth, partHeight] // set PDF page size to match canvas dimensions
-  //   });
-
-  //   // Loop through each part and add it to the PDF document
-  //   for (let part = 0; part < totalParts; part++) {
-  //     const startY = part * partHeight;
-  //     const canvasPart = document.createElement('canvas');
-  //     canvasPart.width = canvasWidth;
-  //     canvasPart.height = partHeight;
-
-  //     const contextPart = canvasPart.getContext('2d');
-  //     contextPart.drawImage(canvas, 0, startY, canvasWidth, partHeight, 0, 0, canvasWidth, partHeight);
-
-  //     const imgData = canvasPart.toDataURL('image/png');
-  //     pdf.addImage(imgData, 'PNG', 0, 0, canvasWidth, partHeight);
-
-  //     // Add a new page if there are more parts remaining
-  //     if (part < totalParts - 1) {
-  //       pdf.addPage();
-  //     }
-  //   }
-
-  //   // Save the PDF file
-  //   pdf.save('image.pdf');
-  // };
 
 
 
