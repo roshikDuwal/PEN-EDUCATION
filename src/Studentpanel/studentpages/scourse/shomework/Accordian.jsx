@@ -1,4 +1,6 @@
 import { useState } from "react";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import "./accordian.scss"
 
 
@@ -31,22 +33,23 @@ const Accordian = ({ question,image }) => {
         <>
             <div className="acordianbox">
 
-                <div className="main-heading">
+                <div onClick={() => setShow(!show)} className="main-heading">
                     <h3>{question}</h3>
-               
-                    <p onClick={() => setShow(!show)}>+</p>
+                    <p>{show ? <ExpandLessIcon/> : <ExpandMoreIcon/>}</p>
                 </div>
 
                 {show && (
                     <div className='textool'>
                         <button onClick={handleClickText}>Text</button>
                         <button onClick={handleClickTool}>Tools</button>
-                        <img src={image} alt="image loading" />
                         {isShownText && (
+                        <>
+                            <img src={image} alt="image loading" />
                             <div className="select-option">
                                 <CKEditor editor={ClassicEditor} />
                                 <button>Submit</button>
                             </div>
+                        </>
                         )}
                         {isShownTool && <Canva />}
                     </div>

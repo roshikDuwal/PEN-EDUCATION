@@ -111,8 +111,16 @@ const App = () => {
     context.lineWidth = value;
   }, [value, color]);
 
+  //load question in canvas
+  useEffect(() => {
+    const question = new Image();
+    question.src = "/assets/question1.jpg"
+    question.onload = () => {
+      canvasRef.current.getContext("2d").drawImage(question, 0, 0);
+    }
+  }, []);
 
-  //Create CANVAS
+//Create CANVAS
   useEffect(() => {
     const canvas = canvasRef.current;
     canvas.width = 795;

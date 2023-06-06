@@ -1,4 +1,6 @@
 import { useState } from "react";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import "./accordian.scss"
 
 import Canva from "../../tcanva/TCanva"
@@ -29,9 +31,9 @@ const Accordian = ({ question }) => {
         <>
             <div className="acordianbox">
 
-                <div className="main-heading">
+                <div onClick={() => setShow(!show)} className="main-heading">
                     <h3>{question}</h3>
-                    <p onClick={() => setShow(!show)}>+</p>
+                    <p>{show ? <ExpandLessIcon/> : <ExpandMoreIcon/>}</p>
                 </div>
 
                 {show && (
