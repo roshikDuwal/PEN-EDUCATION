@@ -4,6 +4,7 @@ import { saveQuestion } from "../../../services/questions";
 import UndoIcon from '@mui/icons-material/Undo';
 import RedoIcon from '@mui/icons-material/Redo';
 import { error, success } from "../../../utils/toast";
+import { trimCanvas } from "../../../utils/canvas";
 import * as htmlToImage from 'html-to-image'
 import { saveAs } from 'file-saver';
 
@@ -64,7 +65,8 @@ const App = () => {
   //submit question
   const submitQuestion = (event) => {
     event.preventDefault();
-    const image = canvasRef.current.toDataURL("image/png");
+    const newCanvas = trimCanvas(canvasRef.current);
+    const image = newCanvas.toDataURL("image/png");
 
     saveQuestion({
       question: "Question 1",
@@ -152,11 +154,13 @@ const App = () => {
         const canvas = canvasRef.current;
         const context = canvas.getContext("2d")
         const newStage = canvasStage - 1;
-        var canvasPic = new Image();
-        canvasPic.src = canvasDrawn[newStage];
-        canvasPic.onload = function () {
-          context.clearRect(0, 0, canvas.width, canvas.height);
-          context.drawImage(canvasPic, 0, 0);
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        if(canvasStage>0) {
+          var canvasPic = new Image();
+          canvasPic.src = canvasDrawn[newStage];
+          canvasPic.onload = function () {
+            context.drawImage(canvasPic, 0, 0);
+          }
         }
         setCanvasStage(newStage);
     }
