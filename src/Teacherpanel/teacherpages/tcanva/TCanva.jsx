@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import "./tcanva.scss";
 import { saveQuestion } from "../../../services/questions";
+import UndoIcon from '@mui/icons-material/Undo';
+import RedoIcon from '@mui/icons-material/Redo';
 import { error, success } from "../../../utils/toast";
 import * as htmlToImage from 'html-to-image'
 import { saveAs } from 'file-saver';
@@ -14,6 +16,8 @@ const App = () => {
   const [value, setValue] = useState(5);
   const [color, setColor] = useState("black");
   const [sizeName, setSizeName] = useState("Font Size")
+  const [canvasDrawn, setCanvasDrawn] = useState([]);
+  const [canvasStage, setCanvasStage] = useState(-1);
   const [height, setHeight] = useState(1122);
 
   //change font size
@@ -138,7 +142,40 @@ const App = () => {
   const finishDrawing = () => {
     contextRef.current.closePath();
     setIsDrawing(false);
+    if (canvasStage+1 < canvasDrawn.length) { canvasDrawn.length = canvasStage+1; }
+    setCanvasDrawn([...canvasDrawn, canvasRef.current.toDataURL()]);
+    setCanvasStage(canvasStage+1);
   };
+
+  const undoCanvas = () => {
+    if (canvasStage >= 0) {
+        const canvas = canvasRef.current;
+        const context = canvas.getContext("2d")
+        const newStage = canvasStage - 1;
+        var canvasPic = new Image();
+        canvasPic.src = canvasDrawn[newStage];
+        canvasPic.onload = function () {
+          context.clearRect(0, 0, canvas.width, canvas.height);
+          context.drawImage(canvasPic, 0, 0);
+        }
+        setCanvasStage(newStage);
+    }
+  }
+
+  const redoCanvas = () => {
+    if (canvasStage < canvasDrawn.length-1) {
+        const canvas = canvasRef.current;
+        const context = canvas.getContext("2d")
+        const newStage = canvasStage+1;
+        var canvasPic = new Image();
+        canvasPic.src = canvasDrawn[newStage];
+        canvasPic.onload = function () {
+          context.clearRect(0, 0, canvas.width, canvas.height);
+          context.drawImage(canvasPic, 0, 0);
+        }
+        setCanvasStage(newStage);
+    }
+  }
 
   //Drawing
   const draw = ({ nativeEvent }) => {
@@ -191,6 +228,12 @@ const App = () => {
             <button onClick={handleButtonClick}>Add Page</button>
           </div>
 
+          <button onClick={undoCanvas}>
+            <UndoIcon />
+          </button>
+          <button onClick={redoCanvas}>
+            <RedoIcon />
+          </button>
           <button onClick={saveImage}>
             Save Image
           </button>
