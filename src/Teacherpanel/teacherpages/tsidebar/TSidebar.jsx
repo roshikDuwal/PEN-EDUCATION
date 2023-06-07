@@ -1,5 +1,7 @@
 import "./tsiderbar.scss";
+
 import { Link } from "react-router-dom";
+
 
 const Sidebar = () => {
   const sidebararr = [
@@ -23,6 +25,7 @@ const Sidebar = () => {
           </div>
         );
       })}
+
     </div>
   );
 };

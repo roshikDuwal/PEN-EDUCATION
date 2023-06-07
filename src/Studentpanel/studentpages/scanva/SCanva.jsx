@@ -12,6 +12,7 @@ const App = () => {
   const [isDrawing, setIsDrawing] = useState(false);
   const [value, setValue] = useState(5);
   const [color, setColor] = useState("black");
+  const [image, setImage] = useState();
   const [sizeName, setSizeName] = useState("Font Size")
   const [height, setHeight] = useState(1122);
 
@@ -25,6 +26,17 @@ const App = () => {
   const colorChange = (e) => {
     setColor(e.target.value);
   };
+
+  const uploadImage = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+  }
+
+  useEffect(()=>{
+    if(image) {
+      console.log(image)
+    }
+  },[image])
 
   //settoDraw
   const setToDraw = (e) => {
@@ -218,6 +230,11 @@ const App = () => {
             <input type="color" value={color} onChange={colorChange} name="" id="" />
           </div>
 
+          <div>
+            <label>Image</label>
+            <input type="file" on={uploadImage} name="" id="" />
+            
+          </div>
 
           <div>
             <button onClick={setToErase}>Erase</button>

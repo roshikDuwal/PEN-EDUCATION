@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import "./thomeworkbox.scss"
@@ -27,6 +27,8 @@ const Homework1 = () => {
     setShow(false)
     setAddQues("")
   }
+
+
 
 
   return (

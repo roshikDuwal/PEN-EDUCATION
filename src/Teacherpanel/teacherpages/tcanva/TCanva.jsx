@@ -19,7 +19,7 @@ const App = () => {
   const [sizeName, setSizeName] = useState("Font Size")
   const [canvasDrawn, setCanvasDrawn] = useState([]);
   const [canvasStage, setCanvasStage] = useState(-1);
-  const [height, setHeight] = useState(1122);
+  const [height, setHeight] = useState(600);
 
   //change font size
   const handleChange = (e) => {
@@ -59,9 +59,6 @@ const App = () => {
   };
 
 
-
-
-
   //submit question
   const submitQuestion = (event) => {
     event.preventDefault();
@@ -89,19 +86,17 @@ const App = () => {
   }, [value, color]);
 
 
+
   //Create CANVAS
   useEffect(() => {
     const canvas = canvasRef.current;
-    canvas.width = 795;
+    canvas.width = 750;
     canvas.height = height;
-    canvas.style.backgroundColor = "rgb(224, 224, 224)";
-    canvas.style.borderRadius = "20px";
+    canvas.style.backgroundColor = "rgb(237, 237, 237)";
     canvas.style.cursor = "crosshair";
     //Draw
     const context = canvas.getContext("2d");
     // context.scale(2, 2);
-    context.moveTo(0,0);
-    context.lineTo(100,0);
     context.LineCap = "round";
     contextRef.current = context;
   }, [height]);
@@ -111,7 +106,7 @@ const App = () => {
   //ADD PAGE
   const addPage = () => {
     const canvas = canvasRef.current;
-    const addheight = 1122;
+    const addheight = 600;
     const newCanvas = document.createElement('canvas');
     newCanvas.width = canvas.width;
     newCanvas.height = canvas.height + addheight;
@@ -119,10 +114,8 @@ const App = () => {
     const newContext = newCanvas.getContext('2d')
     //copy
     newContext.drawImage(canvas, 0, 0);
-
     canvas.height = newCanvas.height;
     const context = canvas.getContext("2d");
-
     context.drawImage(newCanvas, 0, 0);
   }
 
@@ -227,6 +220,7 @@ const App = () => {
             <button onClick={setToErase}>Erase</button>
           </div>
 
+
           {/* ----------ADD Page---------------   */}
           <div>
             <button onClick={handleButtonClick}>Add Page</button>
@@ -253,9 +247,7 @@ const App = () => {
             onMouseUp={finishDrawing}
             onMouseMove={draw}
             ref={canvasRef}
-            style={{ backgroundColor: "white" }}
           />
-
         </div>
       </div>
     </>
