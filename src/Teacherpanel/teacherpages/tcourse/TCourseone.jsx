@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
+import { NavLink } from 'react-router-dom'
+
+import "./Tcourse.scss"
+
 import TSidebar from "../tsidebar/TSidebar"
 import TNavbar from "../tnavbar/TNavbar"
-import "./Tcourse.scss"
-import { NavLink } from 'react-router-dom'
-import { getUnits } from '../../../services/units'
+
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
@@ -12,6 +14,7 @@ import TextField from '@mui/material/TextField';
 import { Formik } from 'formik';
 import { saveUnits } from "../../../services/units"
 import { error, success } from "../../../utils/toast";
+import { getUnits } from '../../../services/units'
 
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
@@ -22,16 +25,11 @@ const Courseone = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-
   useEffect(() => {
-
     getUnits().then(units => {
-
       setUnit(units);
     });
   }, [])
-
-
 
   return (
     <>
@@ -39,7 +37,7 @@ const Courseone = () => {
       <section className="course">
         <TSidebar />
         <div className="course-section">
-
+          
           <Button className='addquestionicon' onClick={handleOpen}><AddIcon /></Button>
 
           <Modal className='modal'
@@ -49,7 +47,7 @@ const Courseone = () => {
             aria-describedby="modal-modal-description"
           >
             <Box className="modal-box">
-              <Formik 
+              <Formik
                 initialValues={{ unit_name: '', unit_code: '' }}
                 validate={values => {
                   const errors = {};
@@ -140,13 +138,10 @@ const Courseone = () => {
               )
             })}
           </ul>
+
         </div>
       </section>
-
-
-
     </>
-
   )
 }
 

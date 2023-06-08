@@ -1,31 +1,46 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import TNavbar from "../../tnavbar/TNavbar"
 
 import "./thomeworkbox.scss"
 
 import Accordian from "./Accordian"
 import { questions } from '../../../../dataapi/questiondata'
 
+import Button from '@mui/material/Button';
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+
+import { Formik } from 'formik';
+import { saveUnits } from '../../../../services/units'
+import { error, success } from "../../../../utils/toast";
+
+import AddIcon from '@mui/icons-material/Add';
+import CloseIcon from '@mui/icons-material/Close';
+
 
 const Homework1 = () => {
 
   const [data, setData] = useState(questions);
-  const [show, setShow] = useState(false)
-  const [addques, setAddQues] = useState("")
+  const [addques, setAddQues] = useState(1)
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
 
-  //show button
-  const handleshow = () => setShow(!show);
 
 
-  //submit ques
+
+  //submit ques locally
   const submitques = () => {
+    setAddQues(addques + 1)
     const newQuestion = {
-      question: addques
+      question: `Question ${addques}`
     }
     setData([...data, newQuestion])
-    setShow(false)
-    setAddQues("")
+    setOpen(false)
   }
 
 
@@ -33,18 +48,85 @@ const Homework1 = () => {
 
   return (
     <>
+      <TNavbar />
       <Link to="/teacherpanel/tcourse1">BACK</Link>
 
       <section className="main-div">
+        <div className="buttonbox">
+          <Button className='addquestionicon' onClick={handleOpen}><AddIcon /></Button>
+        </div>
 
-        <button onClick={handleshow}>Add Question No</button>
-        {show && (
-          <>
-            <input type="text" placeholder='Enter question no' onChange={(e) => setAddQues(e.target.value)} value={addques} />
-            <button onClick={submitques}>Submit</button>
-          </>
 
-        )}
+        <Modal className='modal'
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box className="modal-box">
+
+            <Formik
+              initialValues={{ question_number: '' }}
+              validate={values => {
+                const errors = {};
+                if (!values.question_number) {
+                  errors.question_number = 'Required';
+                }
+                return errors;
+              }}
+
+              onSubmit={(values, { setSubmitting }) => {
+                saveUnits(values)
+                  .then(() => {
+                    success("Question Added successfully");
+                    setSubmitting(false);
+                    setOpen(false)
+                  })
+                  .catch((err) => {
+                    error(err.message);
+                    setSubmitting(false);
+                  });
+              }}
+            >
+              {({
+                values,
+                errors,
+                touched,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                isSubmitting,
+
+              }) => (
+                <form onSubmit={handleSubmit}>
+                  <div>
+                    <TextField
+                      id="outlined-basic"
+                      label="Question Number"
+                      variant="outlined"
+                      type="unit_code"
+                      name="question_number"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={addques}
+                    />
+                    {errors.question_number && touched.question_number && errors.question_number}
+                  </div>
+
+                  <div>
+                    <button type="submit" disabled={isSubmitting} onClick={submitques}>
+                      Submit
+                    </button>
+                  </div>
+                </form>
+              )}
+            </Formik>
+
+            <div>
+              <Button className='closequestionicon' onClick={handleClose}><CloseIcon /></Button>
+            </div>
+          </Box>
+        </Modal>
 
         {
           data.map((curElem) => {

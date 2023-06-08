@@ -1,17 +1,19 @@
-import React from 'react'
+import React,{useEffect,useState} from 'react'
 import Sidebar from "../ssidebar/SSidebar"
 import SNavbar from "../snavbar/SNavbar"
 import "./scourse.scss"
 import { NavLink } from 'react-router-dom'
+import { getUnits } from '../../../services/units'
 
 const Courseone = () => {
-  const course1homework = [
-    {
-      id: 1,
-      name: "Homework 1",
-      link: "shomework1",
-    },
-  ];
+  const [unit, setUnit] = useState([])
+
+  useEffect(() => {
+    getUnits().then(units => {
+      setUnit(units);
+    });
+  }, [])
+
   return (
     <>
     <SNavbar/>
@@ -19,9 +21,9 @@ const Courseone = () => {
         <Sidebar />
         <div className="course-section">
           <ul>
-            {course1homework.map((curElem, index) => {
+            {unit.map((curElem, index) => {
               return(
-                <li key={index}><NavLink to={curElem.link}>{curElem.name}</NavLink></li>
+                <li key={index}><NavLink to={curElem.link}>{curElem.unit_name}</NavLink></li>
               )
             })}
           </ul>

@@ -1,31 +1,15 @@
 import "./tsiderbar.scss";
 
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 
 const Sidebar = () => {
-  const sidebararr = [
-    {
-      id: 1,
-      name: "Course 1",
-      link: "tcourse1",
-    },
-    {
-      id: 2,
-      name: "Course 2",
-      link: "tcourse2",
-    }
-  ];
+
   return (
     <div className="sidebar">
-      {sidebararr.map((currEle) => {
-        return (
-          <div className="box" key={currEle.id}>
-            <Link to={currEle.link}>{currEle.name}</Link>
-          </div>
-        );
-      })}
-
+      <div className="box" >
+       <NavLink to="/teacherpanel/tcourse1">Course 1</NavLink>
+      </div>
     </div>
   );
 };

@@ -4,6 +4,50 @@
     justify-content: center;
     flex-direction: column;
    margin: 2rem;
-    width: 100%;
+  
+    .buttonbox{
+        width: 100%;
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+        >.addquestionicon {
+            color: white;
+            background-color: black;
+            border-radius: 1rem;
+            padding: 0.5rem;
+            margin: 2rem;
+            margin-right: 5rem;
+            >svg {
+                font-weight: 800;
+            }
+        }
+    }
+}
 
+
+.modal {
+    .modal-box {
+        background-color: white;
+        position: absolute;
+        top: 50%;
+        left: 55%;
+        transform: translate(-50%, -50%);
+        width: 400;
+        border-radius: 1rem;
+        display: flex;
+        padding: 2rem;
+        gap: 6rem;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+        >form {
+            >div {
+                margin-bottom: 1rem;
+            }
+
+        }
+
+        .closequestionicon {
+            color: black;
+        }
+    }
 }
