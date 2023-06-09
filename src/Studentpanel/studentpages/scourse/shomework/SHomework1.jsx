@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { getQuestions } from '../../../../services/questions'
 import { ThreeDots } from 'react-loader-spinner'
+import SNavbar from "../../snavbar/SNavbar"
 import ArrowCircleLeftSharpIcon from '@mui/icons-material/ArrowCircleLeftSharp';
 
 import Accordian from "./Accordian"
@@ -25,6 +26,7 @@ const Homework1 = () => {
 
   return (
     <>
+      <SNavbar/>
       <Link to="/studentpanel/scourse1"><span className="backArrow"><ArrowCircleLeftSharpIcon fontSize='large' /></span></Link>
 
       <section className="main-div">

@@ -23,6 +23,11 @@ nav{
                 }
             }
         }
+        >li.active{
+            >a{
+                background-color: #C9C0DF;
+            }
+        }
     }
 }
 
