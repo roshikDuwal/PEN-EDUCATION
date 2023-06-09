@@ -27,7 +27,7 @@ const Courseone = () => {
   const handleClose = () => setOpen(false);
   const [loading, setLoading] = React.useState(true);
 
-  useEffect(() => {
+  const fetchUnits = () => {
     setLoading(true);
     getUnits()
       .then(units => {
@@ -36,6 +36,10 @@ const Courseone = () => {
       .finally(() => {
         setLoading(false);
       });
+  }
+
+  useEffect(() => {
+    fetchUnits();
   }, [])
 
   return (
@@ -71,7 +75,8 @@ const Courseone = () => {
                     .then(() => {
                       success("Unit submitted successfully");
                       setSubmitting(false);
-                      setOpen(false)
+                      setOpen(false);
+                      fetchUnits();
                     })
                     .catch((err) => {
                       error(err.message);

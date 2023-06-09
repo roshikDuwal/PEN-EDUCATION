@@ -40,9 +40,9 @@ const Accordian = (props) => {
                 </div>
 
                 {show && (
-                    <div className='textool'>
-                        <div>
-                        {props.file ? <img src={IMAGE_PREFIX + props.file} alt="Loading" /> : <h3>{props.title}</h3>}
+                    <div className='textTool'>
+                        <div className="questionTitle">
+                            {props.file ? <img src={IMAGE_PREFIX + props.file} alt="Loading" /> : <CKEditor config={{toolbar: []}} editor={ClassicEditor} disabled={true} data={props.title} />}
                         </div>
                         <button onClick={handleClickText}>Text</button>
                         <button onClick={handleClickTool}>Tools</button>

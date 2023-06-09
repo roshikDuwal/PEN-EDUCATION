@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { v4 as uuidv4 } from 'uuid';
 import { useParams, Link } from 'react-router-dom'
 import TNavbar from "../../tnavbar/TNavbar"
 
@@ -24,7 +25,7 @@ import { ThreeDots } from 'react-loader-spinner'
 const Homework1 = () => {
 
   const [data, setData] = useState([]);
-  const [addques, setAddQues] = useState(0);
+  const [addques, setAddQues] = useState(1);
   const [loading, setLoading] = React.useState(true);
 
   const [open, setOpen] = React.useState(false);
@@ -39,6 +40,7 @@ const Homework1 = () => {
       question: `Question ${addques}`
     }
     setData([...data, newQuestion])
+    setAddQues(addques + 1)
     setOpen(false)
   }
 
@@ -75,7 +77,7 @@ const Homework1 = () => {
           <Box className="modal-box">
 
             <Formik
-              initialValues={{ question_number: '' }}
+              initialValues={{ question_number: addques }}
               validate={values => {
                 const errors = {};
                 if (!values.question_number) {
@@ -117,7 +119,7 @@ const Homework1 = () => {
                       name="question_number"
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      value={addques}
+                      value={values.question_number}
                     />
                     {errors.question_number && touched.question_number && errors.question_number}
                   </div>
@@ -151,7 +153,7 @@ const Homework1 = () => {
             </> :
           data.map((curElem) => {
             const { id } = curElem;
-            return <Accordian key={id} unit_id={unit_id} {...curElem} />
+            return <Accordian key={id || uuidv4()} unit_id={unit_id} {...curElem} />
           })
         }
       </section>
