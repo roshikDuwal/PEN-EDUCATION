@@ -40,7 +40,7 @@ const Courseone = () => {
               />
             </> : unit.map((curElem, index) => {
               return(
-                <li key={index}><NavLink to={curElem.id.toString()}>{curElem.unit_name}</NavLink></li>
+                <li key={index}><NavLink to={curElem.id.toString()}>{curElem.unit_name} ({curElem.unit_code})</NavLink></li>
               )
             })}
 
