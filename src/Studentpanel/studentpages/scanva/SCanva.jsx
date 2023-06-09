@@ -105,7 +105,7 @@ const App = (props) => {
 
 
   //submit question
-  const submitQuestion = (event) => {
+  const submitAnswer = (event) => {
     event.preventDefault();
     const image = canvasRef.current.toDataURL("image/png");
 
@@ -294,14 +294,13 @@ const App = (props) => {
           <button onClick={redoCanvas}>
             <RedoIcon />
           </button>
-          
           {/* <button onClick={saveImage}>
             Save Image
-          </button>  */}
+          </button> */}
 
           <div>
-          <Button variant="contained" onClick={submitQuestion}>
-            Submit Question
+          <Button variant="contained" onClick={submitAnswer}>
+            Submit Answer
           </Button>
 
           </div>
