@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 
-import "./tcourse.scss"
+import "./Tcourse.scss"
 
 import TSidebar from "../tsidebar/TSidebar"
 import TNavbar from "../tnavbar/TNavbar"
@@ -48,7 +48,7 @@ const Courseone = () => {
       <section className="course">
         <TSidebar />
         <div className="course-section">
-          
+
           <Button className='addquestionicon' onClick={handleOpen}><AddIcon /></Button>
 
           <Modal className='modal'
