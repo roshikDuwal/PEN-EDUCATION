@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { getQuestions } from '../../../../services/questions'
 import { ThreeDots } from 'react-loader-spinner'
+import ArrowCircleLeftSharpIcon from '@mui/icons-material/ArrowCircleLeftSharp';
 
 import Accordian from "./Accordian"
 
@@ -24,7 +25,7 @@ const Homework1 = () => {
 
   return (
     <>
-      <Link to="/studentpanel/scourse1">BACK</Link>
+      <Link to="/studentpanel/scourse1"><span className="backArrow"><ArrowCircleLeftSharpIcon fontSize='large' /></span></Link>
 
       <section className="main-div">
         {loading ? <>
@@ -32,7 +33,7 @@ const Homework1 = () => {
                 height="80"
                 width="80"
                 radius="9"
-                color="#4fa94d"
+                color="#551A8B"
                 ariaLabel="three-dots-loading"
                 wrapperStyle={{}}
                 wrapperClassName=""
@@ -44,6 +45,7 @@ const Homework1 = () => {
             return <Accordian key={id} {...curElem} />
           })
         }
+        {!loading && !data.length && <img src="/assets/empty.png" alt="No Data Found"></img>}
       </section>
 
     </>

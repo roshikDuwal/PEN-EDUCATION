@@ -11,6 +11,7 @@ import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import ArrowCircleLeftSharpIcon from '@mui/icons-material/ArrowCircleLeftSharp';
 
 import { Formik } from 'formik';
 import { saveUnits } from '../../../../services/units'
@@ -63,7 +64,7 @@ const Homework1 = () => {
   return (
     <>
       <TNavbar />
-      <Link to="/teacherpanel/tcourse1">BACK</Link>
+      <Link to="/teacherpanel/tcourse1"><span className="backArrow"><ArrowCircleLeftSharpIcon fontSize='large' /></span></Link>
 
       <section className="main-div">
         <div className="buttonbox">
@@ -147,7 +148,7 @@ const Homework1 = () => {
                 height="80"
                 width="80"
                 radius="9"
-                color="#4fa94d"
+                color="#551A8B"
                 ariaLabel="three-dots-loading"
                 wrapperStyle={{}}
                 wrapperClassName=""
@@ -159,6 +160,7 @@ const Homework1 = () => {
             return <Accordian key={id || uuidv4()} fetchQuestions={fetchQuestions} unit_id={unit_id} {...curElem} />
           })
         }
+        {!loading && !data.length && <img src="/assets/empty.png" alt="No Data Found"></img>}
       </section>
 
     </>
