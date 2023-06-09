@@ -9,8 +9,9 @@ import Canva from "../../scanva/SCanva"
 
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { IMAGE_PREFIX } from "../../../../constants";
 
-const Accordian = ({ question,image }) => {
+const Accordian = (props) => {
     const [isShownText, setIsShownText] = useState(false);
     const [isShownTool, setIsShownTool] = useState(false);
     const [show, setShow] = useState(false);
@@ -34,24 +35,26 @@ const Accordian = ({ question,image }) => {
             <div className="acordianbox">
 
                 <div onClick={() => setShow(!show)} className="main-heading">
-                    <h3>{question}</h3>
+                    <h3>{props.question}</h3>
                     <p>{show ? <ExpandLessIcon/> : <ExpandMoreIcon/>}</p>
                 </div>
 
                 {show && (
                     <div className='textool'>
+                        <div>
+                        {props.file ? <img src={IMAGE_PREFIX + props.file} alt="Loading" /> : <h3>{props.title}</h3>}
+                        </div>
                         <button onClick={handleClickText}>Text</button>
                         <button onClick={handleClickTool}>Tools</button>
                         {isShownText && (
                         <>
-                            <img src={image} alt="image loading" />
                             <div className="select-option">
                                 <CKEditor editor={ClassicEditor} />
                                 <button>Submit</button>
                             </div>
                         </>
                         )}
-                        {isShownTool && <Canva />}
+                        {isShownTool && <Canva {...props} />}
                     </div>
                 )}
 

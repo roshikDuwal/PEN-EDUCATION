@@ -18,17 +18,24 @@ import { getUnits } from '../../../services/units'
 
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
+import { ThreeDots } from 'react-loader-spinner';
 
 const Courseone = () => {
   const [unit, setUnit] = useState([])
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [loading, setLoading] = React.useState(true);
 
   useEffect(() => {
-    getUnits().then(units => {
-      setUnit(units);
-    });
+    setLoading(true);
+    getUnits()
+      .then(units => {
+        setUnit(units);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [])
 
   return (
@@ -37,7 +44,7 @@ const Courseone = () => {
       <section className="course">
         <TSidebar />
         <div className="course-section">
-          
+
           <Button className='addquestionicon' onClick={handleOpen}><AddIcon /></Button>
 
           <Modal className='modal'
@@ -132,9 +139,20 @@ const Courseone = () => {
           </Modal>
 
           <ul>
-            {unit.map((curElem, index) => {
+            {loading ? <>
+              <ThreeDots
+                height="80"
+                width="80"
+                radius="9"
+                color="#4fa94d"
+                ariaLabel="three-dots-loading"
+                wrapperStyle={{}}
+                wrapperClassName=""
+                visible={true}
+              />
+            </> : unit.map((curElem, index) => {
               return (
-                <li key={index}><NavLink to={curElem.unit_code}>{curElem.unit_name}</NavLink></li>
+                <li key={index}><NavLink to={curElem.id.toString()}>{curElem.unit_name} ({curElem.unit_code})</NavLink></li>
               )
             })}
           </ul>

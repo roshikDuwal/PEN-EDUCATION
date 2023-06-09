@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import TNavbar from "../../tnavbar/TNavbar"
 
 import "./thomeworkbox.scss"
 
 import Accordian from "./Accordian"
-import { questions } from '../../../../dataapi/questiondata'
 
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
@@ -18,24 +17,24 @@ import { error, success } from "../../../../utils/toast";
 
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
+import { getQuestions } from '../../../../services/questions'
+import { ThreeDots } from 'react-loader-spinner'
 
 
 const Homework1 = () => {
 
-  const [data, setData] = useState(questions);
-  const [addques, setAddQues] = useState(1)
+  const [data, setData] = useState([]);
+  const [addques, setAddQues] = useState(0);
+  const [loading, setLoading] = React.useState(true);
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-
-
-
+  const { unit_id } = useParams();
 
   //submit ques locally
   const submitques = () => {
-    setAddQues(addques + 1)
     const newQuestion = {
       question: `Question ${addques}`
     }
@@ -44,7 +43,17 @@ const Homework1 = () => {
   }
 
 
-
+  useEffect(() => {
+    setLoading(true);
+    getQuestions(unit_id)
+      .then((data) => {
+        setData(data);
+        setAddQues(data.length + 1)
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
 
   return (
     <>
@@ -128,10 +137,21 @@ const Homework1 = () => {
           </Box>
         </Modal>
 
-        {
+        {loading ? <>
+              <ThreeDots
+                height="80"
+                width="80"
+                radius="9"
+                color="#4fa94d"
+                ariaLabel="three-dots-loading"
+                wrapperStyle={{}}
+                wrapperClassName=""
+                visible={true}
+              />
+            </> :
           data.map((curElem) => {
             const { id } = curElem;
-            return <Accordian key={id} {...curElem} />
+            return <Accordian key={id} unit_id={unit_id} {...curElem} />
           })
         }
       </section>

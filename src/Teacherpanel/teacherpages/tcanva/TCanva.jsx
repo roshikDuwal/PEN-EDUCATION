@@ -7,10 +7,11 @@ import { error, success } from "../../../utils/toast";
 import { trimCanvas } from "../../../utils/canvas";
 import * as htmlToImage from 'html-to-image'
 import { saveAs } from 'file-saver';
+import { IMAGE_PREFIX } from "../../../constants";
 
 
 
-const App = () => {
+const App = ({ question, unit_id, file: file_name }) => {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
@@ -64,11 +65,23 @@ const App = () => {
     event.preventDefault();
     const newCanvas = trimCanvas(canvasRef.current);
     const image = newCanvas.toDataURL("image/png");
+    // const image_name = uuidv4()+".png";
+    // const file = new File([image.blob], image_name);
+    // const formData = new FormData();
+    // formData.append("unit_id", unit_id);
+    // formData.append("title", question);
+    // formData.append("question", question);
+    // formData.append("file", file, image_name);
 
-    saveQuestion({
-      question: "Question 1",
-      image,
-    })
+    saveQuestion(
+      // formData
+      {
+      unit_id,
+      question,
+      title: question,
+      file: image,
+      }
+    )
       .then(() => {
         success("Question submitted successfully");
       })
@@ -85,7 +98,15 @@ const App = () => {
     context.lineWidth = value;
   }, [value, color]);
 
-
+  useEffect(() => {
+    if(file_name) {
+      const question = new Image();
+      question.src = IMAGE_PREFIX+file_name;
+      question.onload = () => {
+        canvasRef.current.getContext("2d").drawImage(question, 0, 0);
+      }
+    }
+  }, [file_name]);
 
   //Create CANVAS
   useEffect(() => {

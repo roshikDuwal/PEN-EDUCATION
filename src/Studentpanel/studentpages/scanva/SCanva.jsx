@@ -3,10 +3,11 @@ import "./scanva.scss";
 import { saveQuestion } from "../../../services/questions";
 import { error, success } from "../../../utils/toast";
 import jsPDF from 'jspdf';
+import { IMAGE_PREFIX } from "../../../constants";
 
 
 
-const App = () => {
+const App = (props) => {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
@@ -124,13 +125,15 @@ const App = () => {
   }, [value, color]);
 
   //load question in canvas
-  useEffect(() => {
-    const question = new Image();
-    question.src = "/assets/question1.jpg"
-    question.onload = () => {
-      canvasRef.current.getContext("2d").drawImage(question, 0, 0);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if(props.file) {
+  //     const question = new Image();
+  //     question.src = IMAGE_PREFIX+props.file;
+  //     question.onload = () => {
+  //       canvasRef.current.getContext("2d").drawImage(question, 0, 0);
+  //     }
+  //   }
+  // }, [props.file]);
 
 //Create CANVAS
   useEffect(() => {
@@ -233,7 +236,7 @@ const App = () => {
           <div>
             <label>Image</label>
             <input type="file" on={uploadImage} name="" id="" />
-            
+
           </div>
 
           <div>

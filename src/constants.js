@@ -1,7 +1,10 @@
-export const SERVER_BASE_URL = "http://192.168.101.12:8000/api/";
+const SERVER_URL = "https://pen.gesic.edu.np"
+export const SERVER_BASE_URL = SERVER_URL + "/api/";
+export const IMAGE_PREFIX = SERVER_URL + "/uploads/assessment/"
 
 export const routes = {
-  question: SERVER_BASE_URL + "questions",
+  questionStore: SERVER_BASE_URL + "unit/assessment/store",
+  questions: SERVER_BASE_URL + "unit/assessment/",
   unitStore: SERVER_BASE_URL + "unit/store",
   unit: SERVER_BASE_URL + "unit",
 
