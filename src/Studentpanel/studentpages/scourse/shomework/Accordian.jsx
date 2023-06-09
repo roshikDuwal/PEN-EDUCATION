@@ -46,6 +46,7 @@ const Accordian = (props) => {
                         </div>
                         <button onClick={handleClickText}>Text</button>
                         <button onClick={handleClickTool}>Tools</button>
+                        <hr/>
                         {isShownText && (
                         <>
                             <div className="select-option">

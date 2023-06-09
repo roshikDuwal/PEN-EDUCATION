@@ -2,8 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import "./scanva.scss";
 import { saveQuestion } from "../../../services/questions";
 import { error, success } from "../../../utils/toast";
+import UndoIcon from '@mui/icons-material/Undo';
+import RedoIcon from '@mui/icons-material/Redo';
 import jsPDF from 'jspdf';
-import { IMAGE_PREFIX } from "../../../constants";
 
 
 
@@ -15,6 +16,8 @@ const App = (props) => {
   const [color, setColor] = useState("black");
   const [image, setImage] = useState();
   const [sizeName, setSizeName] = useState("Font Size")
+  const [canvasDrawn, setCanvasDrawn] = useState([]);
+  const [canvasStage, setCanvasStage] = useState(-1);
   const [height, setHeight] = useState(1122);
 
   //change font size
@@ -190,7 +193,42 @@ const App = (props) => {
   const finishDrawing = () => {
     contextRef.current.closePath();
     setIsDrawing(false);
+    if (canvasStage+1 < canvasDrawn.length) { canvasDrawn.length = canvasStage+1; }
+    setCanvasDrawn([...canvasDrawn, canvasRef.current.toDataURL()]);
+    setCanvasStage(canvasStage+1);
   };
+
+  const undoCanvas = () => {
+    if (canvasStage >= 0) {
+        const canvas = canvasRef.current;
+        const context = canvas.getContext("2d")
+        const newStage = canvasStage - 1;
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        if(canvasStage>0) {
+          var canvasPic = new Image();
+          canvasPic.src = canvasDrawn[newStage];
+          canvasPic.onload = function () {
+            context.drawImage(canvasPic, 0, 0);
+          }
+        }
+        setCanvasStage(newStage);
+    }
+  }
+
+  const redoCanvas = () => {
+    if (canvasStage < canvasDrawn.length-1) {
+        const canvas = canvasRef.current;
+        const context = canvas.getContext("2d")
+        const newStage = canvasStage+1;
+        var canvasPic = new Image();
+        canvasPic.src = canvasDrawn[newStage];
+        canvasPic.onload = function () {
+          context.clearRect(0, 0, canvas.width, canvas.height);
+          context.drawImage(canvasPic, 0, 0);
+        }
+        setCanvasStage(newStage);
+    }
+  }
 
   //Drawing
   const draw = ({ nativeEvent }) => {
@@ -233,11 +271,11 @@ const App = (props) => {
             <input type="color" value={color} onChange={colorChange} name="" id="" />
           </div>
 
-          <div>
+          {/* <div>
             <label>Image</label>
             <input type="file" on={uploadImage} name="" id="" />
 
-          </div>
+          </div> */}
 
           <div>
             <button onClick={setToErase}>Erase</button>
@@ -248,6 +286,12 @@ const App = (props) => {
             <button onClick={handleButtonClick}>Add Page</button>
           </div>
 
+          <button onClick={undoCanvas}>
+            <UndoIcon />
+          </button>
+          <button onClick={redoCanvas}>
+            <RedoIcon />
+          </button>
           <button onClick={saveImage}>
             Save Image
           </button>
