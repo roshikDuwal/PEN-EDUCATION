@@ -1,42 +1,24 @@
 
-.grid{
-    display: flex;
-    flex-direction: column;
-    >.tool{
-        display: flex;
-        gap: 2rem;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 1rem;
-        div{
-            text-align: center;
-            label{
-                font-weight: 600;
-                padding: 1rem;
-            }
-            select{
-                cursor: pointer;
-                border: 3px solid black;
-            }
-            Button{
-               background-color: black;
-               font-size: 0.7rem;
-               svg{
+.course{
+    .course-section{
+        .buttonbox{
+            width: 100%;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
+            >.addquestionicon {
                 color: white;
-               }
-               &:hover {
-                   background-color: #551A8B;
-               }
+                background-color: black;
+                border-radius: 1rem;
+                padding: 0.5rem;
+                margin: 2rem;
+                margin-right: 5rem;
+                >svg {
+                    font-weight: 800;
+                }
             }
-
-            input{
-                cursor: pointer;
-            }
-        }
+        }   
     }
 }
-
-
-
 
 

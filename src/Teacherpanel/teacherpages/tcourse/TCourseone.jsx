@@ -49,7 +49,9 @@ const Courseone = () => {
         <TSidebar />
         <div className="course-section">
 
+        <div className="buttonbox">
           <Button className='addquestionicon' onClick={handleOpen}><AddIcon /></Button>
+        </div>
 
           <Modal className='modal'
             open={open}
