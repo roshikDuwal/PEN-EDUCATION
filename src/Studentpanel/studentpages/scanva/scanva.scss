@@ -5,31 +5,6 @@
     >.tool{
         display: flex;
         gap: 2rem;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 1rem;
-        div{
-            text-align: center;
-            label{
-                font-weight: 600;
-                padding: 1rem;
-            }
-            select{
-                cursor: pointer;
-                border: 3px solid black;
-            }
-            Button{
-               background-color: black;
-               font-size: 0.7rem;
-               svg{
-                color: white;
-               }
-            }
-
-            input{
-                cursor: pointer;
-            }
-        }
     }
 }
 
