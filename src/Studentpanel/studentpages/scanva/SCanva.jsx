@@ -288,12 +288,16 @@ const App = (props) => {
             <Button variant="contained" onClick={handleButtonClick}>Add Page</Button>
           </div>
 
-          <button onClick={undoCanvas}>
+          <div>
+            <Button onClick={undoCanvas}>
             <UndoIcon />
-          </button>
-          <button onClick={redoCanvas}>
+            </Button>
+          </div>
+          <div>
+            <Button onClick={redoCanvas}>
             <RedoIcon />
-          </button>
+            </Button>
+          </div>
           {/* <button onClick={saveImage}>
             Save Image
           </button> */}
