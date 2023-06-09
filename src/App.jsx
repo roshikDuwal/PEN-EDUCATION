@@ -14,6 +14,8 @@ import SCourseone from "./Studentpanel/studentpages/scourse/SCourseone"
 import SHomework1 from "./Studentpanel/studentpages/scourse/shomework/SHomework1"
 
 import { AnswerResult } from './Teacherpanel/answerresult/AnswerResult'
+import ACourseone from "./Teacherpanel/answerresult/acourse/ACourseone"
+import Ahomework from './Teacherpanel/answerresult/acourse/homeworkans/ahomework';
 
 import Error from "./pages/error/Error"
 // import Login from './Login/Login'
@@ -24,14 +26,24 @@ const App = () => {
    <Router>
       <Routes>
         <Route path='/' element={<Home/>}/>
-        {/* <Route path='/login' element={<Login/>}/> */}
+     
         <Route  path='/teacherpanel'>
+
           <Route index element={ <Teacherpanel/>}/>
-          <Route path='answerresult' element={<AnswerResult/>}/>
+
+          <Route path='answerresult'>
+            <Route index element={<AnswerResult/>}/>
+            <Route path='acourse'>
+              <Route index element={<ACourseone/>}/>
+              <Route path="ahomework1" element={<Ahomework/>} />
+            </Route>
+          </Route>
+
           <Route  path='tcourse1'>
             <Route index  element={<TCourseone/>}/>
             <Route path='thomework1' element={<THomework1/>}/>
           </Route>
+
         </Route>
 
         <Route  path='/studentpanel'>

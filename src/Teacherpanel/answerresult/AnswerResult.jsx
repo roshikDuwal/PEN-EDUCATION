@@ -1,12 +1,13 @@
 import React from 'react'
 import TNavbar from "../teacherpages/tnavbar/TNavbar"
-import TSidebar from "../teacherpages/tsidebar/TSidebar"
+import ASidebar from "./asidebar/ASidebar"
 
 export const AnswerResult = () => {
     return (
         <>
           <TNavbar />
-          <TSidebar/>
+          <ASidebar/>
+          
         </>
       )
 }
