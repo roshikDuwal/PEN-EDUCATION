@@ -28,6 +28,7 @@ const Homework1 = () => {
       <Link to="/studentpanel/scourse1"><span className="backArrow"><ArrowCircleLeftSharpIcon fontSize='large' /></span></Link>
 
       <section className="main-div">
+        <h3>Questions</h3>
         {loading ? <>
               <ThreeDots
                 height="80"
