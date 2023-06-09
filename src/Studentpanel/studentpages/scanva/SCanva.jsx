@@ -5,6 +5,8 @@ import { error, success } from "../../../utils/toast";
 import UndoIcon from '@mui/icons-material/Undo';
 import RedoIcon from '@mui/icons-material/Redo';
 import jsPDF from 'jspdf';
+import { IMAGE_PREFIX } from "../../../constants";
+import { Button } from "@mui/material";
 
 
 
@@ -31,10 +33,10 @@ const App = (props) => {
     setColor(e.target.value);
   };
 
-  const uploadImage = (e) => {
-    const file = e.target.files[0];
-    setImage(file);
-  }
+  // const uploadImage = (e) => {
+  //   const file = e.target.files[0];
+  //   setImage(file);
+  // }
 
   useEffect(()=>{
     if(image) {
@@ -60,50 +62,50 @@ const App = (props) => {
 
 
 
-  //save image into pdf
-  const saveImage = () => {
-    const canvas = canvasRef.current;
-    const canvasWidth = canvas.width;
-    const canvasHeight = canvas.height;
-    const partHeight = 1122; // Define the height of each part (adjust as needed)
+  // //save image into pdf
+  // const saveImage = () => {
+  //   const canvas = canvasRef.current;
+  //   const canvasWidth = canvas.width;
+  //   const canvasHeight = canvas.height;
+  //   const partHeight = 1122; // Define the height of each part (adjust as needed)
 
-    // Calculate the total number of parts required
-    const totalParts = Math.ceil(canvasHeight / partHeight);
+  //   // Calculate the total number of parts required
+  //   const totalParts = Math.ceil(canvasHeight / partHeight);
 
-    // Create a new jsPDF instance
-    const pdf = new jsPDF({
-      orientation: 'p', // set orientation to landscape if needed
-      unit: 'px', // set unit to pixels
-      format: [canvasWidth, partHeight] // set PDF page size to match canvas dimensions
-    });
+  //   // Create a new jsPDF instance
+  //   const pdf = new jsPDF({
+  //     orientation: 'p', // set orientation to landscape if needed
+  //     unit: 'px', // set unit to pixels
+  //     format: [canvasWidth, partHeight] // set PDF page size to match canvas dimensions
+  //   });
 
-    // Loop through each part and add it to the PDF document
-    for (let part = 0; part < totalParts; part++) {
-      const startY = part * partHeight;
-      const canvasPart = document.createElement('canvas');
-      canvasPart.width = canvasWidth;
-      canvasPart.height = partHeight;
+  //   // Loop through each part and add it to the PDF document
+  //   for (let part = 0; part < totalParts; part++) {
+  //     const startY = part * partHeight;
+  //     const canvasPart = document.createElement('canvas');
+  //     canvasPart.width = canvasWidth;
+  //     canvasPart.height = partHeight;
 
-      const contextPart = canvasPart.getContext('2d');
-      contextPart.drawImage(canvas, 0, startY, canvasWidth, partHeight, 0, 0, canvasWidth, partHeight);
+  //     const contextPart = canvasPart.getContext('2d');
+  //     contextPart.drawImage(canvas, 0, startY, canvasWidth, partHeight, 0, 0, canvasWidth, partHeight);
 
-      const imgData = canvasPart.toDataURL('image/png');
-      pdf.addImage(imgData, 'PNG', 0, 0, canvasWidth, partHeight);
+  //     const imgData = canvasPart.toDataURL('image/png');
+  //     pdf.addImage(imgData, 'PNG', 0, 0, canvasWidth, partHeight);
 
-      // Add a new page if there are more parts remaining
-      if (part < totalParts - 1) {
-        pdf.addPage();
-      }
-    }
+  //     // Add a new page if there are more parts remaining
+  //     if (part < totalParts - 1) {
+  //       pdf.addPage();
+  //     }
+  //   }
 
-    // Save the PDF file
-    pdf.save('image.pdf');
-  };
+  //   // Save the PDF file
+  //   pdf.save('image.pdf');
+  // };
 
 
 
   //submit question
-  const submitQuestion = (event) => {
+  const submitAnswer = (event) => {
     event.preventDefault();
     const image = canvasRef.current.toDataURL("image/png");
 
@@ -263,7 +265,7 @@ const App = (props) => {
           </div>
 
           <div>
-            <button onClick={setToDraw}>Draw</button>
+            <Button variant="contained" onClick={setToDraw}>Draw</Button>
           </div>
 
           <div>
@@ -278,12 +280,12 @@ const App = (props) => {
           </div> */}
 
           <div>
-            <button onClick={setToErase}>Erase</button>
+            <Button variant="contained" onClick={setToErase}>Erase</Button>
           </div>
 
           {/* ----------ADD Page---------------   */}
           <div>
-            <button onClick={handleButtonClick}>Add Page</button>
+            <Button variant="contained" onClick={handleButtonClick}>Add Page</Button>
           </div>
 
           <button onClick={undoCanvas}>
@@ -292,12 +294,17 @@ const App = (props) => {
           <button onClick={redoCanvas}>
             <RedoIcon />
           </button>
-          <button onClick={saveImage}>
+          {/* <button onClick={saveImage}>
             Save Image
-          </button>
-          <button onClick={submitQuestion}>
-            Submit Question
-          </button>
+          </button> */}
+
+          <div>
+          <Button variant="contained" onClick={submitAnswer}>
+            Submit Answer
+          </Button>
+
+          </div>
+
         </div>
 
         <div className="canvasbox">
