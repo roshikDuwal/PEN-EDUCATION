@@ -1,74 +1,42 @@
-.course {
+
+.grid{
     display: flex;
-
-    >.course-section {
-        width: 100%;
-
-        >.addquestionicon {
-            color: white;
-            background-color: black;
-            border-radius: 1rem;
-            padding: 0.5rem;
-            margin: 2rem;
-            margin-right: 5rem;
-            position: absolute;
-            right: 0;
-
-            >svg {
-                font-weight: 800;
-            }
-        }
-
-        >ul {
-            display: flex;
-            gap: 2rem;
-            justify-content: center;
-            list-style: none;
-            margin: 5rem 0rem;
-            padding-top: 2.5rem;
-
-            >li {
-                >a {
-                    text-decoration: none;
-                    background-color: rgb(46, 45, 45);
-                    padding: 1rem;
-                    color: white;
-                    transition: all 0.5s linear;
-                    font-weight: 600;
-                    font-size: 1.2rem;
-
-                    &:hover {
-                        background-color: #551A8B;
-                    }
-                }
-            }
-        }
-    }
-}
-
-.modal {
-    .modal-box {
-        background-color: white;
-        position: absolute;
-        top: 50%;
-        left: 55%;
-        transform: translate(-50%, -50%);
-        width: 400;
-        border-radius: 1rem;
+    flex-direction: column;
+    >.tool{
         display: flex;
-        padding: 2rem;
-        gap: 6rem;
-        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-
-        >form {
-            >div {
-                margin-bottom: 1rem;
+        gap: 2rem;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+        div{
+            text-align: center;
+            label{
+                font-weight: 600;
+                padding: 1rem;
+            }
+            select{
+                cursor: pointer;
+                border: 3px solid black;
+            }
+            Button{
+               background-color: black;
+               font-size: 0.7rem;
+               svg{
+                color: white;
+               }
+               &:hover {
+                   background-color: #551A8B;
+               }
             }
 
-        }
-
-        .closequestionicon {
-            color: black;
+            input{
+                cursor: pointer;
+            }
         }
     }
 }
+
+
+
+
+

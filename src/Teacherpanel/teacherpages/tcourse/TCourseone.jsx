@@ -136,10 +136,7 @@ const Courseone = () => {
 
               <div>
                 <Button className='closequestionicon' onClick={handleClose}><CloseIcon /></Button>
-
               </div>
-
-
             </Box>
           </Modal>
 

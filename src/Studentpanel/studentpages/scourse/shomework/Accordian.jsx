@@ -58,7 +58,6 @@ const Accordian = (props) => {
                         {isShownTool && <Canva {...props} />}
                     </div>
                 )}
-
             </div>
 
         </>
