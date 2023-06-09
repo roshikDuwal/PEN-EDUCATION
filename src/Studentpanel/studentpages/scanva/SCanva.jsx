@@ -141,7 +141,7 @@ const App = (props) => {
 //Create CANVAS
   useEffect(() => {
     const canvas = canvasRef.current;
-    canvas.width = 795;
+    canvas.width = 750;
     canvas.height = height;
     canvas.style.backgroundColor = "rgb(224, 224, 224)";
     canvas.style.borderRadius = "20px";
