@@ -44,8 +44,7 @@ const Homework1 = () => {
     setOpen(false)
   }
 
-
-  useEffect(() => {
+  const fetchQuestions = () => {
     setLoading(true);
     getQuestions(unit_id)
       .then((data) => {
@@ -55,6 +54,10 @@ const Homework1 = () => {
       .finally(() => {
         setLoading(false);
       });
+  }
+
+  useEffect(() => {
+    fetchQuestions();
   }, []);
 
   return (
@@ -153,7 +156,7 @@ const Homework1 = () => {
             </> :
           data.map((curElem) => {
             const { id } = curElem;
-            return <Accordian key={id || uuidv4()} unit_id={unit_id} {...curElem} />
+            return <Accordian key={id || uuidv4()} fetchQuestions={fetchQuestions} unit_id={unit_id} {...curElem} />
           })
         }
       </section>
