@@ -11,8 +11,8 @@ import { saveQuestion } from "../../../../services/questions";
 import { error, success } from "../../../../utils/toast";
 
 const Accordian = (props) => {
-    const [isShownText, setIsShownText] = useState(false);
-    const [isShownTool, setIsShownTool] = useState(false);
+    const [isShownText, setIsShownText] = useState(!props.file && props.title ? true : false);
+    const [isShownTool, setIsShownTool] = useState(props.file ? true : false);
     const [editorData, setEditorData] = useState();
     const [show, setShow] = useState(false);
 
@@ -37,6 +37,7 @@ const Accordian = (props) => {
         })
           .then(() => {
             success("Question submitted successfully");
+            props.fetchQuestions();
           })
           .catch((err) => {
             error(err.message);
@@ -56,6 +57,7 @@ const Accordian = (props) => {
                     <div className='textTool'>
                         <button onClick={handleClickText}>Text</button>
                         <button onClick={handleClickTool}>Tools</button>
+                        <hr/>
                         {isShownText && (
                             <div className="select-option">
                                 <CKEditor

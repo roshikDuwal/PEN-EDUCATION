@@ -32,7 +32,7 @@ const Courseone = () => {
                 height="80"
                 width="80"
                 radius="9"
-                color="#4fa94d"
+                color="#551A8B"
                 ariaLabel="three-dots-loading"
                 wrapperStyle={{}}
                 wrapperClassName=""
@@ -43,6 +43,8 @@ const Courseone = () => {
                 <li key={index}><NavLink to={curElem.id.toString()}>{curElem.unit_name}</NavLink></li>
               )
             })}
+
+          {!loading && !unit.length && <img src="/assets/empty.png" alt="No Data Found"></img>}
           </ul>
         </div>
       </section>

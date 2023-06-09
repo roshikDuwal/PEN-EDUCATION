@@ -11,7 +11,7 @@ import { IMAGE_PREFIX } from "../../../constants";
 
 
 
-const App = ({ question, unit_id, file: file_name }) => {
+const App = ({ question, unit_id, file: file_name, fetchQuestions }) => {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
@@ -84,6 +84,7 @@ const App = ({ question, unit_id, file: file_name }) => {
     )
       .then(() => {
         success("Question submitted successfully");
+        fetchQuestions()
       })
       .catch((err) => {
         error(err.message);
