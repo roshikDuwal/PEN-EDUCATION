@@ -145,8 +145,8 @@ const App = (props) => {
     const canvas = canvasRef.current;
     canvas.width = 750;
     canvas.height = height;
-    canvas.style.backgroundColor = "rgb(224, 224, 224)";
-    canvas.style.borderRadius = "20px";
+    canvas.style.backgroundColor = "rgb(237, 237, 237)";
+    canvas.style.borderRadius = "12px";
     canvas.style.cursor = "crosshair";
     //Draw
     const context = canvas.getContext("2d");

@@ -2,6 +2,15 @@
     display: flex;
     >.course-section{
         width: 100%;
+
+        .addquestionicon{
+            color: white;
+            background-color: black;
+            border-radius: 1rem;
+            padding: 0.5rem;
+            margin: 2rem;
+            margin-right: 5rem;
+        }
         >ul{
             display: flex;
             gap: 2rem;
@@ -18,7 +27,7 @@
                     font-weight: 600;
                     font-size: 1.2rem;
                    &:hover{
-                    background-color: black;
+                    background-color: #551A8B;
                    }
                 }
             }

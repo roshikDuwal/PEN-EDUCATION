@@ -6,9 +6,9 @@
     .main-heading{
         display: flex;
         justify-content: space-between;
-        padding: 0 5rem;
+        padding: 0 2.5rem;
         border: 2px solid black;
-        border-radius: 20px;
+        border-radius: 12px;
         cursor: pointer;
         >p{
             font-size: 1.3rem;
@@ -16,7 +16,7 @@
         }
     }
     .textTool{
-        border: 2px solid black;
+        border: 1px dashed black;
         border-radius: 10px;
         padding: 1rem;
 
