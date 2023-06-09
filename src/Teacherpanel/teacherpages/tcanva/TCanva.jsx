@@ -8,6 +8,7 @@ import { trimCanvas } from "../../../utils/canvas";
 import * as htmlToImage from 'html-to-image'
 import { saveAs } from 'file-saver';
 import { IMAGE_PREFIX } from "../../../constants";
+import { Button } from "@mui/material";
 
 
 
@@ -76,10 +77,10 @@ const App = ({ question, unit_id, file: file_name, fetchQuestions }) => {
     saveQuestion(
       // formData
       {
-      unit_id,
-      question,
-      title: question,
-      file: image,
+        unit_id,
+        question,
+        title: question,
+        file: image,
       }
     )
       .then(() => {
@@ -100,9 +101,9 @@ const App = ({ question, unit_id, file: file_name, fetchQuestions }) => {
   }, [value, color]);
 
   useEffect(() => {
-    if(file_name) {
+    if (file_name) {
       const question = new Image();
-      question.src = IMAGE_PREFIX+file_name;
+      question.src = IMAGE_PREFIX + file_name;
       question.onload = () => {
         canvasRef.current.getContext("2d").drawImage(question, 0, 0);
       }
@@ -159,40 +160,40 @@ const App = ({ question, unit_id, file: file_name, fetchQuestions }) => {
   const finishDrawing = () => {
     contextRef.current.closePath();
     setIsDrawing(false);
-    if (canvasStage+1 < canvasDrawn.length) { canvasDrawn.length = canvasStage+1; }
+    if (canvasStage + 1 < canvasDrawn.length) { canvasDrawn.length = canvasStage + 1; }
     setCanvasDrawn([...canvasDrawn, canvasRef.current.toDataURL()]);
-    setCanvasStage(canvasStage+1);
+    setCanvasStage(canvasStage + 1);
   };
 
   const undoCanvas = () => {
     if (canvasStage >= 0) {
-        const canvas = canvasRef.current;
-        const context = canvas.getContext("2d")
-        const newStage = canvasStage - 1;
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        if(canvasStage>0) {
-          var canvasPic = new Image();
-          canvasPic.src = canvasDrawn[newStage];
-          canvasPic.onload = function () {
-            context.drawImage(canvasPic, 0, 0);
-          }
+      const canvas = canvasRef.current;
+      const context = canvas.getContext("2d")
+      const newStage = canvasStage - 1;
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      if (canvasStage > 0) {
+        var canvasPic = new Image();
+        canvasPic.src = canvasDrawn[newStage];
+        canvasPic.onload = function () {
+          context.drawImage(canvasPic, 0, 0);
         }
-        setCanvasStage(newStage);
+      }
+      setCanvasStage(newStage);
     }
   }
 
   const redoCanvas = () => {
-    if (canvasStage < canvasDrawn.length-1) {
-        const canvas = canvasRef.current;
-        const context = canvas.getContext("2d")
-        const newStage = canvasStage+1;
-        var canvasPic = new Image();
-        canvasPic.src = canvasDrawn[newStage];
-        canvasPic.onload = function () {
-          context.clearRect(0, 0, canvas.width, canvas.height);
-          context.drawImage(canvasPic, 0, 0);
-        }
-        setCanvasStage(newStage);
+    if (canvasStage < canvasDrawn.length - 1) {
+      const canvas = canvasRef.current;
+      const context = canvas.getContext("2d")
+      const newStage = canvasStage + 1;
+      var canvasPic = new Image();
+      canvasPic.src = canvasDrawn[newStage];
+      canvasPic.onload = function () {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.drawImage(canvasPic, 0, 0);
+      }
+      setCanvasStage(newStage);
     }
   }
 
@@ -229,7 +230,7 @@ const App = ({ question, unit_id, file: file_name, fetchQuestions }) => {
           </div>
 
           <div>
-            <button onClick={setToDraw}>Draw</button>
+            <Button variant="contained" onClick={setToDraw}>Draw</Button>
           </div>
 
           <div>
@@ -239,27 +240,35 @@ const App = ({ question, unit_id, file: file_name, fetchQuestions }) => {
 
 
           <div>
-            <button onClick={setToErase}>Erase</button>
+            <Button variant="contained" onClick={setToErase}>Erase</Button>
           </div>
 
 
           {/* ----------ADD Page---------------   */}
           <div>
-            <button onClick={handleButtonClick}>Add Page</button>
+            <Button variant="contained" onClick={handleButtonClick}>Add Page</Button>
           </div>
 
-          <button onClick={undoCanvas}>
-            <UndoIcon />
-          </button>
-          <button onClick={redoCanvas}>
-            <RedoIcon />
-          </button>
-          <button onClick={saveImage}>
+          <div>
+            <Button onClick={undoCanvas}><UndoIcon /></Button>
+          </div>
+
+          <div>
+            <Button onClick={redoCanvas}> <RedoIcon /></Button>
+          </div>
+
+
+          {/* <button onClick={saveImage}>
             Save Image
-          </button>
-          <button onClick={submitQuestion}>
-            Submit Question
-          </button>
+          </button> */}
+
+
+          <div>
+            <Button variant="contained" onClick={submitQuestion}>
+              Submit Question
+            </Button>
+          </div>
+
         </div>
 
         <div className="canvasbox">
