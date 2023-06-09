@@ -1,15 +1,19 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import  "./home.scss"
 
 const Home = () => {
   return (
     <>
-    <div className="mainbox">
-      <Link to="/teacherpanel">Teacher</Link>
-      <Link to="/studentpanel">Student</Link>
+    <nav>
+            <ul>
+                <li><NavLink to="/teacherpanel/tcourse1">Teacher</NavLink></li>
+                <li><NavLink to="/studentpanel/scourse1">Student</NavLink></li>
+            </ul>
+        </nav>
+    <div className='homePage'>
+      <h1>Pen Education</h1>
+      <img src="/assets/pen.jpg" alt="PEN EDUCATION"/>
     </div>
-    THis is home page
     </>
   )
 }

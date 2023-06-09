@@ -115,6 +115,7 @@ const App = ({ question, unit_id, file: file_name, fetchQuestions }) => {
     canvas.width = 750;
     canvas.height = height;
     canvas.style.backgroundColor = "rgb(237, 237, 237)";
+    canvas.style.borderRadius = "12px";
     canvas.style.cursor = "crosshair";
     //Draw
     const context = canvas.getContext("2d");
