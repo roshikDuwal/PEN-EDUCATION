@@ -16,3 +16,13 @@ export const getAnswers = async (unit_id) => {
   const answers = await axios.get(routes.getAnswers+unit_id);
   return answers.data.assignment;
 };
+
+export const submitResult = async (resultData) => {
+  const saveResult = await axios.post(routes.checkResult, resultData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  return saveResult;
+}

@@ -5,12 +5,15 @@ import RedoIcon from '@mui/icons-material/Redo';
 import * as htmlToImage from 'html-to-image'
 import { saveAs } from 'file-saver';
 import { Button } from "@mui/material";
-import { trimCanvas } from "../../../../../utils/canvas";
 import { ASSIGNMENT_IMAGE_PREFIX } from "../../../../../constants";
+import { error, success } from "../../../../../utils/toast";
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { submitResult } from "../../../../../services/answers";
 
 
 
-const App = ({ question, unit_id, ansfile: file_name, fetchQuestions }) => {
+const App = ({ theory_assessment: {id, unit_id}, ansfile: file_name, fetchAnswers, answer }) => {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
@@ -20,6 +23,9 @@ const App = ({ question, unit_id, ansfile: file_name, fetchQuestions }) => {
   const [canvasDrawn, setCanvasDrawn] = useState([]);
   const [canvasStage, setCanvasStage] = useState(-1);
   const [height, setHeight] = useState(600);
+  const [satisfied, setSatisfied] = useState(false);
+
+  const [editorData, setEditorData] = useState("");
 
   //change font size
   const handleChange = (e) => {
@@ -60,26 +66,27 @@ const App = ({ question, unit_id, ansfile: file_name, fetchQuestions }) => {
 
 
   //submit result
-  const submitResult = (event) => {
-    event.preventDefault();
-    const newCanvas = trimCanvas(canvasRef.current);
-    const image = newCanvas.toDataURL("image/png");
-
-    // saveQuestion(
-    //   {
-    //     unit_id,
-    //     question,
-    //     title: question,
-    //     file: image,
-    //   }
-    // )
-    //   .then(() => {
-    //     success("Question submitted successfully");
-    //     fetchQuestions()
-    //   })
-    //   .catch((err) => {
-    //     error(err.message);
-    //   });
+  const handleResultSubmit = () => {
+    let image;
+    if(file_name || canvasStage >= 0) {
+      image = canvasRef.current.toDataURL("image/png");
+    }
+    submitResult(
+      {
+        unit_id,
+        feedback: editorData.toString(),
+        theory_assessment_id: id,
+        score: satisfied ? 1 : 2,
+        check_file: image,
+      }
+    )
+      .then(() => {
+        success("Result submitted successfully");
+        fetchAnswers()
+      })
+      .catch((err) => {
+        error(err.message);
+      });
   };
 
   ///increase decrease size and color
@@ -137,7 +144,9 @@ const App = ({ question, unit_id, ansfile: file_name, fetchQuestions }) => {
     addPage()
   }
 
-
+  const satisfactionChange = () => {
+    setSatisfied(!satisfied);
+  }
 
   //start Drawing
   const startDrawing = ({ nativeEvent }) => {
@@ -201,7 +210,10 @@ const App = ({ question, unit_id, ansfile: file_name, fetchQuestions }) => {
   return (
     <>
       <div className="container grid">
-
+        {answer && <div>
+          <h4>Answer:</h4>
+          <CKEditor config={{toolbar: []}} editor={ClassicEditor} disabled={true} data={answer} />
+        </div>}
         <div className="tool">
           <div>
             <label htmlFor="">{sizeName}</label>
@@ -254,11 +266,6 @@ const App = ({ question, unit_id, ansfile: file_name, fetchQuestions }) => {
           </button> */}
 
 
-          <div>
-            <Button variant="contained" onClick={submitResult}>
-              Submit Result
-            </Button>
-          </div>
 
         </div>
 
@@ -270,6 +277,30 @@ const App = ({ question, unit_id, ansfile: file_name, fetchQuestions }) => {
             onMouseMove={draw}
             ref={canvasRef}
           />
+        </div>
+
+        <div>
+          <h2>Feedback</h2>
+          <CKEditor
+              editor={ClassicEditor}
+              onChange={(event, editor) => {
+                  const data = editor.getData();
+                  setEditorData(data);
+              }}
+              data={editorData}
+          />
+        </div>
+        <hr/>
+        <div className="tool">
+          <div>
+            <label htmlFor="sat">Satisfied</label>
+            <input type="checkbox" value={satisfied} onChange={satisfactionChange} name="" id="sat" />
+          </div>
+          <div>
+            <Button variant="contained" onClick={handleResultSubmit}>
+              Submit Result
+            </Button>
+          </div>
         </div>
       </div>
     </>
