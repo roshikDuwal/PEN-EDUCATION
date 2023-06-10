@@ -19,6 +19,7 @@ import ACourseone from "./Teacherpanel/answerresult/acourse/ACourseone"
 import Ahomework from './Teacherpanel/answerresult/acourse/homeworkans/Ahomework';
 
 import Error from "./pages/error/Error"
+import Roshik from './Teacherpanel/answerresult/acourse/homeworkans/studentlist/Roshik';
 // import Login from './Login/Login'
 
 const App = () => {
@@ -36,7 +37,10 @@ const App = () => {
             <Route index element={<AnswerResult/>}/>
             <Route path='acourse'>
               <Route index element={<ACourseone/>}/>
-              <Route path=":unit_id" element={<Ahomework/>} />
+              <Route  path=":unit_id">
+                <Route index element={<Ahomework/>} />
+                <Route path=':roll_no' element={<Roshik/>}/>
+              </Route>
             </Route>
           </Route>
 
