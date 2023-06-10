@@ -104,7 +104,7 @@ const App = (props) => {
 
 
 
-  //submit question
+  //submit answer
   const submitAnswer = (event) => {
     event.preventDefault();
     const image = canvasRef.current.toDataURL("image/png");
@@ -114,15 +114,14 @@ const App = (props) => {
       answer: "",
       ansfile: image,
     }
-    console.log(ansData);
 
-    // saveAnswer(ansData)
-    //   .then(() => {
-    //     success("Question submitted successfully");
-    //   })
-    //   .catch((err) => {
-    //     error(err.message);
-    //   });
+    saveAnswer(ansData)
+      .then(() => {
+        success("Answer submitted successfully");
+      })
+      .catch((err) => {
+        error(err.message);
+      });
   };
 
   ///increase decrease size and color
