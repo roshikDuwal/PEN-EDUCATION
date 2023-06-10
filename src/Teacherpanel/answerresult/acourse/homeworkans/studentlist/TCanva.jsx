@@ -1,26 +1,25 @@
 import { useEffect, useRef, useState } from "react";
-import "./scanva.scss";
-import { error, success } from "../../../utils/toast";
+import "./tcanva.scss";
 import UndoIcon from '@mui/icons-material/Undo';
 import RedoIcon from '@mui/icons-material/Redo';
-import jsPDF from 'jspdf';
-import { IMAGE_PREFIX } from "../../../constants";
+import * as htmlToImage from 'html-to-image'
+import { saveAs } from 'file-saver';
 import { Button } from "@mui/material";
-import { saveAnswer } from "../../../services/answers";
+import { trimCanvas } from "../../../../../utils/canvas";
+import { ASSIGNMENT_IMAGE_PREFIX } from "../../../../../constants";
 
 
 
-const App = (props) => {
+const App = ({ question, unit_id, ansfile: file_name, fetchQuestions }) => {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [value, setValue] = useState(5);
   const [color, setColor] = useState("black");
-  const [image, setImage] = useState();
   const [sizeName, setSizeName] = useState("Font Size")
   const [canvasDrawn, setCanvasDrawn] = useState([]);
   const [canvasStage, setCanvasStage] = useState(-1);
-  const [height, setHeight] = useState(1122);
+  const [height, setHeight] = useState(600);
 
   //change font size
   const handleChange = (e) => {
@@ -32,17 +31,6 @@ const App = (props) => {
   const colorChange = (e) => {
     setColor(e.target.value);
   };
-
-  const uploadImage = (e) => {
-    const file = e.target.files[0];
-    const blobURL = URL.createObjectURL(file);
-    const img     = new Image();
-    img.src       = blobURL;
-    img.onLoad(() => {
-      const canvas = canvasRef.current;
-      canvas.getContext("2d").drawImage(img, 0, 0);
-    })
-  }
 
   //settoDraw
   const setToDraw = (e) => {
@@ -59,69 +47,39 @@ const App = (props) => {
   };
 
 
-
-
-
-  // //save image into pdf
-  // const saveImage = () => {
-  //   const canvas = canvasRef.current;
-  //   const canvasWidth = canvas.width;
-  //   const canvasHeight = canvas.height;
-  //   const partHeight = 1122; // Define the height of each part (adjust as needed)
-
-  //   // Calculate the total number of parts required
-  //   const totalParts = Math.ceil(canvasHeight / partHeight);
-
-  //   // Create a new jsPDF instance
-  //   const pdf = new jsPDF({
-  //     orientation: 'p', // set orientation to landscape if needed
-  //     unit: 'px', // set unit to pixels
-  //     format: [canvasWidth, partHeight] // set PDF page size to match canvas dimensions
-  //   });
-
-  //   // Loop through each part and add it to the PDF document
-  //   for (let part = 0; part < totalParts; part++) {
-  //     const startY = part * partHeight;
-  //     const canvasPart = document.createElement('canvas');
-  //     canvasPart.width = canvasWidth;
-  //     canvasPart.height = partHeight;
-
-  //     const contextPart = canvasPart.getContext('2d');
-  //     contextPart.drawImage(canvas, 0, startY, canvasWidth, partHeight, 0, 0, canvasWidth, partHeight);
-
-  //     const imgData = canvasPart.toDataURL('image/png');
-  //     pdf.addImage(imgData, 'PNG', 0, 0, canvasWidth, partHeight);
-
-  //     // Add a new page if there are more parts remaining
-  //     if (part < totalParts - 1) {
-  //       pdf.addPage();
-  //     }
-  //   }
-
-  //   // Save the PDF file
-  //   pdf.save('image.pdf');
-  // };
-
-
-
-  //submit answer
-  const submitAnswer = (event) => {
-    event.preventDefault();
-    const image = canvasRef.current.toDataURL("image/png");
-    const ansData = {
-      unit_id: props.unit_id,
-      theory_assessment_id: props.id,
-      answer: "",
-      ansfile: image,
-    }
-
-    saveAnswer(ansData)
-      .then(() => {
-        success("Answer submitted successfully");
-      })
-      .catch((err) => {
-        error(err.message);
+  //saveimage into jpeg
+  const saveImage = () => {
+    const canvas = canvasRef.current;
+    // Convert the canvas to an image using htmlToImage library
+    htmlToImage.toJpeg(canvas)
+      .then(function (dataUrl) {
+        // Save the image using file-saver library
+        saveAs(dataUrl, 'image.jpg');
       });
+  };
+
+
+  //submit result
+  const submitResult = (event) => {
+    event.preventDefault();
+    const newCanvas = trimCanvas(canvasRef.current);
+    const image = newCanvas.toDataURL("image/png");
+
+    // saveQuestion(
+    //   {
+    //     unit_id,
+    //     question,
+    //     title: question,
+    //     file: image,
+    //   }
+    // )
+    //   .then(() => {
+    //     success("Question submitted successfully");
+    //     fetchQuestions()
+    //   })
+    //   .catch((err) => {
+    //     error(err.message);
+    //   });
   };
 
   ///increase decrease size and color
@@ -132,18 +90,17 @@ const App = (props) => {
     context.lineWidth = value;
   }, [value, color]);
 
-  //load question in canvas
-  // useEffect(() => {
-  //   if(props.file) {
-  //     const question = new Image();
-  //     question.src = IMAGE_PREFIX+props.file;
-  //     question.onload = () => {
-  //       canvasRef.current.getContext("2d").drawImage(question, 0, 0);
-  //     }
-  //   }
-  // }, [props.file]);
+  useEffect(() => {
+    if (file_name) {
+      const answer = new Image();
+      answer.src = ASSIGNMENT_IMAGE_PREFIX + file_name;
+      answer.onload = () => {
+        canvasRef.current.getContext("2d").drawImage(answer, 0, 0);
+      }
+    }
+  }, [file_name]);
 
-//Create CANVAS
+  //Create CANVAS
   useEffect(() => {
     const canvas = canvasRef.current;
     canvas.width = 750;
@@ -154,8 +111,6 @@ const App = (props) => {
     //Draw
     const context = canvas.getContext("2d");
     // context.scale(2, 2);
-    context.moveTo(0,0);
-    context.lineTo(100,0);
     context.LineCap = "round";
     contextRef.current = context;
   }, [height]);
@@ -165,7 +120,7 @@ const App = (props) => {
   //ADD PAGE
   const addPage = () => {
     const canvas = canvasRef.current;
-    const addheight = 1122;
+    const addheight = 600;
     const newCanvas = document.createElement('canvas');
     newCanvas.width = canvas.width;
     newCanvas.height = canvas.height + addheight;
@@ -173,10 +128,8 @@ const App = (props) => {
     const newContext = newCanvas.getContext('2d')
     //copy
     newContext.drawImage(canvas, 0, 0);
-
     canvas.height = newCanvas.height;
     const context = canvas.getContext("2d");
-
     context.drawImage(newCanvas, 0, 0);
   }
 
@@ -198,40 +151,40 @@ const App = (props) => {
   const finishDrawing = () => {
     contextRef.current.closePath();
     setIsDrawing(false);
-    if (canvasStage+1 < canvasDrawn.length) { canvasDrawn.length = canvasStage+1; }
+    if (canvasStage + 1 < canvasDrawn.length) { canvasDrawn.length = canvasStage + 1; }
     setCanvasDrawn([...canvasDrawn, canvasRef.current.toDataURL()]);
-    setCanvasStage(canvasStage+1);
+    setCanvasStage(canvasStage + 1);
   };
 
   const undoCanvas = () => {
     if (canvasStage >= 0) {
-        const canvas = canvasRef.current;
-        const context = canvas.getContext("2d")
-        const newStage = canvasStage - 1;
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        if(canvasStage>0) {
-          var canvasPic = new Image();
-          canvasPic.src = canvasDrawn[newStage];
-          canvasPic.onload = function () {
-            context.drawImage(canvasPic, 0, 0);
-          }
+      const canvas = canvasRef.current;
+      const context = canvas.getContext("2d")
+      const newStage = canvasStage - 1;
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      if (canvasStage > 0) {
+        var canvasPic = new Image();
+        canvasPic.src = canvasDrawn[newStage];
+        canvasPic.onload = function () {
+          context.drawImage(canvasPic, 0, 0);
         }
-        setCanvasStage(newStage);
+      }
+      setCanvasStage(newStage);
     }
   }
 
   const redoCanvas = () => {
-    if (canvasStage < canvasDrawn.length-1) {
-        const canvas = canvasRef.current;
-        const context = canvas.getContext("2d")
-        const newStage = canvasStage+1;
-        var canvasPic = new Image();
-        canvasPic.src = canvasDrawn[newStage];
-        canvasPic.onload = function () {
-          context.clearRect(0, 0, canvas.width, canvas.height);
-          context.drawImage(canvasPic, 0, 0);
-        }
-        setCanvasStage(newStage);
+    if (canvasStage < canvasDrawn.length - 1) {
+      const canvas = canvasRef.current;
+      const context = canvas.getContext("2d")
+      const newStage = canvasStage + 1;
+      var canvasPic = new Image();
+      canvasPic.src = canvasDrawn[newStage];
+      canvasPic.onload = function () {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.drawImage(canvasPic, 0, 0);
+      }
+      setCanvasStage(newStage);
     }
   }
 
@@ -276,15 +229,11 @@ const App = (props) => {
             <input type="color" value={color} onChange={colorChange} name="" id="" />
           </div>
 
-          {/* <div>
-            <label>Image</label>
-            <input type="file" onChange={uploadImage} name="" id="" />
-
-          </div> */}
 
           <div>
             <Button variant="contained" onClick={setToErase}>Erase</Button>
           </div>
+
 
           {/* ----------ADD Page---------------   */}
           <div>
@@ -292,24 +241,23 @@ const App = (props) => {
           </div>
 
           <div>
-            <Button onClick={undoCanvas}>
-            <UndoIcon />
-            </Button>
+            <Button onClick={undoCanvas}><UndoIcon /></Button>
           </div>
+
           <div>
-            <Button onClick={redoCanvas}>
-            <RedoIcon />
-            </Button>
+            <Button onClick={redoCanvas}> <RedoIcon /></Button>
           </div>
+
+
           {/* <button onClick={saveImage}>
             Save Image
           </button> */}
 
-          <div>
-          <Button variant="contained" onClick={submitAnswer}>
-            Submit Answer
-          </Button>
 
+          <div>
+            <Button variant="contained" onClick={submitResult}>
+              Submit Result
+            </Button>
           </div>
 
         </div>
@@ -321,9 +269,7 @@ const App = (props) => {
             onMouseUp={finishDrawing}
             onMouseMove={draw}
             ref={canvasRef}
-            style={{ backgroundColor: "white" }}
           />
-
         </div>
       </div>
     </>

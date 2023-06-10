@@ -13,6 +13,6 @@ export const saveAnswer = async (answerData) => {
 
 
 export const getAnswers = async (unit_id) => {
-  const units = await axios.get(routes.questions+unit_id);
-  return units.data.theoryAssessment;
+  const answers = await axios.get(routes.getAnswers+unit_id);
+  return answers.data.assignment;
 };

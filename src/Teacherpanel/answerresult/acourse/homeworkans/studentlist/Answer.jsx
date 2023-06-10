@@ -1,19 +1,19 @@
 
 import React, { useEffect, useState } from 'react'
 import {Link,  useParams } from 'react-router-dom'
-import { getQuestions } from '../../../../../services/questions'
 import { ThreeDots } from 'react-loader-spinner'
 import ArrowCircleLeftSharpIcon from '@mui/icons-material/ArrowCircleLeftSharp';
-import Accordian from '../../../../../Studentpanel/studentpages/scourse/shomework/Accordian';
+import Accordian from './Accordian';
+import { getAnswers } from '../../../../../services/answers';
 
-const Roshik = () => {
+const Answer = () => {
   const [loading, setLoading] = React.useState(true);
   const [data, setData] = useState([]);
   const { unit_id } = useParams();
 
-  const fetchQuestions = () => {
+  const fetchAnswers = () => {
     setLoading(true);
-    getQuestions(unit_id)
+    getAnswers(unit_id)
       .then((data) => {
         setData(data);
       })
@@ -23,7 +23,7 @@ const Roshik = () => {
   }
 
   useEffect(() => {
-    fetchQuestions();
+    fetchAnswers();
   }, []);
   return (
     <>
@@ -31,7 +31,7 @@ const Roshik = () => {
 <Link to={`/teacherpanel/answerresult/acourse/${unit_id}`}><span className="backArrow"><ArrowCircleLeftSharpIcon fontSize='large' /></span></Link>
 
 <section className="main-div">
-  <h3>Questions</h3>
+  <h3>Answers</h3>
   {loading ? <>
         <ThreeDots
           height="80"
@@ -46,16 +46,16 @@ const Roshik = () => {
       </> :
     data.map((curElem) => {
       const { id } = curElem;
-      return <Accordian key={id} fetchQuestions={fetchQuestions} {...curElem} />
+      return <Accordian key={id} fetchAnswers={fetchAnswers} {...curElem} />
     })
   }
   {!loading && !data.length && <img src="/assets/empty.png" alt="No Data Found"></img>}
 </section>
 
 
-    
+
     </>
   )
 }
 
-export default Roshik
+export default Answer
