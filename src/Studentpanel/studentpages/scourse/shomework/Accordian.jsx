@@ -10,10 +10,13 @@ import Canva from "../../scanva/SCanva"
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { IMAGE_PREFIX } from "../../../../constants";
+import { saveAnswer } from "../../../../services/answers";
+import { error, success } from "../../../../utils/toast";
 
 const Accordian = (props) => {
     const [isShownText, setIsShownText] = useState(false);
     const [isShownTool, setIsShownTool] = useState(false);
+    const [editorData, setEditorData] = useState();
     const [show, setShow] = useState(false);
 
     const handleClickText = (e) => {
@@ -29,6 +32,20 @@ const Accordian = (props) => {
 
     }
 
+    const submitEditorAnswer = () => {
+        saveAnswer({
+          unit_id: props.unit_id,
+          theory_assessment_id: props.id,
+          answer: editorData.toString(),
+        })
+          .then(() => {
+            success("Answer submitted successfully");
+            props.fetchQuestions();
+          })
+          .catch((err) => {
+            error(err.message);
+          });
+      };
 
     return (
         <>
@@ -50,8 +67,15 @@ const Accordian = (props) => {
                         {isShownText && (
                         <>
                             <div className="select-option">
-                                <CKEditor editor={ClassicEditor} />
-                                <button>Submit</button>
+                                <CKEditor
+                                    editor={ClassicEditor}
+                                    onChange={(event, editor) => {
+                                        const data = editor.getData();
+                                        setEditorData(data);
+                                    }}
+                                    // data={props.title}
+                                />
+                                <button onClick={submitEditorAnswer}>Submit</button>
                             </div>
                         </>
                         )}

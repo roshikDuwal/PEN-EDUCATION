@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import "./scanva.scss";
-import { saveQuestion } from "../../../services/questions";
 import { error, success } from "../../../utils/toast";
 import UndoIcon from '@mui/icons-material/Undo';
 import RedoIcon from '@mui/icons-material/Redo';
 import jsPDF from 'jspdf';
 import { IMAGE_PREFIX } from "../../../constants";
 import { Button } from "@mui/material";
+import { saveAnswer } from "../../../services/answers";
 
 
 
@@ -108,17 +108,21 @@ const App = (props) => {
   const submitAnswer = (event) => {
     event.preventDefault();
     const image = canvasRef.current.toDataURL("image/png");
+    const ansData = {
+      unit_id: props.unit_id,
+      theory_assessment_id: props.id,
+      answer: "",
+      ansfile: image,
+    }
+    console.log(ansData);
 
-    saveQuestion({
-      question: "Question 1",
-      image,
-    })
-      .then(() => {
-        success("Question submitted successfully");
-      })
-      .catch((err) => {
-        error(err.message);
-      });
+    // saveAnswer(ansData)
+    //   .then(() => {
+    //     success("Question submitted successfully");
+    //   })
+    //   .catch((err) => {
+    //     error(err.message);
+    //   });
   };
 
   ///increase decrease size and color

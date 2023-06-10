@@ -13,7 +13,7 @@ const Homework1 = () => {
   const [data, setData] = useState([]);
   const { unit_id } = useParams();
 
-  useEffect(() => {
+  const fetchQuestions = () => {
     setLoading(true);
     getQuestions(unit_id)
       .then((data) => {
@@ -22,6 +22,10 @@ const Homework1 = () => {
       .finally(() => {
         setLoading(false);
       });
+  }
+
+  useEffect(() => {
+    fetchQuestions();
   }, []);
 
   return (
@@ -45,7 +49,7 @@ const Homework1 = () => {
             </> :
           data.map((curElem) => {
             const { id } = curElem;
-            return <Accordian key={id} {...curElem} />
+            return <Accordian key={id} fetchQuestions={fetchQuestions} {...curElem} />
           })
         }
         {!loading && !data.length && <img src="/assets/empty.png" alt="No Data Found"></img>}

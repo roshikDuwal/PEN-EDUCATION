@@ -66,16 +66,8 @@ const App = ({ question, unit_id, file: file_name, fetchQuestions }) => {
     event.preventDefault();
     const newCanvas = trimCanvas(canvasRef.current);
     const image = newCanvas.toDataURL("image/png");
-    // const image_name = uuidv4()+".png";
-    // const file = new File([image.blob], image_name);
-    // const formData = new FormData();
-    // formData.append("unit_id", unit_id);
-    // formData.append("title", question);
-    // formData.append("question", question);
-    // formData.append("file", file, image_name);
 
     saveQuestion(
-      // formData
       {
         unit_id,
         question,
