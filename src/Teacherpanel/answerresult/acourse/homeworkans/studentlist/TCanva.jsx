@@ -18,7 +18,7 @@ const App = ({ theory_assessment: {id, unit_id}, ansfile: file_name, fetchAnswer
   const contextRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [value, setValue] = useState(5);
-  const [color, setColor] = useState("black");
+  const [color, setColor] = useState("#000000");
   const [sizeName, setSizeName] = useState("Font Size")
   const [canvasDrawn, setCanvasDrawn] = useState([]);
   const [canvasStage, setCanvasStage] = useState(-1);
@@ -97,14 +97,19 @@ const App = ({ theory_assessment: {id, unit_id}, ansfile: file_name, fetchAnswer
     context.lineWidth = value;
   }, [value, color]);
 
-  useEffect(() => {
-    if (file_name) {
+  const loadAnswer = (file_name) => {
+    if (file_name && canvasRef) {
       const answer = new Image();
       answer.src = ASSIGNMENT_IMAGE_PREFIX + file_name;
+      answer.crossOrigin = "";
       answer.onload = () => {
         canvasRef.current.getContext("2d").drawImage(answer, 0, 0);
       }
     }
+  }
+
+  useEffect(() => {
+    loadAnswer(file_name);
   }, [file_name]);
 
   //Create CANVAS
@@ -177,6 +182,8 @@ const App = ({ theory_assessment: {id, unit_id}, ansfile: file_name, fetchAnswer
         canvasPic.onload = function () {
           context.drawImage(canvasPic, 0, 0);
         }
+      } else {
+        loadAnswer(file_name);
       }
       setCanvasStage(newStage);
     }

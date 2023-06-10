@@ -17,7 +17,7 @@ const App = ({ question, unit_id, file: file_name, fetchQuestions }) => {
   const contextRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [value, setValue] = useState(5);
-  const [color, setColor] = useState("black");
+  const [color, setColor] = useState("#000000");
   const [sizeName, setSizeName] = useState("Font Size")
   const [canvasDrawn, setCanvasDrawn] = useState([]);
   const [canvasStage, setCanvasStage] = useState(-1);
@@ -96,6 +96,7 @@ const App = ({ question, unit_id, file: file_name, fetchQuestions }) => {
     if (file_name) {
       const question = new Image();
       question.src = IMAGE_PREFIX + file_name;
+      question.crossOrigin = "";
       question.onload = () => {
         canvasRef.current.getContext("2d").drawImage(question, 0, 0);
       }
