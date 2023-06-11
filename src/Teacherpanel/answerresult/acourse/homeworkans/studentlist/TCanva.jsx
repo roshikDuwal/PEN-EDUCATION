@@ -103,14 +103,21 @@ const App = ({ theory_assessment: {id, unit_id}, ansfile: file_name, fetchAnswer
       answer.src = ASSIGNMENT_IMAGE_PREFIX + file_name;
       answer.crossOrigin = "";
       answer.onload = () => {
+        const inv = contextRef?.current?.globalCompositeOperation && sizeName === "Erase Size"
+        if(inv) {
+          contextRef.current.globalCompositeOperation = "source-over";
+        }
         canvasRef.current.getContext("2d").drawImage(answer, 0, 0);
+        if(inv) {
+          contextRef.current.globalCompositeOperation = "destination-out";
+        }
       }
     }
   }
 
   useEffect(() => {
     loadAnswer(file_name);
-  }, [file_name]);
+  }, [file_name, canvasStage]);
 
   //Create CANVAS
   useEffect(() => {
@@ -171,6 +178,7 @@ const App = ({ theory_assessment: {id, unit_id}, ansfile: file_name, fetchAnswer
   };
 
   const undoCanvas = () => {
+    contextRef.current.globalCompositeOperation = "source-over";
     if (canvasStage >= 0) {
       const canvas = canvasRef.current;
       const context = canvas.getContext("2d")
@@ -186,6 +194,8 @@ const App = ({ theory_assessment: {id, unit_id}, ansfile: file_name, fetchAnswer
         loadAnswer(file_name);
       }
       setCanvasStage(newStage);
+    } else {
+      loadAnswer(file_name);
     }
   }
 
