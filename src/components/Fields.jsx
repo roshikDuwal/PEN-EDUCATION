@@ -7,8 +7,8 @@ const Fields = ({ rollno, name }) => {
     return (
         <>
             <div className='info'>
-                <h4>{rollno}</h4>
-                <h4>{name}</h4>
+                <p className='studentn'>{rollno}</p>
+                <p className='studentn'>{name}</p>
                 <Stack className='stack' >
                     <Button className='button' variant="contained">
                         <NavLink to={rollno.toString()} >View</NavLink>

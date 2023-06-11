@@ -64,9 +64,14 @@ const Homework1 = () => {
   return (
     <>
       <TNavbar />
-      <Link to="/teacherpanel/tcourse1"><span className="backArrow"><ArrowCircleLeftSharpIcon fontSize='large' /></span></Link>
 
-      <section className="main-div">
+
+    <div className="full">
+    <section className="main-div">
+        <div className="back">
+          <Link to="/teacherpanel/tcourse1"><span className="backArrow"><ArrowCircleLeftSharpIcon fontSize='large' /></span></Link>
+        </div>
+
         <div className="buttonbox">
           <Button className='addquestionicon' onClick={handleOpen}><AddIcon /></Button>
         </div>
@@ -145,17 +150,17 @@ const Homework1 = () => {
 
         <h3>Questions</h3>
         {loading ? <>
-              <ThreeDots
-                height="80"
-                width="80"
-                radius="9"
-                color="#551A8B"
-                ariaLabel="three-dots-loading"
-                wrapperStyle={{}}
-                wrapperClassName=""
-                visible={true}
-              />
-            </> :
+          <ThreeDots
+            height="80"
+            width="80"
+            radius="9"
+            color="#551A8B"
+            ariaLabel="three-dots-loading"
+            wrapperStyle={{}}
+            wrapperClassName=""
+            visible={true}
+          />
+        </> :
           data.map((curElem) => {
             const { id } = curElem;
             return <Accordian key={id || uuidv4()} fetchQuestions={fetchQuestions} unit_id={unit_id} {...curElem} />
@@ -163,6 +168,7 @@ const Homework1 = () => {
         }
         {!loading && !data.length && <img src="/assets/empty.png" alt="No Data Found"></img>}
       </section>
+    </div>
 
     </>
   )

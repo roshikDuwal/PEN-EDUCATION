@@ -30,30 +30,34 @@ const Homework1 = () => {
 
   return (
     <>
-      <SNavbar/>
-      <Link to="/studentpanel/scourse1"><span className="backArrow"><ArrowCircleLeftSharpIcon fontSize='large' /></span></Link>
+      <SNavbar />
+      <div className="full">
+        <Link to="/studentpanel/scourse1"><span className="backArrow"><ArrowCircleLeftSharpIcon fontSize='large' /></span></Link>
 
-      <section className="main-div">
-        <h3>Questions</h3>
-        {loading ? <>
-              <ThreeDots
-                height="80"
-                width="80"
-                radius="9"
-                color="#551A8B"
-                ariaLabel="three-dots-loading"
-                wrapperStyle={{}}
-                wrapperClassName=""
-                visible={true}
-              />
-            </> :
-          data.map((curElem) => {
-            const { id } = curElem;
-            return <Accordian key={id} fetchQuestions={fetchQuestions} {...curElem} />
-          })
-        }
-        {!loading && !data.length && <img src="/assets/empty.png" alt="No Data Found"></img>}
-      </section>
+        <section className="main-div">
+          <h3>Questions</h3>
+          {loading ? <>
+            <ThreeDots
+              height="80"
+              width="80"
+              radius="9"
+              color="#551A8B"
+              ariaLabel="three-dots-loading"
+              wrapperStyle={{}}
+              wrapperClassName=""
+              visible={true}
+            />
+          </> :
+            data.map((curElem) => {
+              const { id } = curElem;
+              return <Accordian key={id} fetchQuestions={fetchQuestions} {...curElem} />
+            })
+          }
+          {!loading && !data.length && <img src="/assets/empty.png" alt="No Data Found"></img>}
+        </section>
+
+      </div>
+
 
     </>
   )

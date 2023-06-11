@@ -1,4 +1,4 @@
-.tsidebar {
+.ssidebar {
   width: 225px;
   z-index: 999;
   display: flex;
@@ -9,15 +9,13 @@
   background-color: white !important;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 
-
-  
->.image-box{
-  padding-top: 0.5rem;
-  text-align: center;
-  svg{
-    font-size: 3rem;
+  >.image-box{
+    padding-top: 0.5rem;
+    text-align: center;
+    svg{
+      font-size: 3rem;
+    }
   }
-}
 
   > .box {
     padding: 1rem;

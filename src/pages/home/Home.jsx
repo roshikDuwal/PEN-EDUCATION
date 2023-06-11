@@ -1,20 +1,27 @@
 import { NavLink } from 'react-router-dom'
-import  "./home.scss"
+import "./home.scss"
 
 const Home = () => {
   return (
     <>
-    <nav>
-            <ul>
-                <li className='active'><NavLink to="/">Home</NavLink></li>
-                <li><NavLink to="/teacherpanel/tcourse1">Teacher</NavLink></li>
-                <li><NavLink to="/studentpanel/scourse1">Student</NavLink></li>
-            </ul>
+      <div className="navmenu">
+        <div className='logo'>
+          {/* <img src="/assets/logo.png" alt="LOGO" /> */}
+          <h1>LOGO</h1>
+        </div>
+
+        <nav>
+          <ul className='teachernavbar'>
+            <li><NavLink to="/">HOME</NavLink></li>
+            <li><NavLink to="/teacherpanel/tcourse1">Teacher</NavLink></li>
+            <li><NavLink to="/studentpanel/scourse1">Student</NavLink></li>
+          </ul>
         </nav>
-    <div className='homePage'>
-      <h1>Pen Education</h1>
-      <img src="/assets/pen.jpg" alt="PEN EDUCATION"/>
-    </div>
+      </div>
+      <div className='homePage'>
+        <h1> <span>P<b>e</b>n</span>   Education</h1>
+        <img src="/assets/pen.jpg" alt="PEN EDUCATION" />
+      </div>
     </>
   )
 }

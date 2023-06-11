@@ -4,19 +4,19 @@ import "./homework.scss"
 import Fields from '../../../../components/Fields'
 import { NavLink } from 'react-router-dom'
 import studentdata from "./studentdata.json"
+import TNavbar from "../../../teacherpages/tnavbar/TNavbar"
 
 const Ahomework = () => {
 
 
   const [data, setData] = useState(studentdata);
 
-
-
   return (
     <>
+    <TNavbar/>
       <div className='detail'>
         <div>
-          <Button variant='contained'><NavLink to="/teacherpanel/answerresult/acourse/">Back</NavLink></Button>
+          <Button className="studentlistbtn"variant='contained'><NavLink to="/teacherpanel/answerresult/acourse/">Back</NavLink></Button>
         </div>
 
         <h1>STUDENT LIST</h1>

@@ -16,7 +16,7 @@ const Accordian = (props) => {
 
     return (
         <>
-            <div className="acordianbox">
+            <div className="Aacordianbox">
 
                 <div onClick={() => setShow(!show)} className="main-heading">
                     <h3>{props.theory_assessment?.question}</h3>

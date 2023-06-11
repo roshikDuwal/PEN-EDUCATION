@@ -49,7 +49,7 @@ const Accordian = (props) => {
 
     return (
         <>
-            <div className="acordianbox">
+            <div className="tacordianbox">
 
                 <div onClick={() => setShow(!show)} className="main-heading">
                     <h3>{props.question}</h3>
@@ -61,8 +61,8 @@ const Accordian = (props) => {
                         <div className="questionTitle">
                             {props.file ? <img src={IMAGE_PREFIX + props.file} alt="Loading" /> : <CKEditor config={{toolbar: []}} editor={ClassicEditor} disabled={true} data={props.title} />}
                         </div>
-                        <button onClick={handleClickText}>Text</button>
-                        <button onClick={handleClickTool}>Tools</button>
+                        <button className='Tool onClick={handleClickText}>Text</button>
+                        <button className='Tool onClick={handleClickTool}>Tools</button>
                         <hr/>
                         {isShownText && (
                         <>
@@ -75,7 +75,7 @@ const Accordian = (props) => {
                                     }}
                                     // data={props.title}
                                 />
-                                <button onClick={submitEditorAnswer}>Submit</button>
+                                <button className="submitbtn" onClick={submitEditorAnswer}>Submit</button>
                             </div>
                         </>
                         )}

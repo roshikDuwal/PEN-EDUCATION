@@ -46,7 +46,7 @@ const Accordian = (props) => {
 
     return (
         <>
-            <div className="acordianbox">
+            <div className="tacordianbox">
 
                 <div onClick={() => setShow(!show)} className="main-heading">
                     <h3>{props.question}</h3>
@@ -55,9 +55,10 @@ const Accordian = (props) => {
 
                 {show && (
                     <div className='textTool'>
-                        <button onClick={handleClickText}>Text</button>
-                        <button onClick={handleClickTool}>Tools</button>
+                        <button className='Tool' onClick={handleClickText}>Text</button>
+                        <button className='Tool'  onClick={handleClickTool}>Tools</button>
                         <hr/>
+
                         {isShownText && (
                             <div className="select-option">
                                 <CKEditor
@@ -68,9 +69,10 @@ const Accordian = (props) => {
                                     }}
                                     data={props.title}
                                 />
-                                <button onClick={submitEditorQuestion}>Submit</button>
+                                <button className="submitbtn" onClick={submitEditorQuestion}>Submit</button>
                             </div>
                         )}
+
                         {isShownTool && <Canva {...props} />}
                     </div>
                 )}

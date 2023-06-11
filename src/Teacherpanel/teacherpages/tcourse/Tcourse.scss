@@ -1,24 +1,97 @@
+.course {
+    .course-section {
+        background-color: #f4f8ff;
+        width: 100%;
+        margin: 0 auto;
 
-.course{
-    .course-section{
-        .buttonbox{
+        .buttonbox {
             width: 100%;
             display: flex;
             align-items: flex-end;
             justify-content: flex-end;
+
             >.addquestionicon {
                 color: white;
-                background-color: black;
+                background-color: #5b58ff;
                 border-radius: 1rem;
                 padding: 0.5rem;
                 margin: 2rem;
                 margin-right: 5rem;
+
                 >svg {
                     font-weight: 800;
                 }
             }
-        }   
+        }
+
+        .unit-box {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 0 2rem;
+
+            .unitlisttitle {
+                margin: 0;
+
+                ul {
+                    display: flex;
+                    justify-content: space-around;
+                    list-style: none;
+                    border-top: 2px solid #eaeaea;
+                    border-bottom: 1px dashed #eaeaea;
+                    padding: 3rem 0;
+
+                    li {
+                        font-weight: 900;
+                        font-size: 1.2rem;
+                    }
+                }
+            }
+
+
+            .allunitlist {
+                ul {
+                    display: flex;
+                    justify-content: space-around;
+                    align-items: center;
+                    list-style: none;
+                    border-bottom: 1px dashed #eaeaea;
+                    padding: 1rem 0;
+                    text-align: center;
+
+                    &:hover {
+                        background-color: #f7f7f7;
+                    }
+
+                    li {
+                        font-weight: 500;
+                        color: #6f767e;
+                        font-size: 1rem;
+
+                        .button {
+                            border-radius: 1rem;
+                            color: #6f767e;
+
+                            background-color: #5b58ff;
+                            padding: 0.4rem 1rem;
+                            cursor: pointer;
+                            text-transform: uppercase;
+                            font-size: 0.8rem;
+
+                            a {
+                                text-decoration: none;
+                                color: white;
+
+
+
+                            }
+
+                        }
+
+
+                    }
+                }
+            }
+        }
     }
 }
-
-
