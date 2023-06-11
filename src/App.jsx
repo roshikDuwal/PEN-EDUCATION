@@ -20,6 +20,7 @@ import Ahomework from './Teacherpanel/answerresult/acourse/homeworkans/Ahomework
 
 import Error from "./pages/error/Error"
 import Answer from './Teacherpanel/answerresult/acourse/homeworkans/studentlist/Answer';
+import Result from './Studentpanel/result/result';
 // import Login from './Login/Login'
 
 const App = () => {
@@ -57,6 +58,11 @@ const App = () => {
             <Route index  element={<SCourseone/>}/>
             <Route path=':unit_id' element={< SHomework1 />}/>
           </Route>
+
+          <Route path='result'>
+            <Route index element={<Result/>}/>
+          </Route>
+
         </Route>
 
         <Route path='*' element={<Error/>}/>

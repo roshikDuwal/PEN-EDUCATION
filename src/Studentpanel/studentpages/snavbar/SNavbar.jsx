@@ -14,7 +14,7 @@ const Navbar = () => {
                 <ul className='teachernavbar'>
                     <li><NavLink to="/">HOME</NavLink></li>
                     <li><NavLink to="/studentpanel/scourse1">ASSIGNMENT</NavLink></li>
-                    <li><NavLink to="#">RESULT</NavLink></li>
+                    <li><NavLink to="/studentpanel/result">RESULT</NavLink></li>
                 </ul>
             </nav>
         </div>

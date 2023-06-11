@@ -2,12 +2,14 @@
 .full{
     background-color: #f4f8ff;
     padding: 1rem;
+    height: 100vh;
 
     .main-div {
-        height: 100vh;
+      
         display: flex;
         align-items: center;
         flex-direction: column;
+            background-color: #f4f8ff;
         .back {
             padding-top: 1rem;
             position: absolute;
