@@ -1,24 +1,39 @@
-.acordianbox{
+.tacordianbox{
     display: flex;
     flex-direction: column;
-    margin: 2rem;
+    margin-bottom: 1rem;
     width: 50rem;
     .main-heading{
         display: flex;
         justify-content: space-between;
         padding: 0 2.5rem;
-        border: 2px solid black;
-        border-radius: 12px;
+        border-bottom: 1px solid #eaeaea;
         cursor: pointer;
-        >p{
-            font-size: 1.3rem;
-            font-weight:600;
+        background-color: white;
+        text-align: center;
+        h3{
+            font-size: 1rem;
+            font-weight:500;
         }
+
     }
     .textTool{
-        border: 1px dashed black;
-        border-radius: 10px;
+        border-top: 2px solid black;
+        background-color: white;
         padding: 1rem;
+        .Tool{
+            margin:0.5rem 1rem;
+            padding: 0.5rem;
+            font-weight: 600;
+        }
+
+        .select-option{
+            .submitbtn{
+                margin: 0.5rem;
+                padding: 0.5rem;
+                font-weight: 600;
+            }
+        }
     }
 
 }

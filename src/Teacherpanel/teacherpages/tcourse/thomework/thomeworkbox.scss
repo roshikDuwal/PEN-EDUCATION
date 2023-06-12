@@ -1,30 +1,51 @@
-.main-div{
-    display:flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-   margin: 2rem;
-  
-    .buttonbox{
-        width: 100%;
+
+.full{
+    background-color: #f4f8ff;
+    padding: 1rem;
+    height: 100vh;
+
+    .main-div {
+      
         display: flex;
-        align-items: flex-end;
-        justify-content: flex-end;
-        >.addquestionicon {
-            color: white;
-            background-color: black;
-            border-radius: 1rem;
-            padding: 0.5rem;
-            margin: 2rem;
-            margin-right: 5rem;
-            >svg {
-                font-weight: 800;
+        align-items: center;
+        flex-direction: column;
+            background-color: #f4f8ff;
+        .back {
+            padding-top: 1rem;
+            position: absolute;
+            top: 7rem;
+            left: 3rem;
+            a {
+                svg {
+                    font-size: 2.5rem;
+                    color: #5b58ff;
+                }
+            }
+            
+        }
+    
+        .buttonbox {
+            width: 100%;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
+    
+            >.addquestionicon {
+                color: white;
+                background-color: #5b58ff;
+                border-radius: 1rem;
+                padding: 0.5rem;
+                margin: 2rem;
+                margin-right: 5rem;
+    
+                >svg {
+                    font-weight: 800;
+                }
             }
         }
     }
-}
 
-
+    
 .modal {
     .modal-box {
         background-color: white;
@@ -51,3 +72,8 @@
         }
     }
 }
+    
+
+}
+
+

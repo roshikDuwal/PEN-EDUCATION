@@ -1,10 +1,10 @@
-import "./ssidebar.scss"
+import "./rsidebar.scss"
 
 import { NavLink } from "react-router-dom";
 import AssignmentIcon from '@mui/icons-material/Assignment';
 
 
-const Sidebar = () => {
+const RSidebar = () => {
 
   return (
     <div className="ssidebar">
@@ -19,4 +19,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default RSidebar;

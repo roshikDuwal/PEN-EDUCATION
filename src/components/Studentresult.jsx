@@ -3,23 +3,21 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import "./fields.scss"
 
-const Fields = ({ rollno, name }) => {
+const Studentresult = ({ rollno,marks,remarks,unit }) => {
     return (
         <>
             <div className='info'>
-                <p className='studentn'>{rollno}</p>
-                <p className='studentn'>{name}</p>
+                <p className='studentn'>{unit}</p>
                 <Stack className='stack' >
                     <Button className='button' variant="contained">
                         <NavLink to={rollno.toString()} >View</NavLink>
                     </Button>
                 </Stack>
-                <Stack className='stack' >
-                        Pending
-                </Stack>
+                <p className='studentn'>{marks}</p>
+                <p className='studentn'>{remarks}</p>
             </div>
         </>
     )
 }
 
-export default Fields
+export default Studentresult

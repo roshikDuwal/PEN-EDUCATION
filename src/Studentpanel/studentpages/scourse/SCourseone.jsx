@@ -5,6 +5,7 @@ import "./scourse.scss"
 import { NavLink } from 'react-router-dom'
 import { getUnits } from '../../../services/units'
 import { ThreeDots } from 'react-loader-spinner';
+import { Button } from '@mui/material'
 
 const Courseone = () => {
   const [unit, setUnit] = useState([])
@@ -23,29 +24,51 @@ const Courseone = () => {
   return (
     <>
     <SNavbar/>
+
+    
       <section className="course">
         <Sidebar />
         <div className="course-section">
-          <ul>
+        <div className="unit-box">
+            <div className="unitlisttitle">
+              <ul>
+                <li>UNIT CODE</li>
+                <li>UNIT NAME</li>
+                <li>Action</li>
+              </ul>
+            </div>
+
+
             {loading ? <>
               <ThreeDots
                 height="80"
                 width="80"
                 radius="9"
-                color="#551A8B"
+                color="#5b58ff"
                 ariaLabel="three-dots-loading"
                 wrapperStyle={{}}
                 wrapperClassName=""
                 visible={true}
               />
             </> : unit.map((curElem, index) => {
-              return(
-                <li key={index}><NavLink to={curElem.id.toString()}>{curElem.unit_name} ({curElem.unit_code})</NavLink></li>
+              return (
+                <>
+                  <div className='allunitlist'>
+                    <ul key={index} className='unitlist'>
+                      <li>({curElem.unit_code})</li>
+                      <li>{curElem.unit_name}</li>
+                      <li><Button variant="contained" className='button'><NavLink to={curElem.id.toString()}>View </NavLink></Button></li>
+                    </ul>
+                  </div>
+
+                </>
+
               )
             })}
+            {!loading && !unit.length && <img src="/assets/empty.png" alt="No Data Found"></img>}
 
-          {!loading && !unit.length && <img src="/assets/empty.png" alt="No Data Found"></img>}
-          </ul>
+          </div>
+      
         </div>
       </section>
 

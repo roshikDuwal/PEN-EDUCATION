@@ -7,6 +7,8 @@ import { ThreeDots } from 'react-loader-spinner'
 import { getUnits } from '../../../services/units'
 
 
+import { Button } from '@mui/material'
+
 const Courseone = () => {
   const [unit, setUnit] = useState([])
   const [loading, setLoading] = React.useState(true);
@@ -16,19 +18,26 @@ const Courseone = () => {
     getUnits().then(units => {
       setUnit(units);
     })
-    .finally(() => {
-      setLoading(false);
-    });
+      .finally(() => {
+        setLoading(false);
+      });
   }, [])
 
   return (
     <>
-    <TNavbar/>
+      <TNavbar />
       <section className="course">
         <ASidebar />
-        <div className="course-section">
-          <ul>
-          {loading ? <>
+        <div className="answer-course-section">
+          <div className="unit-box">
+            <div className="unitlisttitle">
+              <ul>
+                <li>UNIT CODE</li>
+                <li>UNIT NAME</li>
+                <li>Action</li>
+              </ul>
+            </div>
+            {loading ? <>
               <ThreeDots
                 height="80"
                 width="80"
@@ -40,13 +49,19 @@ const Courseone = () => {
                 visible={true}
               />
             </> : unit.map((curElem, index) => {
-              return(
-                <li key={index}><NavLink to={curElem.id.toString()}>{curElem.unit_name} ({curElem.unit_code})</NavLink></li>
+              return (
+                <div className='allunitlist'>
+                  <ul key={index} className='unitlist'>
+                    <li>({curElem.unit_code})</li>
+                    <li>{curElem.unit_name}</li>
+                    <li><Button variant="contained" className='button'><NavLink to={curElem.id.toString()}>View </NavLink></Button></li>
+                  </ul>
+                </div>
               )
             })}
 
-          {!loading && !unit.length && <img src="/assets/empty.png" alt="No Data Found"></img>}
-          </ul>
+            {!loading && !unit.length && <img src="/assets/empty.png" alt="No Data Found"></img>}
+          </div>
         </div>
       </section>
 
