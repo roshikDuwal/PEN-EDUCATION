@@ -14,7 +14,7 @@ const Accordian = (props) => {
     const [isShownText, setIsShownText] = useState(!props.file && props.title ? true : false);
     const [isShownTool, setIsShownTool] = useState(props.file ? true : false);
     const [editorData, setEditorData] = useState();
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useState(props.id ? false : true);
 
     const handleClickText = (e) => {
         e.preventDefault()
@@ -68,7 +68,7 @@ const Accordian = (props) => {
                                     }}
                                     data={props.title}
                                 />
-                                <button onClick={submitEditorQuestion}>Submit</button>
+                                <button disabled={props.id} onClick={submitEditorQuestion}>Submit</button>
                             </div>
                         )}
                         {isShownTool && <Canva {...props} />}

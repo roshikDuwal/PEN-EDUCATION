@@ -40,7 +40,7 @@ const Homework1 = () => {
     const newQuestion = {
       question: `Question ${addques}`
     }
-    setData([...data, newQuestion])
+    setData([newQuestion, ...data])
     setAddQues(addques + 1)
     setOpen(false)
   }

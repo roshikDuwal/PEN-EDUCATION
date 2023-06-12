@@ -15,8 +15,9 @@ const App = (props) => {
   const contextRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [value, setValue] = useState(5);
-  const [color, setColor] = useState("black");
+  const [color, setColor] = useState("#000000");
   const [image, setImage] = useState();
+  const [pdfImages, setPdfImages] = useState([]);
   const [sizeName, setSizeName] = useState("Font Size")
   const [canvasDrawn, setCanvasDrawn] = useState([]);
   const [canvasStage, setCanvasStage] = useState(-1);
@@ -245,10 +246,83 @@ const App = (props) => {
     contextRef.current.stroke();
   };
 
+  useEffect(()=>{
+    var currentPage = 1,
+    canvasImages = [],
+    url = '/que.pdf';              // specify a valid url
+
+    pdfjsLib.getDocument(url).promise.then(iterate);
+    function iterate(pdf) {
+
+      // init parsing of first page
+      if (currentPage <= pdf.numPages) getPage();
+
+      // main entry point/function for loop
+    // main entry point/function for loop
+        function getPage() {
+        // when promise is returned do as usual
+        pdf.getPage(currentPage).then(function(page) {
+            var scale = 1.35;
+            var viewport = page.getViewport({scale: scale});
+
+            // Prepare canvas using PDF page dimensions
+            var canvas = document.createElement('canvas');
+            var context = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            // Render PDF page into canvas context
+            var renderContext = {
+              canvasContext: context,
+              viewport: viewport
+            };
+            var renderTask = page.render(renderContext);
+            renderTask.promise.then(function () {
+              // store compressed image data in array
+              const imgData = canvas.toDataURL();
+              var image = new Image();
+              image.src = imgData;
+              image.onload = function() {
+                canvasImages.push(image);
+              };
+
+              if (currentPage < pdf.numPages) {
+                  currentPage++;
+                  getPage();        // get next page
+              } else {
+                setPdfImages(canvasImages);
+              }
+            });
+
+        });
+    }
+  }
+  },[])
+
+  useEffect(()=>{
+    if(pdfImages.length && canvasStage === -1) {
+      let startY = 0;
+      let totalHeight = 0;
+      let totalWidth = 0;
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext('2d');
+      for(let i =0;i<pdfImages.length;i++) {
+        const img = pdfImages[i];
+        totalHeight = totalHeight + img.height;
+        totalWidth = totalWidth < img.width ? img.width : totalWidth
+      }
+      canvas.height = totalHeight;
+      for(let j =0;j<pdfImages.length;j++) {
+        const img = pdfImages[j];
+        ctx.drawImage(img, 0, startY);
+        startY = startY + img.height;
+      }
+    }
+  },[pdfImages, canvasStage])
+
   return (
     <>
       <div className="container grid">
-
         <div className="tool">
           <div>
             <label htmlFor="">{sizeName}</label>

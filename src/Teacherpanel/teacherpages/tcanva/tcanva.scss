@@ -25,7 +25,10 @@
             Button {
                 background-color: black;
                 font-size: 0.7rem;
-
+                &:disabled {
+                    color: white;
+                    background-color: grey;
+                }
                 svg {
                     color: white;
                 }
@@ -64,4 +67,10 @@
 
     }
 
+}
+
+.flex {
+    float: left;
+    margin-right: 2rem;
+    max-width: 25%;
 }

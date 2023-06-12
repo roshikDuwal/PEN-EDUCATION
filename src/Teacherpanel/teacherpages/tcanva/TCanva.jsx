@@ -12,7 +12,7 @@ import { Button } from "@mui/material";
 
 
 
-const App = ({ question, unit_id, file: file_name, fetchQuestions }) => {
+const App = ({ question, unit_id, file: file_name, fetchQuestions, id }) => {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
@@ -257,11 +257,6 @@ const App = ({ question, unit_id, file: file_name, fetchQuestions }) => {
           </button> */}
 
 
-          <div>
-            <Button variant="contained" onClick={submitQuestion}>
-              Submit Question
-            </Button>
-          </div>
 
         </div>
 
@@ -273,6 +268,24 @@ const App = ({ question, unit_id, file: file_name, fetchQuestions }) => {
             onMouseMove={draw}
             ref={canvasRef}
           />
+        </div>
+        <div>
+        <hr/>
+        <div className="tool">
+          <div className="flex">
+            <label htmlFor="">Marks</label>
+            <input type="number" defaultValue={1} />
+          </div>
+          <div className="flex">
+            <label htmlFor="">Solution video</label>
+            <input type="file" accept="video/mp4,video/x-m4v,video/*" />
+          </div>
+          <div className="flex">
+            <Button disabled={id} variant="contained" onClick={submitQuestion}>
+              Submit Question
+            </Button>
+          </div>
+          </div>
         </div>
       </div>
     </>
