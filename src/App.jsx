@@ -49,22 +49,18 @@ const App = () => {
 
           <Route  path='tcourse1'>
             <Route index  element={<TCourseone/>}/>
-            <Route path=':unit_id' element={<THomework1/>}/>
-          </Route>
-          <Route  path='add-assignment'>
-            <Route index  element={<AddAssignment/>}/>
+            <Route path=':unit_id' element={<AddAssignment/>}/>
           </Route>
 
+     
         </Route>
 
         <Route  path='/studentpanel'>
           <Route index element={<Studentpanel/>}/>
-          <Route  path='show-assignment'>
-            <Route index  element={<ShowAssignment/>}/>
-          </Route>
+
           <Route  path='scourse1'>
             <Route index  element={<SCourseone/>}/>
-            <Route path=':unit_id' element={< SHomework1 />}/>
+            <Route path=':unit_id' element={<ShowAssignment/>}/>
           </Route>
 
           <Route path='result'>

@@ -36,7 +36,7 @@ const ShowAssignment = (props) => {
       <div className="full">
         <section className="main-div">
           <div className="back">
-            <Link to="/teacherpanel/tcourse1">
+            <Link to="/studentpanel/scourse1">
               <span className="backArrow">
                 <ArrowCircleLeftSharpIcon fontSize="large" />
               </span>

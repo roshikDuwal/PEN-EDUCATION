@@ -4,6 +4,7 @@
         width: 100%;
         margin: 0 auto;
 
+
         .buttonbox {
             width: 100%;
             display: flex;
@@ -92,6 +93,28 @@
                     }
                 }
             }
+        }
+    }
+}
+
+
+
+.modal {
+    .modal-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        
+
+        form {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+
         }
     }
 }
