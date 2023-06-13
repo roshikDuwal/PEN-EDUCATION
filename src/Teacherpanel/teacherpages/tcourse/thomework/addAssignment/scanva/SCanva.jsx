@@ -10,6 +10,7 @@ import { saveAnswer } from "../../../../../../services/answers";
 import { saveQuestion } from "../../../../../../services/questions";
 import { trimCanvas } from "../../../../../../utils/canvas";
 import { useParams } from "react-router-dom";
+import { ThreeDots } from "react-loader-spinner";
 
 
 
@@ -248,6 +249,7 @@ const AddAssignmentCanvas = ({pdf}) => {
   };
 
   useEffect(()=>{
+    setLoading(true)
     var currentPage = 1,
     canvasImages = [];
 
@@ -261,7 +263,7 @@ const AddAssignmentCanvas = ({pdf}) => {
         function getPage() {
         // when promise is returned do as usual
         pdf.getPage(currentPage).then(function(page) {
-            var scale = 1.5;
+            var scale = 1.25;
             var viewport = page.getViewport({scale: scale});
 
             // Prepare canvas using PDF page dimensions
@@ -290,6 +292,7 @@ const AddAssignmentCanvas = ({pdf}) => {
                   getPage();        // get next page
               } else {
                 setPdfImages(canvasImages);
+                setLoading(false);
               }
             });
 
@@ -388,8 +391,19 @@ const AddAssignmentCanvas = ({pdf}) => {
           </div>
 
         </div>
-
         <div className="canvasbox">
+          {loading &&
+          <div className="center">
+              <ThreeDots
+                height="80"
+                width="80"
+                radius="9"
+                color="#551A8B"
+                ariaLabel="three-dots-loading"
+                wrapperStyle={{}}
+                wrapperClassName="center"
+                visible={true}
+              /></div>}
           <canvas
             id="0"
             onMouseDown={startDrawing}
