@@ -9,6 +9,7 @@ import { Button } from "@mui/material";
 import { saveAnswer } from "../../../../../../services/answers";
 import { saveQuestion } from "../../../../../../services/questions";
 import { trimCanvas } from "../../../../../../utils/canvas";
+import { useParams } from "react-router-dom";
 
 
 
@@ -25,6 +26,7 @@ const AddAssignmentCanvas = ({pdf}) => {
   const [canvasDrawn, setCanvasDrawn] = useState([]);
   const [canvasStage, setCanvasStage] = useState(-1);
   const [height, setHeight] = useState(1122);
+  const { unit_id } = useParams();
 
   //change font size
   const handleChange = (e) => {
@@ -118,7 +120,7 @@ const AddAssignmentCanvas = ({pdf}) => {
 
     saveQuestion(
       {
-        unit_id: 1,
+        unit_id,
         question: new Date().toDateString(),
         title: "Question",
         file: image,
