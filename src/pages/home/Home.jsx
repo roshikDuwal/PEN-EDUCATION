@@ -13,8 +13,8 @@ const Home = () => {
         <nav>
           <ul className='teachernavbar'>
             <li><NavLink to="/">HOME</NavLink></li>
-            <li><NavLink to="/teacherpanel/tcourse1">Teacher</NavLink></li>
-            <li><NavLink to="/studentpanel/scourse1">Student</NavLink></li>
+            <li><NavLink to="/teacherpanel/add-assignment">Teacher</NavLink></li>
+            <li><NavLink to="/studentpanel/show-assignment">Student</NavLink></li>
           </ul>
         </nav>
       </div>

@@ -25,10 +25,10 @@ const Accordian = (props) => {
 
                 {show && (
                     <div className='textTool'>
-                        <div className="questionTitle">
+                        {/* <div className="questionTitle">
                             {props.theory_assessment?.file ? <img src={IMAGE_PREFIX + props.theory_assessment?.file} alt="Loading" /> : <CKEditor config={{toolbar: []}} editor={ClassicEditor} disabled={true} data={props.theory_assessment?.title} />}
-                        </div>
-                        <hr/>
+                        </div> */}
+                        {/* <hr/> */}
                         <div className="select-option">
                             <Canva fetchAnswers={props.fetchAnswers} {...props} />
                         </div>

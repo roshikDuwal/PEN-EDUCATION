@@ -1,19 +1,22 @@
 import { useEffect, useRef, useState } from "react";
 import "./scanva.scss";
-import { error, success } from "../../../utils/toast";
+import { error, success } from "../../../../../../utils/toast";
 import UndoIcon from '@mui/icons-material/Undo';
 import RedoIcon from '@mui/icons-material/Redo';
 import jsPDF from 'jspdf';
-import { IMAGE_PREFIX } from "../../../constants";
+import { IMAGE_PREFIX } from "../../../../../../constants";
 import { Button } from "@mui/material";
-import { saveAnswer } from "../../../services/answers";
+import { saveAnswer } from "../../../../../../services/answers";
+import { saveQuestion } from "../../../../../../services/questions";
+import { trimCanvas } from "../../../../../../utils/canvas";
 
 
 
-const App = (props) => {
+const AddAssignmentCanvas = ({pdf}) => {
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [value, setValue] = useState(5);
   const [color, setColor] = useState("#000000");
   const [image, setImage] = useState();
@@ -105,23 +108,29 @@ const App = (props) => {
 
 
 
-  //submit answer
-  const submitAnswer = (event) => {
+  //submit question
+  const submitQuestion = (event) => {
+    setLoading(true);
     event.preventDefault();
-    const image = canvasRef.current.toDataURL("image/png");
-    const ansData = {
-      unit_id: props.unit_id,
-      theory_assessment_id: props.id,
-      answer: "",
-      ansfile: image,
-    }
+    // const newCanvas = trimCanvas(canvasRef.current);
+    const newCanvas = canvasRef.current;
+    const image = newCanvas.toDataURL("image/png");
 
-    saveAnswer(ansData)
+    saveQuestion(
+      {
+        unit_id: 1,
+        question: new Date().toDateString(),
+        title: "Question",
+        file: image,
+      }
+    )
       .then(() => {
-        success("Answer submitted successfully");
+        success("Question submitted successfully");
       })
       .catch((err) => {
         error(err.message);
+      }).finally(() => {
+        setLoading(false);
       });
   };
 
@@ -133,19 +142,6 @@ const App = (props) => {
     context.lineWidth = value;
   }, [value, color]);
 
-  //load question in canvas
-  useEffect(() => {
-    if(props.file) {
-      const question = new Image();
-      question.src = IMAGE_PREFIX+props.file;
-      question.crossOrigin = "";
-      question.onload = () => {
-        canvasRef.current.height = question.height;
-        canvasRef.current.width = question.width > 800 ? question.width : 800;
-        canvasRef.current.getContext("2d").drawImage(question, 0, 0);
-      }
-    }
-  }, [props.file]);
 
 //Create CANVAS
   useEffect(() => {
@@ -249,79 +245,79 @@ const App = (props) => {
     contextRef.current.stroke();
   };
 
-  // useEffect(()=>{
-  //   var currentPage = 1,
-  //   canvasImages = [],
-  //   url = '/que.pdf';              // specify a valid url
+  useEffect(()=>{
+    var currentPage = 1,
+    canvasImages = [];
 
-  //   pdfjsLib.getDocument(url).promise.then(iterate);
-  //   function iterate(pdf) {
+    function iterate(pdf) {
 
-  //     // init parsing of first page
-  //     if (currentPage <= pdf.numPages) getPage();
+      // init parsing of first page
+      if (currentPage <= pdf.numPages) getPage();
 
-  //     // main entry point/function for loop
-  //   // main entry point/function for loop
-  //       function getPage() {
-  //       // when promise is returned do as usual
-  //       pdf.getPage(currentPage).then(function(page) {
-  //           var scale = 1.35;
-  //           var viewport = page.getViewport({scale: scale});
+      // main entry point/function for loop
+    // main entry point/function for loop
+        function getPage() {
+        // when promise is returned do as usual
+        pdf.getPage(currentPage).then(function(page) {
+            var scale = 1.5;
+            var viewport = page.getViewport({scale: scale});
 
-  //           // Prepare canvas using PDF page dimensions
-  //           var canvas = document.createElement('canvas');
-  //           var context = canvas.getContext('2d');
-  //           canvas.height = viewport.height;
-  //           canvas.width = viewport.width;
+            // Prepare canvas using PDF page dimensions
+            var canvas = document.createElement('canvas');
+            var context = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
 
-  //           // Render PDF page into canvas context
-  //           var renderContext = {
-  //             canvasContext: context,
-  //             viewport: viewport
-  //           };
-  //           var renderTask = page.render(renderContext);
-  //           renderTask.promise.then(function () {
-  //             // store compressed image data in array
-  //             const imgData = canvas.toDataURL();
-  //             var image = new Image();
-  //             image.src = imgData;
-  //             image.onload = function() {
-  //               canvasImages.push(image);
-  //             };
+            // Render PDF page into canvas context
+            var renderContext = {
+              canvasContext: context,
+              viewport: viewport
+            };
+            var renderTask = page.render(renderContext);
+            renderTask.promise.then(function () {
+              // store compressed image data in array
+              const imgData = canvas.toDataURL();
+              var image = new Image();
+              image.src = imgData;
+              image.onload = function() {
+                canvasImages.push(image);
+              };
 
-  //             if (currentPage < pdf.numPages) {
-  //                 currentPage++;
-  //                 getPage();        // get next page
-  //             } else {
-  //               setPdfImages(canvasImages);
-  //             }
-  //           });
+              if (currentPage < pdf.numPages) {
+                  currentPage++;
+                  getPage();        // get next page
+              } else {
+                setPdfImages(canvasImages);
+              }
+            });
 
-  //       });
-  //   }
-  // }
-  // },[])
+        });
+    }
+  }
+    iterate(pdf)
+  },[pdf])
 
-  // useEffect(()=>{
-  //   if(pdfImages.length && canvasStage === -1) {
-  //     let startY = 0;
-  //     let totalHeight = 0;
-  //     let totalWidth = 800;
-  //     const canvas = canvasRef.current;
-  //     const ctx = canvas.getContext('2d');
-  //     for(let i =0;i<pdfImages.length;i++) {
-  //       const img = pdfImages[i];
-  //       totalHeight = totalHeight + img.height;
-  //       totalWidth = totalWidth < img.width ? img.width : totalWidth
-  //     }
-  //     canvas.height = totalHeight;
-  //     for(let j =0;j<pdfImages.length;j++) {
-  //       const img = pdfImages[j];
-  //       ctx.drawImage(img, 0, startY);
-  //       startY = startY + img.height;
-  //     }
-  //   }
-  // },[pdfImages, canvasStage])
+  useEffect(()=>{
+    if(pdfImages.length && canvasStage === -1) {
+      let startY = 0;
+      let totalHeight = 0;
+      let totalWidth = 800;
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext('2d');
+      for(let i =0;i<pdfImages.length;i++) {
+        const img = pdfImages[i];
+        totalHeight = totalHeight + img.height;
+        totalWidth = totalWidth < img.width ? img.width : totalWidth
+      }
+      canvas.height = totalHeight;
+      canvas.width = totalWidth;
+      for(let j =0;j<pdfImages.length;j++) {
+        const img = pdfImages[j];
+        ctx.drawImage(img, 0, startY);
+        startY = startY + img.height;
+      }
+    }
+  },[pdfImages, canvasStage])
 
   return (
     <>
@@ -383,8 +379,8 @@ const App = (props) => {
           </button> */}
 
           <div>
-          <Button variant="contained" onClick={submitAnswer}>
-            Submit Answer
+          <Button variant="contained" disabled={loading} onClick={submitQuestion}>
+            Submit Question
           </Button>
 
           </div>
@@ -407,4 +403,4 @@ const App = (props) => {
   );
 };
 
-export default App;
+export default AddAssignmentCanvas;

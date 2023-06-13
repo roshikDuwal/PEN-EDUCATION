@@ -104,6 +104,8 @@ const App = ({ theory_assessment: {id, unit_id}, ansfile: file_name, fetchAnswer
       answer.crossOrigin = "";
       answer.onload = () => {
         const inv = contextRef?.current?.globalCompositeOperation && sizeName === "Erase Size"
+        canvasRef.current.height = answer.height
+        canvasRef.current.width = answer.width
         if(inv) {
           contextRef.current.globalCompositeOperation = "source-over";
         }
@@ -117,12 +119,12 @@ const App = ({ theory_assessment: {id, unit_id}, ansfile: file_name, fetchAnswer
 
   useEffect(() => {
     loadAnswer(file_name);
-  }, [file_name, canvasStage]);
+  }, [file_name]);
 
   //Create CANVAS
   useEffect(() => {
     const canvas = canvasRef.current;
-    canvas.width = 750;
+    canvas.width = 800;
     canvas.height = height;
     canvas.style.backgroundColor = "rgb(237, 237, 237)";
     canvas.style.borderRadius = "12px";

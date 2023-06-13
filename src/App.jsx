@@ -21,6 +21,8 @@ import Ahomework from './Teacherpanel/answerresult/acourse/homeworkans/Ahomework
 import Error from "./pages/error/Error"
 import Answer from './Teacherpanel/answerresult/acourse/homeworkans/studentlist/Answer';
 import Result from './Studentpanel/result/Result';
+import AddAssignment from './Teacherpanel/teacherpages/tcourse/thomework/addAssignment/AddAssignment';
+import ShowAssignment from './Studentpanel/studentpages/scourse/shomework/ShowAssignment';
 // import Login from './Login/Login'
 
 const App = () => {
@@ -49,11 +51,17 @@ const App = () => {
             <Route index  element={<TCourseone/>}/>
             <Route path=':unit_id' element={<THomework1/>}/>
           </Route>
+          <Route  path='add-assignment'>
+            <Route index  element={<AddAssignment/>}/>
+          </Route>
 
         </Route>
 
         <Route  path='/studentpanel'>
           <Route index element={<Studentpanel/>}/>
+          <Route  path='show-assignment'>
+            <Route index  element={<ShowAssignment/>}/>
+          </Route>
           <Route  path='scourse1'>
             <Route index  element={<SCourseone/>}/>
             <Route path=':unit_id' element={< SHomework1 />}/>

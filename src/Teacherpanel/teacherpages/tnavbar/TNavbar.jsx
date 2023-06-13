@@ -15,7 +15,7 @@ const Navbar = () => {
                 <ul className='teachernavbar'>
                     <li><NavLink to="/">HOME</NavLink></li>
                     <li><NavLink to="/teacherpanel/tcourse1">QUESTIONS</NavLink></li>
-                    <li><NavLink to="/teacherpanel/answerresult/acourse">ANSWER CHECK</NavLink></li>
+                    <li><NavLink to="http://127.0.0.1:5173/teacherpanel/answerresult/acourse/1/111">ANSWER CHECK</NavLink></li>
                 </ul>
             </nav>
         </div>

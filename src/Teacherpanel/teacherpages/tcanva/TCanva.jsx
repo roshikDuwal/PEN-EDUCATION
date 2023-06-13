@@ -106,7 +106,7 @@ const App = ({ question, unit_id, file: file_name, fetchQuestions, id }) => {
   //Create CANVAS
   useEffect(() => {
     const canvas = canvasRef.current;
-    canvas.width = 750;
+    canvas.width = 800;
     canvas.height = height;
     canvas.style.backgroundColor = "rgb(237, 237, 237)";
     canvas.style.borderRadius = "12px";
