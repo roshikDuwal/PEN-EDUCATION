@@ -13,8 +13,7 @@ const Studentresult = ({ rollno,marks,remarks,unit }) => {
                         <NavLink to={rollno.toString()} >View</NavLink>
                     </Button>
                 </Stack>
-                <p className='studentn'>{marks}</p>
-                <p className='studentn'>{remarks}</p>
+              
             </div>
         </>
     )

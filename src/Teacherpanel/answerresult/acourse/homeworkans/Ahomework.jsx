@@ -27,7 +27,7 @@ const Ahomework = () => {
           <h4>Roll No</h4>
           <h4>Name</h4>
           <h4>Category</h4>
-          <h4>Result</h4>
+       
         </div>
         {
           data.map((element, index) => {
