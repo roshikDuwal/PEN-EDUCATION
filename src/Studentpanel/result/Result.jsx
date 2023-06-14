@@ -3,7 +3,9 @@ import SNavbar from "../studentpages/snavbar/SNavbar"
 import "./result.scss"
 
 
-import studentdata from "./resultdata.json"
+import studentdata from "../../dataapi/resultdata.json"
+
+
 import Studentresult from '../../components/Studentresult'
 import RSidebar from './sidebar/Rsidebar'
 
@@ -19,7 +21,7 @@ const Result = () => {
                 <div className='adetail'>
 
 
-                    <h1>STUDENT LIST</h1>
+                    <h1>RESULT</h1>
 
 
                     <div className='studentdata'>
@@ -30,6 +32,7 @@ const Result = () => {
                             <h4>Marks</h4>
                             <h4>Remark</h4>
                         </div>
+
                         {
                             data.map((element, index) => {
                                 const {  marks, remarks, unit,rollno } = element

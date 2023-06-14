@@ -23,6 +23,7 @@ import Answer from './Teacherpanel/answerresult/acourse/homeworkans/studentlist/
 import Result from './Studentpanel/result/Result';
 import AddAssignment from './Teacherpanel/teacherpages/tcourse/thomework/addAssignment/AddAssignment';
 import ShowAssignment from './Studentpanel/studentpages/scourse/shomework/ShowAssignment';
+import UnitResult from './Studentpanel/result/sidebar/unitresult/UnitResult';
 // import Login from './Login/Login'
 
 const App = () => {
@@ -65,6 +66,7 @@ const App = () => {
 
           <Route path='result'>
             <Route index element={<Result/>}/>
+            <Route path=':unit_id' element={<UnitResult/>}/>
           </Route>
 
         </Route>
