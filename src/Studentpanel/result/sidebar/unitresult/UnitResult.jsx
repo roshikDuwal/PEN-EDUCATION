@@ -1,24 +1,22 @@
 import React, { useEffect, useState } from "react";
-
 import { useParams, Link } from "react-router-dom";
 import SNavbar from "../../../studentpages/snavbar/SNavbar";
 
-import Resultcanvas from "./Resultcanva"
-
 import ArrowCircleLeftSharpIcon from "@mui/icons-material/ArrowCircleLeftSharp";
-import { getQuestions } from "../../../../services/questions";
 import { ThreeDots } from "react-loader-spinner";
+import { getResult } from "../../../../services/answers";
+import { CHECK_IMAGE_PREFIX } from "../../../../constants";
 
 const ShowAssignment = (props) => {
   const [loading, setLoading] = React.useState(true);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState();
   const { unit_id } = useParams();
 
   const fetchQuestions = () => {
     setLoading(true);
-    getQuestions(unit_id || 1)
+    getResult(unit_id || 1)
       .then((data) => {
-        setData(data);
+        data.length && setData(data[data.length - 1]);
       })
       .finally(() => {
         setLoading(false);
@@ -44,6 +42,7 @@ const ShowAssignment = (props) => {
           </div>
 
           <h3>Result</h3>
+          <hr/>
           {loading &&
               <ThreeDots
                 height="80"
@@ -55,10 +54,12 @@ const ShowAssignment = (props) => {
                 wrapperClassName=""
                 visible={true}
               />}
-          {data.length&& <div>
-            <hr/>
-            <Resultcanvas {...data[data.length - 1]}/>
-          </div>}
+          {data ? <>
+          <h4>Remark: {data.score === "1" ? "Satisfied": "Unsatisfied"}</h4>
+          Feedback: <b className="Container" dangerouslySetInnerHTML={{__html: data.feedback}}></b>
+          <hr/>
+          <img src={`${CHECK_IMAGE_PREFIX}${data.check_file}`} alt="loading" />
+          </> : ""}
 
         </section>
       </div>

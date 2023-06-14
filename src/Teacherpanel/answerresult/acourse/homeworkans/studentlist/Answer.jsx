@@ -46,10 +46,11 @@ const Answer = () => {
               visible={true}
             />
           </> :
-            data.map((curElem) => {
-              const { id } = curElem;
-              return <Accordian key={id} fetchAnswers={fetchAnswers} {...curElem} />
-            })
+            // data.map((curElem) => {
+            //   const { id } = curElem;
+            //   return <Accordian key={id} fetchAnswers={fetchAnswers} {...curElem} />
+            // })
+            <Accordian key={"id"} fetchAnswers={fetchAnswers} {...data[data.length-1]} />
           }
           {!loading && !data.length && <img src="/assets/empty.png" alt="No Data Found"></img>}
         </section>

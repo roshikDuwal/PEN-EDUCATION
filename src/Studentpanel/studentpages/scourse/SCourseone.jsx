@@ -25,7 +25,7 @@ const Courseone = () => {
     <>
     <SNavbar/>
 
-    
+
       <section className="course">
         <Sidebar />
         <div className="course-section">
@@ -57,7 +57,7 @@ const Courseone = () => {
                     <ul key={index} className='unitlist'>
                       <li>({curElem.unit_code})</li>
                       <li>{curElem.unit_name}</li>
-                      <li><Button variant="contained" className='button'><NavLink to={curElem.id.toString()}>View </NavLink></Button></li>
+                      <li><NavLink to={curElem.id.toString()}><Button variant="contained" className='button'>View</Button></NavLink></li>
                     </ul>
                   </div>
 
@@ -68,7 +68,7 @@ const Courseone = () => {
             {!loading && !unit.length && <img src="/assets/empty.png" alt="No Data Found"></img>}
 
           </div>
-      
+
         </div>
       </section>
 

@@ -26,3 +26,10 @@ export const submitResult = async (resultData) => {
 
   return saveResult;
 }
+
+export const getResult = async (unitId) => {
+  const result = await axios.get(routes.getResult+unitId);
+  console.log(result)
+
+  return result.data.checkAssignment;
+}

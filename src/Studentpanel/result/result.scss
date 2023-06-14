@@ -7,11 +7,11 @@
         gap: 5rem;
         text-align: center;
         width: 100vw;
-        
+
         div{
             .studentlistbtn{
                 border-radius: 1rem;
-                color: #6f767e;
+                color: #ffffff;
                 background-color: #5b58ff;
                 padding: 0.4rem 1rem;
                 cursor: pointer;
@@ -23,14 +23,14 @@
                 }
             }
         }
-    
+
     }
     .studentinput{
         display: flex;
         gap: 3rem;
         justify-content: center;
     }
-    
+
     .studentdata{
         display: flex;
         flex-direction: column;
@@ -48,7 +48,7 @@
             border-radius: 5px;
             margin-bottom: 5px;
             box-shadow: rgba(100,100,111,0.2) 0px 7px 29px 0px;
-    
+
         }
     }
 

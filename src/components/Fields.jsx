@@ -10,9 +10,9 @@ const Fields = ({ rollno, name }) => {
                 <p className='studentn'>{rollno}</p>
                 <p className='studentn'>{name}</p>
                 <Stack className='stack' >
-                    <Button className='button' variant="contained">
-                        <NavLink to={rollno.toString()} >View</NavLink>
-                    </Button>
+
+                        <NavLink to={rollno.toString()} ><Button className='button' variant="contained">View</Button></NavLink>
+
                 </Stack>
                 <Stack className='stack' >
                         Pending

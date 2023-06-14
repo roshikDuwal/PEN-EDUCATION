@@ -9,9 +9,8 @@ const Studentresult = ({ rollno,marks,remarks,unit }) => {
             <div className='info'>
                 <p className='studentn'>{unit}</p>
                 <Stack className='stack' >
-                    <Button className='button' variant="contained">
-                        <NavLink to={rollno.toString()} >View</NavLink>
-                    </Button>
+
+                        <NavLink to={rollno.toString()} ><Button className='button' variant="contained">View</Button></NavLink>
                 </Stack>
                 <p className='studentn'>{marks}</p>
                 <p className='studentn'>{remarks}</p>

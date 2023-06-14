@@ -55,10 +55,10 @@ const ShowAssignment = (props) => {
                 wrapperClassName=""
                 visible={true}
               />}
-          {data.length&& <div>
+          {data.length ? <div>
             <hr/>
             <Canva {...data[data.length - 1]}/>
-          </div>}
+          </div>: null}
 
         </section>
       </div>

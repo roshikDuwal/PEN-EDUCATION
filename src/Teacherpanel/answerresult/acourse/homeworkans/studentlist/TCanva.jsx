@@ -20,6 +20,7 @@ const App = ({ theory_assessment: {id, unit_id}, ansfile: file_name, fetchAnswer
   const [value, setValue] = useState(5);
   const [color, setColor] = useState("#000000");
   const [sizeName, setSizeName] = useState("Font Size")
+  const [backgroundImg, setBackgroundImg] = useState(null);
   const [canvasDrawn, setCanvasDrawn] = useState([]);
   const [canvasStage, setCanvasStage] = useState(-1);
   const [height, setHeight] = useState(600);
@@ -106,6 +107,7 @@ const App = ({ theory_assessment: {id, unit_id}, ansfile: file_name, fetchAnswer
         const inv = contextRef?.current?.globalCompositeOperation && sizeName === "Erase Size"
         canvasRef.current.height = answer.height
         canvasRef.current.width = answer.width
+        setBackgroundImg(answer);
         if(inv) {
           contextRef.current.globalCompositeOperation = "source-over";
         }
@@ -126,7 +128,7 @@ const App = ({ theory_assessment: {id, unit_id}, ansfile: file_name, fetchAnswer
     const canvas = canvasRef.current;
     canvas.width = 800;
     canvas.height = height;
-    canvas.style.backgroundColor = "rgb(237, 237, 237)";
+    canvas.style.backgroundColor = "rgb(255, 255, 255)";
     canvas.style.borderRadius = "12px";
     canvas.style.cursor = "crosshair";
     //Draw
@@ -233,6 +235,31 @@ const App = ({ theory_assessment: {id, unit_id}, ansfile: file_name, fetchAnswer
     }
   }
 
+  const replacePixel = (x,y) => {
+    const canvas =  canvasRef.current;
+    const ctx = canvas.getContext('2d')
+    const canvasImgData = ctx.getImageData(0,0,canvas.width,canvas.height);
+
+    var canvasBg = document.createElement('canvas');
+    canvasBg.width = canvas.width;
+    canvasBg.height = canvas.height;
+    var contextBg = canvasBg.getContext('2d');
+    contextBg.drawImage(backgroundImg,0,0);
+    const imgDataBg = contextBg.getImageData(0,0,canvasBg.width,canvasBg.height);
+
+    for(let i = x-Math.ceil(value/1.5); i < x+Math.ceil(value/1.5); i++) {
+      for (let j= y -Math.ceil(value/1.5); j < y+Math.ceil(value/1.5); j++) {
+        const index = 4 * (i + (j*canvas.width))
+        canvasImgData.data[index+0] = imgDataBg.data[index+0];
+        canvasImgData.data[index+1] = imgDataBg.data[index+1];
+        canvasImgData.data[index+2] = imgDataBg.data[index+2];
+        canvasImgData.data[index+3] = imgDataBg.data[index+3];
+      }
+    }
+
+    ctx.putImageData(canvasImgData, 0, 0);
+  }
+
   const redoCanvas = () => {
     if (canvasStage < canvasDrawn.length - 1) {
       const canvas = canvasRef.current;
@@ -254,8 +281,11 @@ const App = ({ theory_assessment: {id, unit_id}, ansfile: file_name, fetchAnswer
       return;
     }
     const { offsetX, offsetY } = nativeEvent;
-    contextRef.current.lineTo(offsetX, offsetY);
+    if(contextRef?.current?.globalCompositeOperation && sizeName === "Erase Size" && backgroundImg) {
+      replacePixel(offsetX, offsetY);
+    } else {contextRef.current.lineTo(offsetX, offsetY);
     contextRef.current.stroke();
+    }
   };
 
   return (

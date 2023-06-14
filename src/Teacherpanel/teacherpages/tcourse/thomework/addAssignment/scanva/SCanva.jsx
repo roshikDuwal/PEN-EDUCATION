@@ -353,6 +353,7 @@ const AddAssignmentCanvas = ({pdf}) => {
         ctx.drawImage(img, 0, startY);
         startY = startY + img.height;
       }
+      ctx.restore();
     }
   },[pdfImages, canvasStage])
 

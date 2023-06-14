@@ -12,28 +12,23 @@ import Canva from "./TCanva"
 import { IMAGE_PREFIX } from "../../../../../constants";
 
 const Accordian = (props) => {
-    const [show, setShow] = useState(false);
 
     return (
         <>
             <div className="Aacordianbox">
 
-                <div onClick={() => setShow(!show)} className="main-heading">
                     <h3>{props.theory_assessment?.question}</h3>
-                    <p>{show ? <ExpandLessIcon/> : <ExpandMoreIcon/>}</p>
-                </div>
+                    {/* <p>{show ? <ExpandLessIcon/> : <ExpandMoreIcon/>}</p> */}
 
-                {show && (
-                    <div className='textTool'>
-                        {/* <div className="questionTitle">
-                            {props.theory_assessment?.file ? <img src={IMAGE_PREFIX + props.theory_assessment?.file} alt="Loading" /> : <CKEditor config={{toolbar: []}} editor={ClassicEditor} disabled={true} data={props.theory_assessment?.title} />}
-                        </div> */}
-                        {/* <hr/> */}
-                        <div className="select-option">
-                            <Canva fetchAnswers={props.fetchAnswers} {...props} />
-                        </div>
+                <div className='textTool'>
+                    {/* <div className="questionTitle">
+                        {props.theory_assessment?.file ? <img src={IMAGE_PREFIX + props.theory_assessment?.file} alt="Loading" /> : <CKEditor config={{toolbar: []}} editor={ClassicEditor} disabled={true} data={props.theory_assessment?.title} />}
+                    </div> */}
+                    {/* <hr/> */}
+                    <div className="select-option">
+                        <Canva fetchAnswers={props.fetchAnswers} {...props} />
                     </div>
-                )}
+                    </div>
             </div>
 
         </>
