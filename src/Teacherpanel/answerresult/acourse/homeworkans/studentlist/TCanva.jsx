@@ -289,7 +289,10 @@ const App = ({ theory_assessment: {id, unit_id}, ansfile: file_name, fetchAnswer
 
           <div>
             <label htmlFor="">Color</label>
-            <input type="color" value={color} onChange={colorChange} name="" id="" />
+            <select value={color} onChange={colorChange}>
+              <option value="black">black</option>
+              <option value="red">red</option>
+            </select>
           </div>
 
 

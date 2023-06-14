@@ -160,8 +160,8 @@ const App = ({ question, unit_id, file: file_name, fetchQuestions, id }) => {
   };
 
   function getMousePositionOnCanvas(event) {
-    const clientX = (event.targetTouches[0] ? event.targetTouches[0].pageX : event.changedTouches[event.changedTouches.length-1].pageX);
-    const clientY = (event.targetTouches[0] ? event.targetTouches[0].pageY : event.changedTouches[event.changedTouches.length-1].pageY);
+    const clientX = (event.targetTouches[0] ? event.targetTouches[0].pageX : event.changedTouches[event.changedTouches.length - 1].pageX);
+    const clientY = (event.targetTouches[0] ? event.targetTouches[0].pageY : event.changedTouches[event.changedTouches.length - 1].pageY);
     // const clientX = event.clientX || event.touches[0].clientX;
     // const clientY = event.clientY || event.touches[0].clientY;
     const { offsetLeft, offsetTop } = event.target;
@@ -261,7 +261,10 @@ const App = ({ question, unit_id, file: file_name, fetchQuestions, id }) => {
 
           <div>
             <label htmlFor="">Color</label>
-            <input type="color" value={color} onChange={colorChange} name="" id="" />
+            <select value={color} onChange={colorChange}>
+              <option value="black">black</option>
+              <option value="red">red</option>
+            </select>
           </div>
 
 
@@ -305,21 +308,21 @@ const App = ({ question, unit_id, file: file_name, fetchQuestions, id }) => {
           />
         </div>
         <div>
-        <hr/>
-        <div className="tool">
-          <div className="flex">
-            <label htmlFor="">Marks</label>
-            <input type="number" defaultValue={1} />
-          </div>
-          <div className="flex">
-            <label htmlFor="">Solution video</label>
-            <input type="file" accept="video/mp4,video/x-m4v,video/*" />
-          </div>
-          <div className="flex">
-            <Button disabled={id} variant="contained" onClick={submitQuestion}>
-              Submit Question
-            </Button>
-          </div>
+          <hr />
+          <div className="tool">
+            <div className="flex">
+              <label htmlFor="">Marks</label>
+              <input type="number" defaultValue={1} />
+            </div>
+            <div className="flex">
+              <label htmlFor="">Solution video</label>
+              <input type="file" accept="video/mp4,video/x-m4v,video/*" />
+            </div>
+            <div className="flex">
+              <Button disabled={id} variant="contained" onClick={submitQuestion}>
+                Submit Question
+              </Button>
+            </div>
           </div>
         </div>
       </div>

@@ -15,7 +15,7 @@ const App = (props) => {
   const contextRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [value, setValue] = useState(5);
-  const [color, setColor] = useState("#000000");
+  // const [color, setColor] = useState("#000000");
   const [image, setImage] = useState();
   const [pdfImages, setPdfImages] = useState([]);
   const [sizeName, setSizeName] = useState("Font Size")
@@ -29,10 +29,10 @@ const App = (props) => {
     setValue(e.target.value);
   };
 
-  //change color
-  const colorChange = (e) => {
-    setColor(e.target.value);
-  };
+  // //change color
+  // const colorChange = (e) => {
+  //   setColor(e.target.value);
+  // };
 
   const uploadImage = (e) => {
     const file = e.target.files[0];
@@ -125,13 +125,13 @@ const App = (props) => {
       });
   };
 
-  ///increase decrease size and color
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const context = canvas.getContext("2d");
-    context.strokeStyle = color;
-    context.lineWidth = value;
-  }, [value, color]);
+  // ///increase decrease size and color
+  // useEffect(() => {
+  //   const canvas = canvasRef.current;
+  //   const context = canvas.getContext("2d");
+  //   context.strokeStyle = color;
+  //   context.lineWidth = value;
+  // }, [value, color]);
 
   //load question in canvas
   useEffect(() => {
@@ -160,6 +160,7 @@ const App = (props) => {
     // context.scale(2, 2);
     context.moveTo(0,0);
     context.lineTo(100,0);
+    context.strokeStyle = "black";
     context.LineCap = "round";
     contextRef.current = context;
   }, [height]);
@@ -380,10 +381,10 @@ const App = (props) => {
             <Button variant="contained" onClick={setToDraw}>Draw</Button>
           </div>
 
-          <div>
+          {/* <div>
             <label htmlFor="">Color</label>
             <input type="color" value={color} onChange={colorChange} name="" id="" />
-          </div>
+          </div> */}
 
           {/* <div>
             <label>Image</label>
