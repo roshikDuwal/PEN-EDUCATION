@@ -14,9 +14,7 @@ const Fields = ({ rollno, name }) => {
                         <NavLink to={rollno.toString()} ><Button className='button' variant="contained">View</Button></NavLink>
 
                 </Stack>
-                <Stack className='stack' >
-                        Pending
-                </Stack>
+          
             </div>
         </>
     )

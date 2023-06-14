@@ -29,15 +29,14 @@ const Result = () => {
 
                             <h4>Unit</h4>
                             <h4>Category</h4>
-                            <h4>Marks</h4>
-                            <h4>Remark</h4>
+                        
                         </div>
 
                         {
                             data.map((element, index) => {
                                 const {  marks, remarks, unit,rollno } = element
                                 return (
-                                    <Studentresult key={index}  marks={marks} remarks={remarks} unit={unit} rollno={rollno}/>
+                                    <Studentresult key={index}  unit={unit} rollno={rollno}/>
                                 )
                             })
                         }
