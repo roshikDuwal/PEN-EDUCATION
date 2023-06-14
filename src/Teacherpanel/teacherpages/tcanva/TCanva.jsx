@@ -159,6 +159,38 @@ const App = ({ question, unit_id, file: file_name, fetchQuestions, id }) => {
     setCanvasStage(canvasStage + 1);
   };
 
+  function getMousePositionOnCanvas(event) {
+    const clientX = (event.targetTouches[0] ? event.targetTouches[0].pageX : event.changedTouches[event.changedTouches.length-1].pageX);
+    const clientY = (event.targetTouches[0] ? event.targetTouches[0].pageY : event.changedTouches[event.changedTouches.length-1].pageY);
+    // const clientX = event.clientX || event.touches[0].clientX;
+    // const clientY = event.clientY || event.touches[0].clientY;
+    const { offsetLeft, offsetTop } = event.target;
+    const canvasX = clientX - offsetLeft;
+    const canvasY = clientY - offsetTop;
+
+    return { x: canvasX, y: canvasY };
+  }
+
+  function handleWritingStart() {
+
+    const mousePos = getMousePositionOnCanvas(event);
+
+    contextRef.current.beginPath();
+
+    contextRef.current.moveTo(mousePos.x, mousePos.y);
+    setIsDrawing(true);
+  }
+
+  function handleWritingInProgress() {
+
+    if (isDrawing) {
+      const mousePos = getMousePositionOnCanvas(event);
+
+      contextRef.current.lineTo(mousePos.x, mousePos.y);
+      contextRef.current.stroke();
+    }
+  }
+
   const undoCanvas = () => {
     if (canvasStage >= 0) {
       const canvas = canvasRef.current;
@@ -265,6 +297,9 @@ const App = ({ question, unit_id, file: file_name, fetchQuestions, id }) => {
             id="0"
             onMouseDown={startDrawing}
             onMouseUp={finishDrawing}
+            onTouchStart={handleWritingStart}
+            onTouchMove={handleWritingInProgress}
+            onTouchEnd={finishDrawing}
             onMouseMove={draw}
             ref={canvasRef}
           />

@@ -6,3 +6,7 @@ button {
 body{
     font-family: 'Poppins', sans-serif;
 }
+
+canvas {
+    touch-action: none;
+}
