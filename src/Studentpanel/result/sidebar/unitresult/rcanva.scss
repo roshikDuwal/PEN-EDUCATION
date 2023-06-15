@@ -1,32 +1,37 @@
-
-.grid{
+.grid {
     display: flex;
     flex-direction: column;
-    >.tool{
+
+    >.tool {
         display: flex;
         gap: 2rem;
         align-items: center;
         justify-content: center;
         margin-bottom: 1rem;
-        div{
+
+        div {
             text-align: center;
-            label{
+
+            label {
                 font-weight: 600;
                 padding: 1rem;
             }
-            select{
+
+            select {
                 cursor: pointer;
                 border: 3px solid black;
             }
-            Button{
-               background-color: black;
-               font-size: 0.7rem;
-               svg{
-                color: white;
-               }
+
+            Button {
+                background-color: black;
+                font-size: 0.7rem;
+
+                svg {
+                    color: white;
+                }
             }
 
-            input{
+            input {
                 cursor: pointer;
 
                 >ul {
@@ -55,10 +60,44 @@
                 }
             }
         }
+
+
     }
 }
 
+.result {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+    width: 50rem;
+}
 
+.hr {
+    height: 1px;
+    width: 100%;
+    margin: 1rem 30rem;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
 
+.red {
+    background-color: red;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 10%;
+}
 
+.green {
+    background-color: green;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 10%;
+}
 
+.htContainer p {
+    margin: 0.5rem 0rem;
+}
+
+.htContainer .feedback {
+    padding: 0.1rem 0.5rem;
+    border: 1px dashed silver;
+}

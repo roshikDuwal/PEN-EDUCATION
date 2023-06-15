@@ -8,6 +8,7 @@ import { ThreeDots } from "react-loader-spinner";
 import { getResult } from "../../../../services/answers";
 import { CHECK_IMAGE_PREFIX } from "../../../../constants";
 import jsPDF from "jspdf";
+import { Button } from "@mui/material";
 
 const UnitResult = (props) => {
   const [loading, setLoading] = React.useState(true);
@@ -18,7 +19,7 @@ const UnitResult = (props) => {
   const contextRef = useRef(null);
   const [backgroundImg, setBackgroundImg] = useState(null);
   const [value, setValue] = useState(5);
-  const [sizeName, setSizeName] = useState("Font Size")
+  const [sizeName, setSizeName] = useState("Font Size");
   const [canvasDrawn, setCanvasDrawn] = useState([]);
   const [canvasStage, setCanvasStage] = useState(-1);
   const [height, setHeight] = useState(1122);
@@ -32,55 +33,56 @@ const UnitResult = (props) => {
       .finally(() => {
         setLoading(false);
       });
-  }
+  };
 
   //load question in canvas
   useEffect(() => {
-    if(data?.check_file)
-    loadQuestion(data.check_file);
+    if (data?.check_file) loadQuestion(data.check_file);
   }, [data]);
 
   const loadQuestion = (file_name) => {
-    if(file_name && canvasRef) {
+    if (file_name && canvasRef) {
       setLoading(true);
       const question = new Image();
-      question.src = CHECK_IMAGE_PREFIX+file_name;
+      question.src = CHECK_IMAGE_PREFIX + file_name;
       question.crossOrigin = "";
       question.onload = () => {
-        const inv = contextRef?.current?.globalCompositeOperation && sizeName === "Erase Size"
+        const inv =
+          contextRef?.current?.globalCompositeOperation &&
+          sizeName === "Erase Size";
         canvasRef.current.height = question.height;
         canvasRef.current.width = question.width > 800 ? question.width : 800;
         setBackgroundImg(question);
-        if(inv) {
+        if (inv) {
           contextRef.current.globalCompositeOperation = "source-over";
         }
         canvasRef.current.getContext("2d").drawImage(question, 0, 0);
         setCanvasDrawn([canvasRef.current.toDataURL()]);
         setCanvasStage(0);
-        if(inv) {
+        if (inv) {
           contextRef.current.globalCompositeOperation = "destination-out";
         }
         setLoading(false);
-      }
+      };
     }
-  }
-//Create CANVAS
+  };
+  //Create CANVAS
   useEffect(() => {
     const canvas = canvasRef.current;
-    if(canvas){
-    canvas.width = 800;
-    canvas.height = height;
-    canvas.style.backgroundColor = "rgb(255, 255, 255)";
-    canvas.style.borderRadius = "12px";
-    canvas.style.cursor = "crosshair";
-    //Draw
-    const context = canvas.getContext("2d",{willReadFrequently: true});
-    context.moveTo(0,0);
-    context.lineTo(100,0);
-    context.strokeStyle = "black";
-    context.LineCap = "round";
-    contextRef.current = context;
-  }
+    if (canvas) {
+      canvas.width = 800;
+      canvas.height = height;
+      canvas.style.backgroundColor = "rgb(255, 255, 255)";
+      canvas.style.borderRadius = "12px";
+      canvas.style.cursor = "crosshair";
+      //Draw
+      const context = canvas.getContext("2d", { willReadFrequently: true });
+      context.moveTo(0, 0);
+      context.lineTo(100, 0);
+      context.strokeStyle = "black";
+      context.LineCap = "round";
+      contextRef.current = context;
+    }
   }, []);
 
   const saveImage = () => {
@@ -95,23 +97,33 @@ const UnitResult = (props) => {
 
     // Create a new jsPDF instance
     const pdf = new jsPDF({
-      orientation: 'p', // set orientation to landscape if needed
-      unit: 'px', // set unit to pixels
-      format: [canvasWidth, partHeight] // set PDF page size to match canvas dimensions
+      orientation: "p", // set orientation to landscape if needed
+      unit: "px", // set unit to pixels
+      format: [canvasWidth, partHeight], // set PDF page size to match canvas dimensions
     });
 
     // Loop through each part and add it to the PDF document
     for (let part = 0; part < totalParts; part++) {
       const startY = part * partHeight;
-      const canvasPart = document.createElement('canvas');
+      const canvasPart = document.createElement("canvas");
       canvasPart.width = canvasWidth;
       canvasPart.height = partHeight;
 
-      const contextPart = canvasPart.getContext('2d');
-      contextPart.drawImage(canvas, 0, startY, canvasWidth, partHeight, 0, 0, canvasWidth, partHeight);
+      const contextPart = canvasPart.getContext("2d");
+      contextPart.drawImage(
+        canvas,
+        0,
+        startY,
+        canvasWidth,
+        partHeight,
+        0,
+        0,
+        canvasWidth,
+        partHeight
+      );
 
-      const imgData = canvasPart.toDataURL('image/png');
-      pdf.addImage(imgData, 'PNG', 0, 0, canvasWidth, partHeight);
+      const imgData = canvasPart.toDataURL("image/png");
+      pdf.addImage(imgData, "PNG", 0, 0, canvasWidth, partHeight);
 
       // Add a new page if there are more parts remaining
       if (part < totalParts - 1) {
@@ -120,17 +132,15 @@ const UnitResult = (props) => {
     }
 
     // Save the PDF file
-    pdf.save('image.pdf');
+    pdf.save("image.pdf");
     setLoading(false);
   };
-
-
 
   useEffect(() => {
     fetchQuestions();
   }, []);
 
-    return (
+  return (
     <>
       <SNavbar />
 
@@ -144,44 +154,55 @@ const UnitResult = (props) => {
             </Link>
           </div>
 
-          <h3>Result</h3>
-          <hr/>
-          {loading &&
-              <ThreeDots
-                height="80"
-                width="80"
-                radius="9"
-                color="#5b58ff"
-                ariaLabel="three-dots-loading"
-                wrapperStyle={{}}
-                wrapperClassName=""
-                visible={true}
-              />}
-          {data ? <>
-          <h4>Remark: {data.score === "1" ? "Satisfied": "Unsatisfied"}</h4>
-          Feedback: <b className="Container" dangerouslySetInnerHTML={{__html: data.feedback}}></b>
-          <hr/>
-              <div className="tool">
+          <h2>Result</h2>
+          {loading && (
+            <ThreeDots
+              height="80"
+              width="80"
+              radius="9"
+              color="#5b58ff"
+              ariaLabel="three-dots-loading"
+              wrapperStyle={{}}
+              wrapperClassName=""
+              visible={true}
+            />
+          )}
+          {data ? (
+            <>
+              <div className="hr"></div>
+              <div className="result">
+                <h3>
+                  Remark: {data.score === "1" ? <span className="green"> Satisfied</span> : <span className="red"> Unsatisfied</span>}
+                </h3>
                 <div>
 
-                <button onClick={saveImage}>
-                  Save PDF
-                </button>
+                  <b
+                    className="htContainer"
+                    dangerouslySetInnerHTML={{ __html: 'Feedback: <div class="feedback">' + data.feedback + '</div>'}}
+                  ></b>
+                </div>
               </div>
-            <div className="container grid">
-
-              <div className="canvasbox">
-                <canvas
-                  id="0"
-                  ref={canvasRef}
-                  style={{ backgroundColor: "white" }}
-                />
-
+              <div className="hr"></div>
+              <div className="grid">
+                <div className="tool">
+                  <div>
+                    <Button variant="contained" onClick={saveImage}>
+                      Save PDF
+                    </Button>
+                  </div>
+                </div>
+                <div className="canvasbox">
+                  <canvas
+                    id="0"
+                    ref={canvasRef}
+                    style={{ backgroundColor: "white" }}
+                  />
+                </div>
               </div>
-              </div>
-            </div>
-          </> : ""}
-
+            </>
+          ) : (
+            ""
+          )}
         </section>
       </div>
     </>
