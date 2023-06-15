@@ -38,10 +38,11 @@ const UnitResult = (props) => {
   useEffect(() => {
     if(data?.check_file)
     loadQuestion(data.check_file);
-  }, [data?.check_file]);
+  }, [data]);
 
   const loadQuestion = (file_name) => {
     if(file_name && canvasRef) {
+      setLoading(true);
       const question = new Image();
       question.src = CHECK_IMAGE_PREFIX+file_name;
       question.crossOrigin = "";
@@ -59,6 +60,7 @@ const UnitResult = (props) => {
         if(inv) {
           contextRef.current.globalCompositeOperation = "destination-out";
         }
+        setLoading(false);
       }
     }
   }
@@ -73,16 +75,16 @@ const UnitResult = (props) => {
     canvas.style.cursor = "crosshair";
     //Draw
     const context = canvas.getContext("2d",{willReadFrequently: true});
-    // context.scale(2, 2);
     context.moveTo(0,0);
     context.lineTo(100,0);
     context.strokeStyle = "black";
     context.LineCap = "round";
     contextRef.current = context;
   }
-  }, [data]);
+  }, []);
 
   const saveImage = () => {
+    setLoading(true);
     const canvas = canvasRef.current;
     const canvasWidth = canvas.width;
     const canvasHeight = canvas.height;
@@ -119,6 +121,7 @@ const UnitResult = (props) => {
 
     // Save the PDF file
     pdf.save('image.pdf');
+    setLoading(false);
   };
 
 
