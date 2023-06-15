@@ -9,7 +9,7 @@ import { Button } from "@mui/material";
 import { saveAnswer } from "../../../../../../services/answers";
 import { saveQuestion } from "../../../../../../services/questions";
 import { trimCanvas } from "../../../../../../utils/canvas";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 
 
@@ -110,6 +110,7 @@ const AddAssignmentCanvas = ({pdf}) => {
   // };
 
 
+  const navigate = useNavigate();
 
   //submit question
   const submitQuestion = (event) => {
@@ -129,6 +130,9 @@ const AddAssignmentCanvas = ({pdf}) => {
     )
       .then(() => {
         success("Question submitted successfully");
+        setTimeout(()=>{
+          navigate("/teacherpanel/tcourse1");
+        },1500)
       })
       .catch((err) => {
         error(err.message);
@@ -459,7 +463,7 @@ const AddAssignmentCanvas = ({pdf}) => {
             onTouchEnd={finishDrawing}
             onMouseMove={draw}
             ref={canvasRef}
-            style={{ backgroundColor: "white" }}
+           
           />
 
         </div>

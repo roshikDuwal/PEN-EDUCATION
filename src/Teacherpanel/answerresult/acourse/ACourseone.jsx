@@ -5,6 +5,7 @@ import "./acourse.scss"
 import { NavLink } from 'react-router-dom'
 import { ThreeDots } from 'react-loader-spinner'
 import { getUnits } from '../../../services/units'
+import AOS from "aos"
 
 
 import { Button } from '@mui/material'
@@ -12,6 +13,11 @@ import { Button } from '@mui/material'
 const Courseone = () => {
   const [unit, setUnit] = useState([])
   const [loading, setLoading] = React.useState(true);
+
+  useEffect(() => {
+    AOS.init({ duration: 1000 })
+    window.scrollTo(0, 0)
+}, []);
 
   useEffect(() => {
     setLoading(true);

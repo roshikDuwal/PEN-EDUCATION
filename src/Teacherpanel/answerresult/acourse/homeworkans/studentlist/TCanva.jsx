@@ -10,6 +10,7 @@ import { error, success } from "../../../../../utils/toast";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { submitResult } from "../../../../../services/answers";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -65,6 +66,7 @@ const App = ({ theory_assessment: {id, unit_id}, ansfile: file_name, fetchAnswer
       });
   };
 
+  const navigate=useNavigate();
 
   //submit result
   const handleResultSubmit = () => {
@@ -84,6 +86,9 @@ const App = ({ theory_assessment: {id, unit_id}, ansfile: file_name, fetchAnswer
       .then(() => {
         success("Result submitted successfully");
         fetchAnswers()
+        setTimeout(()=>{
+          navigate("/teacherpanel/answerresult/acourse")
+        })
       })
       .catch((err) => {
         error(err.message);

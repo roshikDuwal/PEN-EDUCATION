@@ -3,7 +3,7 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import "./fields.scss"
 
-const Studentresult = ({ rollno,marks,remarks,unit }) => {
+const Studentresult = ({ rollno,unit }) => {
     return (
         <>
             <div className='info'>

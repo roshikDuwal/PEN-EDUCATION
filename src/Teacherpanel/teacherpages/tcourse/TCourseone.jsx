@@ -20,6 +20,9 @@ import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import { ThreeDots } from 'react-loader-spinner';
 
+
+import AOS from "aos"
+
 const Courseone = () => {
   const [unit, setUnit] = useState([])
   const [open, setOpen] = React.useState(false);
@@ -37,6 +40,11 @@ const Courseone = () => {
         setLoading(false);
       });
   }
+
+  useEffect(() => {
+    AOS.init({ duration: 1000 })
+    window.scrollTo(0, 0)
+}, []);
 
   useEffect(() => {
     fetchUnits();

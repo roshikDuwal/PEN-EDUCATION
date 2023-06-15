@@ -7,10 +7,14 @@ import jsPDF from 'jspdf';
 import { IMAGE_PREFIX } from "../../../constants";
 import { Button } from "@mui/material";
 import { saveAnswer } from "../../../services/answers";
+import { useNavigate } from "react-router-dom";
 
 
 
 const App = (props) => {
+
+
+
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
   const [isDrawing, setIsDrawing] = useState(false);
@@ -104,7 +108,7 @@ const App = (props) => {
   //   pdf.save('image.pdf');
   // };
 
-
+const navigate=useNavigate();
 
   //submit answer
   const submitAnswer = (event) => {
@@ -120,10 +124,15 @@ const App = (props) => {
     saveAnswer(ansData)
       .then(() => {
         success("Answer submitted successfully");
+      
+        setTimeout(()=>{
+          navigate("/studentpanel/scourse1")
+        },1500)
       })
       .catch((err) => {
         error(err.message);
-      });
+        setDisablebtn(false)
+      })
   };
 
   // ///increase decrease size and color
@@ -461,7 +470,7 @@ const App = (props) => {
           </button> */}
 
           <div>
-          <Button variant="contained" onClick={submitAnswer}>
+          <Button variant="contained"  onClick={submitAnswer}>
             Submit Answer
           </Button>
 
