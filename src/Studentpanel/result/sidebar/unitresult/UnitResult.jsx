@@ -7,7 +7,7 @@ import { ThreeDots } from "react-loader-spinner";
 import { getResult } from "../../../../services/answers";
 import { CHECK_IMAGE_PREFIX } from "../../../../constants";
 
-const ShowAssignment = (props) => {
+const UnitResult = (props) => {
   const [loading, setLoading] = React.useState(true);
   const [data, setData] = useState();
   const { unit_id } = useParams();
@@ -67,4 +67,4 @@ const ShowAssignment = (props) => {
   );
 };
 
-export default ShowAssignment;
+export default UnitResult;
