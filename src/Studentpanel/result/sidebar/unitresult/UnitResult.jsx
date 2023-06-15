@@ -1,16 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import "./rcanva.scss";
 import SNavbar from "../../../studentpages/snavbar/SNavbar";
 
 import ArrowCircleLeftSharpIcon from "@mui/icons-material/ArrowCircleLeftSharp";
 import { ThreeDots } from "react-loader-spinner";
 import { getResult } from "../../../../services/answers";
 import { CHECK_IMAGE_PREFIX } from "../../../../constants";
+import jsPDF from "jspdf";
 
 const UnitResult = (props) => {
   const [loading, setLoading] = React.useState(true);
   const [data, setData] = useState();
   const { unit_id } = useParams();
+
+  const canvasRef = useRef(null);
+  const contextRef = useRef(null);
+  const [backgroundImg, setBackgroundImg] = useState(null);
+  const [value, setValue] = useState(5);
+  const [sizeName, setSizeName] = useState("Font Size")
+  const [canvasDrawn, setCanvasDrawn] = useState([]);
+  const [canvasStage, setCanvasStage] = useState(-1);
+  const [height, setHeight] = useState(1122);
 
   const fetchQuestions = () => {
     setLoading(true);
@@ -22,6 +33,95 @@ const UnitResult = (props) => {
         setLoading(false);
       });
   }
+
+  //load question in canvas
+  useEffect(() => {
+    if(data?.check_file)
+    loadQuestion(data.check_file);
+  }, [data?.check_file]);
+
+  const loadQuestion = (file_name) => {
+    if(file_name && canvasRef) {
+      const question = new Image();
+      question.src = CHECK_IMAGE_PREFIX+file_name;
+      question.crossOrigin = "";
+      question.onload = () => {
+        const inv = contextRef?.current?.globalCompositeOperation && sizeName === "Erase Size"
+        canvasRef.current.height = question.height;
+        canvasRef.current.width = question.width > 800 ? question.width : 800;
+        setBackgroundImg(question);
+        if(inv) {
+          contextRef.current.globalCompositeOperation = "source-over";
+        }
+        canvasRef.current.getContext("2d").drawImage(question, 0, 0);
+        setCanvasDrawn([canvasRef.current.toDataURL()]);
+        setCanvasStage(0);
+        if(inv) {
+          contextRef.current.globalCompositeOperation = "destination-out";
+        }
+      }
+    }
+  }
+//Create CANVAS
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if(canvas){
+    canvas.width = 800;
+    canvas.height = height;
+    canvas.style.backgroundColor = "rgb(255, 255, 255)";
+    canvas.style.borderRadius = "12px";
+    canvas.style.cursor = "crosshair";
+    //Draw
+    const context = canvas.getContext("2d",{willReadFrequently: true});
+    // context.scale(2, 2);
+    context.moveTo(0,0);
+    context.lineTo(100,0);
+    context.strokeStyle = "black";
+    context.LineCap = "round";
+    contextRef.current = context;
+  }
+  }, [data]);
+
+  const saveImage = () => {
+    const canvas = canvasRef.current;
+    const canvasWidth = canvas.width;
+    const canvasHeight = canvas.height;
+    const partHeight = 1122; // Define the height of each part (adjust as needed)
+
+    // Calculate the total number of parts required
+    const totalParts = Math.ceil(canvasHeight / partHeight);
+
+    // Create a new jsPDF instance
+    const pdf = new jsPDF({
+      orientation: 'p', // set orientation to landscape if needed
+      unit: 'px', // set unit to pixels
+      format: [canvasWidth, partHeight] // set PDF page size to match canvas dimensions
+    });
+
+    // Loop through each part and add it to the PDF document
+    for (let part = 0; part < totalParts; part++) {
+      const startY = part * partHeight;
+      const canvasPart = document.createElement('canvas');
+      canvasPart.width = canvasWidth;
+      canvasPart.height = partHeight;
+
+      const contextPart = canvasPart.getContext('2d');
+      contextPart.drawImage(canvas, 0, startY, canvasWidth, partHeight, 0, 0, canvasWidth, partHeight);
+
+      const imgData = canvasPart.toDataURL('image/png');
+      pdf.addImage(imgData, 'PNG', 0, 0, canvasWidth, partHeight);
+
+      // Add a new page if there are more parts remaining
+      if (part < totalParts - 1) {
+        pdf.addPage();
+      }
+    }
+
+    // Save the PDF file
+    pdf.save('image.pdf');
+  };
+
+
 
   useEffect(() => {
     fetchQuestions();
@@ -58,7 +158,25 @@ const UnitResult = (props) => {
           <h4>Remark: {data.score === "1" ? "Satisfied": "Unsatisfied"}</h4>
           Feedback: <b className="Container" dangerouslySetInnerHTML={{__html: data.feedback}}></b>
           <hr/>
-          <img src={`${CHECK_IMAGE_PREFIX}${data.check_file}`} alt="loading" />
+              <div className="tool">
+                <div>
+
+                <button onClick={saveImage}>
+                  Save PDF
+                </button>
+              </div>
+            <div className="container grid">
+
+              <div className="canvasbox">
+                <canvas
+                  id="0"
+                  ref={canvasRef}
+                  style={{ backgroundColor: "white" }}
+                />
+
+              </div>
+              </div>
+            </div>
           </> : ""}
 
         </section>
