@@ -239,7 +239,8 @@ const AddAssignmentCanvas = ({pdf}) => {
   };
 
   const undoCanvas = () => {
-    if (canvasStage >= 0) {
+    contextRef.current.globalCompositeOperation = "source-over";
+    if (canvasStage > 0) {
         const canvas = canvasRef.current;
         const context = canvas.getContext("2d")
         const newStage = canvasStage - 1;
@@ -348,10 +349,19 @@ const AddAssignmentCanvas = ({pdf}) => {
       }
       canvas.height = totalHeight;
       canvas.width = totalWidth;
+      const inv = contextRef?.current?.globalCompositeOperation && sizeName === "Erase Size"
+      if(inv) {
+        contextRef.current.globalCompositeOperation = "source-over";
+      }
       for(let j =0;j<pdfImages.length;j++) {
         const img = pdfImages[j];
         ctx.drawImage(img, 0, startY);
         startY = startY + img.height;
+      }
+      setCanvasDrawn([canvasRef.current.toDataURL()]);
+      setCanvasStage(0);
+      if(inv) {
+        contextRef.current.globalCompositeOperation = "destination-out";
       }
       ctx.restore();
     }

@@ -152,6 +152,8 @@ const App = (props) => {
           contextRef.current.globalCompositeOperation = "source-over";
         }
         canvasRef.current.getContext("2d").drawImage(question, 0, 0);
+        setCanvasDrawn([canvasRef.current.toDataURL()]);
+        setCanvasStage(0);
         if(inv) {
           contextRef.current.globalCompositeOperation = "destination-out";
         }
@@ -167,7 +169,7 @@ const App = (props) => {
     canvas.style.borderRadius = "12px";
     canvas.style.cursor = "crosshair";
     //Draw
-    const context = canvas.getContext("2d");
+    const context = canvas.getContext("2d",{willReadFrequently: true});
     // context.scale(2, 2);
     context.moveTo(0,0);
     context.lineTo(100,0);
@@ -253,7 +255,7 @@ const App = (props) => {
 
   const undoCanvas = () => {
     contextRef.current.globalCompositeOperation = "source-over";
-    if (canvasStage >= 0) {
+    if (canvasStage > 0) {
         const canvas = canvasRef.current;
         const context = canvas.getContext("2d")
         const newStage = canvasStage - 1;
@@ -268,8 +270,6 @@ const App = (props) => {
           loadQuestion(props.file);
         }
         setCanvasStage(newStage);
-    } else {
-      loadQuestion(props.file);
     }
   }
 
@@ -296,7 +296,7 @@ const App = (props) => {
     var canvasBg = document.createElement('canvas');
     canvasBg.width = canvas.width;
     canvasBg.height = canvas.height;
-    var contextBg = canvasBg.getContext('2d');
+    var contextBg = canvasBg.getContext('2d',{willReadFrequently: true});
     contextBg.drawImage(backgroundImg,0,0);
     const imgDataBg = contextBg.getImageData(0,0,canvasBg.width,canvasBg.height);
 

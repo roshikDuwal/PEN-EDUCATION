@@ -3,15 +3,25 @@ import SNavbar from "../studentpages/snavbar/SNavbar"
 import "./result.scss"
 
 
-import studentdata from "../../dataapi/resultdata.json"
-
 
 import Studentresult from '../../components/Studentresult'
 import RSidebar from './sidebar/Rsidebar'
+import { getUnits } from '../../services/units'
+import { ThreeDots } from 'react-loader-spinner'
 
 const Result = () => {
-    const [data, setData] = useState(studentdata);
+  const [loading, setLoading] = React.useState(true);
+  const [data, setData] = useState([]);
 
+    useEffect(() => {
+        setLoading(true);
+        getUnits().then(units => {
+            setData(units);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+      }, [])
 
     return (
         <>
@@ -29,14 +39,24 @@ const Result = () => {
 
                             <h4>Unit</h4>
                             <h4>Category</h4>
-                        
-                        </div>
 
-                        {
+                        </div>
+                        {loading ? <>
+                            <ThreeDots
+                                height="80"
+                                width="80"
+                                radius="9"
+                                color="#5b58ff"
+                                ariaLabel="three-dots-loading"
+                                wrapperStyle={{}}
+                                wrapperClassName=""
+                                visible={true}
+                            />
+                        </> :
                             data.map((element, index) => {
-                                const {  marks, remarks, unit,rollno } = element
+                                const {  unit_code, unit_name,id } = element
                                 return (
-                                    <Studentresult key={index}  unit={unit} rollno={rollno}/>
+                                    <Studentresult key={index}  unit={unit_name+` (${unit_code})`} rollno={id.toString()}/>
                                 )
                             })
                         }
