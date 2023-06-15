@@ -63,4 +63,13 @@
     text-align: center;
 }
 
+.flex-wrap {
+    display: flex;
+    justify-content: space-between;
+    box-shadow: rgba(149, 157, 165, 0.1) 0px 4px 10px;
+}
 
+.flex {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}

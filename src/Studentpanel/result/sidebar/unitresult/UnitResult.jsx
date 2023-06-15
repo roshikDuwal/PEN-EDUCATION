@@ -6,8 +6,9 @@ import SNavbar from "../../../studentpages/snavbar/SNavbar";
 import ArrowCircleLeftSharpIcon from "@mui/icons-material/ArrowCircleLeftSharp";
 import { ThreeDots } from "react-loader-spinner";
 import { getResult } from "../../../../services/answers";
-import { CHECK_IMAGE_PREFIX } from "../../../../constants";
+import { CHECK_IMAGE_PREFIX, SOLUTION_VIDEO_PREFIX } from "../../../../constants";
 import jsPDF from "jspdf";
+import { Player } from 'video-react';
 import { Button } from "@mui/material";
 
 const UnitResult = (props) => {
@@ -183,6 +184,14 @@ const UnitResult = (props) => {
                 </div>
               </div>
               <div className="hr"></div>
+              {data.score !== "1" && <div className="vid">
+                <i>SOLUTION VIDEO:</i>
+                <Player>
+                  <source src={data.theory_assessment?.video ? SOLUTION_VIDEO_PREFIX + data.theory_assessment?.video : "https://media.w3.org/2010/05/sintel/trailer_hd.mp4"} />
+                </Player>
+              </div>}
+              <div className="hr"></div>
+              <div></div>
               <div className="grid">
                 <div className="tool">
                   <div>

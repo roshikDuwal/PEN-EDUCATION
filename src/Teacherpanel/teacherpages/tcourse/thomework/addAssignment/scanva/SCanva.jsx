@@ -21,7 +21,7 @@ const AddAssignmentCanvas = ({pdf}) => {
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState(5);
   const [color, setColor] = useState("#000000");
-  const [image, setImage] = useState();
+  const [video, setVideo] = useState("");
   const [pdfImages, setPdfImages] = useState([]);
   const [sizeName, setSizeName] = useState("Font Size")
   const [canvasDrawn, setCanvasDrawn] = useState([]);
@@ -40,15 +40,13 @@ const AddAssignmentCanvas = ({pdf}) => {
     setColor(e.target.value);
   };
 
-  const uploadImage = (e) => {
+  const handleVideoUpload = (e) => {
     const file = e.target.files[0];
-    const blobURL = URL.createObjectURL(file);
-    const img     = new Image();
-    img.src       = blobURL;
-    img.onLoad(() => {
-      const canvas = canvasRef.current;
-      canvas.getContext("2d").drawImage(img, 0, 0);
-    })
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      setVideo(reader.result);
+    };
   }
 
   //settoDraw
@@ -122,6 +120,7 @@ const AddAssignmentCanvas = ({pdf}) => {
 
     saveQuestion(
       {
+        video,
         unit_id,
         question: new Date().toDateString(),
         title: "Question",
@@ -374,6 +373,20 @@ const AddAssignmentCanvas = ({pdf}) => {
   return (
     <>
       <div className="container grid">
+      <div>
+        <div className="flex-wrap">
+          <div className="flex">
+            <label htmlFor="">Solution video: </label>
+            <input type="file" onChange={handleVideoUpload} accept="video/mp4,video/x-m4v,video/*" />
+          </div>
+          <div className="flex">
+            <Button variant="contained" disabled={loading} onClick={submitQuestion}>
+              Submit Question
+            </Button>
+          </div>
+        </div>
+      </div>
+        <hr />
         <div className="tool">
           <div>
             <label htmlFor="">{sizeName}</label>
@@ -433,14 +446,9 @@ const AddAssignmentCanvas = ({pdf}) => {
             Save Image
           </button> */}
 
-          <div>
-          <Button variant="contained" disabled={loading} onClick={submitQuestion}>
-            Submit Question
-          </Button>
-
-          </div>
 
         </div>
+      </div>
         <div className="canvasbox">
           {loading &&
           <div className="center">
@@ -463,11 +471,10 @@ const AddAssignmentCanvas = ({pdf}) => {
             onTouchEnd={finishDrawing}
             onMouseMove={draw}
             ref={canvasRef}
-           
+
           />
 
         </div>
-      </div>
     </>
   );
 };
