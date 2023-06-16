@@ -50,7 +50,7 @@ const Answer = () => {
             //   const { id } = curElem;
             //   return <Accordian key={id} fetchAnswers={fetchAnswers} {...curElem} />
             // })
-            <Accordian key={"id"} fetchAnswers={fetchAnswers} {...data[data.length-1]} />
+            <>{data.length ? <Accordian key={"id"} fetchAnswers={fetchAnswers} {...data[data.length-1]} /> : null}</>
           }
           {!loading && !data.length && <img src="/assets/empty.png" alt="No Data Found"></img>}
         </section>
