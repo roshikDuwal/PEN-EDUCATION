@@ -45,7 +45,7 @@ const AddAssignmentCanvas = ({pdf}) => {
     var reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = function () {
-      setVideo(reader.result);
+      setVideo(file);
     };
   }
 
@@ -117,15 +117,21 @@ const AddAssignmentCanvas = ({pdf}) => {
     // const newCanvas = trimCanvas(canvasRef.current);
     const newCanvas = canvasRef.current;
     const image = newCanvas.toDataURL("image/png");
+    const jsonData = {
+      unit_id,
+      question: new Date().toDateString(),
+      title: "Question",
+      file: image,
+    }
+
+    var formData = new FormData();
+    formData.append("video", video);
+    for (var key in jsonData) {
+      formData.append(key, jsonData[key]);
+    }
 
     saveQuestion(
-      {
-        video,
-        unit_id,
-        question: new Date().toDateString(),
-        title: "Question",
-        file: image,
-      }
+      formData
     )
       .then(() => {
         success("Question submitted successfully");

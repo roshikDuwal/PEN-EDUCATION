@@ -183,13 +183,13 @@ const UnitResult = (props) => {
                   ></b>
                 </div>
               </div>
-              <div className="hr"></div>
-              {data.score !== "1" && <div className="vid">
+
+              {data.score !== "1" && data.theory_assessment?.video && <><div className="hr"></div><div className="vid">
                 <i>SOLUTION VIDEO:</i>
                 <Player>
-                  <source src={data.theory_assessment?.video ? SOLUTION_VIDEO_PREFIX + data.theory_assessment?.video : "https://media.w3.org/2010/05/sintel/trailer_hd.mp4"} />
+                  <source src={SOLUTION_VIDEO_PREFIX + data.theory_assessment?.video} />
                 </Player>
-              </div>}
+              </div></>}
               <div className="hr"></div>
               <div></div>
               <div className="grid">
