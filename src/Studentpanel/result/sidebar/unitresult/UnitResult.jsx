@@ -155,7 +155,7 @@ const UnitResult = (props) => {
             </Link>
           </div>
 
-          <h2>Result</h2>
+          <h2>Assignment Result</h2>
           {loading && (
             <ThreeDots
               height="80"
